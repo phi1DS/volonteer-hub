@@ -6,7 +6,7 @@ interface AboutProps {
   description: string;
 }
 
-export default function About({ title, description}: AboutProps) {
+export default function About({ title, description }: AboutProps) {
     return (
         <div className="p-6">
             <Head title={title} />

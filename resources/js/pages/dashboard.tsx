@@ -1,8 +1,10 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Task } from '@/types/models';
+import { Head, Link, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -11,29 +13,62 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Dashboard() {
+interface DashboardProps {
+  tasks: Task[]
+}
+
+export default function Dashboard({ tasks }: DashboardProps) {
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+
+            <div className="flex flex-col gap-4 p-4">
+                <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-semibold">Tasks</h1>
+                <Link href="/dashboard/tasks/create">
+                    <Button>Create New Task</Button>
+                </Link>
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {tasks.length > 0 ? (
+                    tasks.map((task) => (
+                    <Card key={task.id} className="rounded-xl shadow-sm">
+                        <CardHeader>
+                        <CardTitle>{task.subject}</CardTitle>
+                        <p className="text-sm text-gray-500">
+                            {task.organisation || "No organisation"}
+                        </p>
+                        </CardHeader>
+                        <CardContent>
+                        <p className="text-gray-700 mb-2">{task.message}</p>
+                        <p className="text-sm text-gray-500">
+                            From:{" "}
+                            {new Date(task.date_start).toLocaleString("fr-FR", {
+                            dateStyle: "short",
+                            timeStyle: "short",
+                            })}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                            To:{" "}
+                            {new Date(task.date_end).toLocaleString("fr-FR", {
+                            dateStyle: "short",
+                            timeStyle: "short",
+                            })}
+                        </p>
+                        </CardContent>
+                    </Card>
+                    ))
+                ) : (
+                    <p className="text-gray-500">No tasks available yet.</p>
+                )}
                 </div>
-            </div>
-            <Link href="/about" className="text-blue-600 hover:underline">
+
+                <Link href="/about" className="text-blue-600 hover:underline">
                 About Page
-            </Link>
+                </Link>
+            </div>
         </AppLayout>
     );
 }

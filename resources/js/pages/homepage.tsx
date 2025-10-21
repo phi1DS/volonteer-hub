@@ -3,20 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { dashboard, login, register } from '@/routes';
 import { type SharedData } from '@/types';
+import { type Task } from '@/types/models';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { formatDistanceToNow } from "date-fns";
-
-interface User {
-  id: number
-  name: string
-}
-
-interface Task {
-  id: number
-  title: string
-  created_at: string
-  user?: User
-}
 
 interface PageProps {
   tasks: Task[];
