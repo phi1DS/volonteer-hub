@@ -11,6 +11,22 @@ use Inertia\Response;
 
 class TaskController extends Controller
 {
+    public function showInActiveTasksForUser(): Response
+    {
+        $authenticatedUser = auth()->user();
+
+        $tasks = Task::where([
+                'user_id' => $authenticatedUser->id,
+                'active' => false
+            ])
+            ->with('user:id,name')
+            ->get();
+
+        return Inertia::render('task/inactive', [
+            'tasks' => $tasks,
+        ]);
+    }
+
     public function create(): Response
     {
         return Inertia::render('tasks/create');
@@ -35,11 +51,12 @@ class TaskController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Task created successfully.');
+        return to_route('dashboard')->with([
+            'type' => 'success',
+            'message' => 'Task created'
+        ]);
     }
 
-
-    // TO AJUST BELOW ------------------------------------------------------------
 
     /**
      * Show the form for editing a task.
@@ -50,6 +67,8 @@ class TaskController extends Controller
             'task' => $task,
         ]);
     }
+
+    // TO AJUST BELOW ------------------------------------------------------------
 
     /**
      * Update a specific task.

@@ -15,9 +15,11 @@ class DashboardController extends Controller
     {
         $authenticatedUser = auth()->user();
 
-        $tasks = Task::where('user_id', $authenticatedUser->id)
+        $tasks = Task::where([
+                'user_id' => $authenticatedUser->id,
+                'active' => true,
+            ])
             ->with('user:id,name')
-            ->where('active', true)
             ->get();
 
         return Inertia::render('dashboard', [
@@ -36,7 +38,7 @@ class DashboardController extends Controller
 
         return to_route('dashboard')->with([
             'type' => 'success',
-            'message' => 'Task marked as resolved!'
+            'message' => 'Task marked as resolved'
         ]);
     }
 }

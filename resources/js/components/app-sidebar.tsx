@@ -15,18 +15,20 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
+import resolve, { task_inactive } from '@/routes/tasks';
+
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'My Tasks',
         href: dashboard(),
         icon: LayoutGrid,
     },
     {
-        title: 'Create Task',
-        href: '',
+        title: 'Passed tasks',
+        href: task_inactive(),
         icon: LayoutGrid,
-    },
+    }
 ];
 
 const footerNavItems: NavItem[] = [
@@ -50,11 +52,6 @@ export function AppSidebar() {
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href={dashboard()} prefetch>
-                                <AppLogo />
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton size="lg" asChild>
-                            <Link href="" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
