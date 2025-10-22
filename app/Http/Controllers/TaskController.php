@@ -11,16 +11,9 @@ use Inertia\Response;
 
 class TaskController extends Controller
 {
-    public function homepage(): Response
+    public function create(): Response
     {
-        $tasks = Task::with('user:id,name')
-            ->latest()
-            ->where('active', true)
-            ->paginate(10);
-
-        return Inertia::render('dashboard', [
-            'tasks' => $tasks,
-        ]);
+        return Inertia::render('tasks/create');
     }
 
     /**

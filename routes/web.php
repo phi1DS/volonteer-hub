@@ -17,16 +17,22 @@ Route::get('/about', function () {
     ]);
 })->name('about');
 
+Route::get('/unauthorized', function () {
+    return Inertia::render('unauthorized');
+})->name('unauthorized');
+
 Route::get('/homepage', [HomePageController::class, 'homepage'])
     ->name('homepage');
 
+
+// ---- Authenticated routes
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
+    Route::post('/dashboard/tasks/{task}/resolve', [DashboardController::class, 'markTaskAsResolve'])->name('resolve');
 
     // Task CRUD routes
-    Route::prefix('dashboard/tasks')->name('tasks.')->group(function () {
-        Route::get('/', [TaskController::class, 'index'])->name('index');
-        
+    Route::prefix('/dashboard/tasks')->name('tasks.')->group(function () {        
         Route::get('/create', [TaskController::class, 'create'])->name('create');
         Route::post('/', [TaskController::class, 'store'])->name('store');
 

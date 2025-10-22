@@ -1,6 +1,7 @@
 export interface User {
   id: number
   name: string
+  email: string
 }
 
 export interface Task {
@@ -8,10 +9,10 @@ export interface Task {
   subject: string
   message: string
   organisation?: string
-  contact_information?: string
+  contact_information: string
   date_start: string
   date_end: string
   created_at: string
-  active: boolean,
+  active: boolean
   user?: User
 }
