@@ -1,3 +1,5 @@
+import TaskCard from '@/components/tasks/taskCard';
+import taskCard from '@/components/tasks/taskCard';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,15 +20,9 @@ export default function Welcome() {
 
     return (
         <>
-            <Head title="Welcome">
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link
-                    href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600"
-                    rel="stylesheet"
-                />
-            </Head>
             <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
-                <header className="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl">
+                
+                <header className="mb-6 w-full text-sm not-has-[nav]:hidden">
                     <nav className="flex items-center justify-end gap-4">
                         {auth.user ? (
                             <Link
@@ -53,41 +49,23 @@ export default function Welcome() {
                         )}
                     </nav>
                 </header>
-                <div className="max-w-3xl mx-auto px-4">
-                    <h1 className="text-3xl font-semibold mb-8 text-gray-800">
-                    Latest Tasks
-                    </h1>
 
-                    {tasks.length === 0 ? (
-                    <p className="text-gray-500">No tasks yet.</p>
-                    ) : (
-                    <div className="grid gap-4">
-                        {tasks.map((task) => (
-                        <Card key={task.id} className="shadow-sm hover:shadow-md transition">
-                            <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle className="text-lg font-medium">
-                                {task.title}
-                            </CardTitle>
-                            <Badge variant="secondary">
-                                {task.user?.name ?? "Unknown"}
-                            </Badge>
-                            </CardHeader>
+                <h1 className="text-3xl font-semibold mb-8 text-white">
+                    Open Volonteering Tasks
+                </h1>
 
-                            <CardContent className="text-sm text-gray-500 flex items-center justify-between">
-                            <span>
-                                Created{" "}
-                                {formatDistanceToNow(new Date(task.created_at), {
-                                addSuffix: true,
-                                })}
-                            </span>
-                            <Button size="sm" variant="outline">
-                                View
-                            </Button>
-                            </CardContent>
-                        </Card>
-                        ))}
+                <div className="max-w-8xl mx-auto px-4">
+                    
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {tasks.length > 0 ?  (
+                            tasks.map((task) => (
+                                <TaskCard task={task}></TaskCard>
+                            ))
+                        ) : (
+                            <p className="text-gray-500">No tasks available yet.</p>
+                        )}
                     </div>
-                    )}
+                    
                 </div>
                 <div className="hidden h-14.5 lg:block"></div>
             </div>

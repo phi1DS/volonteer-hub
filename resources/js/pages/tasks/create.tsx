@@ -2,11 +2,8 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Form } from '@inertiajs/react';
 import { dashboard } from '@/routes';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import TaskForm from './taskForm';
+import TaskForm from '@/components/tasks/taskForm';
 import { task_store } from '@/routes/tasks';
 
 const breadcrumbs: BreadcrumbItem[] = [

@@ -5,7 +5,7 @@ import { dashboard } from '@/routes';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Task } from '@/types/models';
 import { task_update } from '@/routes/tasks';
-import TaskForm from './taskForm';
+import TaskForm from '@/components/tasks/taskForm';
 
 interface EditTaskProps {
   task: Task;
