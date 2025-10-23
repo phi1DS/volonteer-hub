@@ -13,7 +13,7 @@ export default function TaskCard({cardFooter, task}: TaskCardProps) {
     }
 
     return(
-        <Card key={task.id} className="rounded-xl shadow-sm flex justify-between">
+        <Card className="rounded-xl shadow-sm flex justify-between">
             <div>
                 <CardHeader>
                     <CardTitle>{task.subject}</CardTitle>
@@ -44,9 +44,7 @@ export default function TaskCard({cardFooter, task}: TaskCardProps) {
                 </CardContent>
             </div>
             
-            <CardFooter className='flex justify-between'>
-                { cardFooter }
-            </CardFooter>
+            { cardFooter }
         </Card>
     );
 }
