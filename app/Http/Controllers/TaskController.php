@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskFormRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +21,7 @@ class TaskController extends Controller
                 'active' => false
             ])
             ->with('user:id,name')
+            ->orderBy('date_start', 'DESC')
             ->get();
 
         return Inertia::render('task/inactive', [
@@ -35,16 +37,9 @@ class TaskController extends Controller
     /**
      * Store a new task in the database.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(TaskFormRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'subject' => ['required', 'string', 'max:255'],
-            'message' => ['required', 'string', 'max:5000'],
-            'organisation' => ['nullable', 'string', 'max:255'],
-            'contact_information' => ['string', 'max:255'],
-            'date_start' => ['required', 'date'],
-            'date_end' => ['required', 'date', 'after_or_equal:date_start'],
-        ]);
+        $validated = $request->validated();
 
         Task::create([
             ...$validated,
@@ -68,22 +63,27 @@ class TaskController extends Controller
         ]);
     }
 
-    // TO AJUST BELOW ------------------------------------------------------------
-
     /**
      * Update a specific task.
      */
-    public function update(Request $request, Task $task): RedirectResponse
+    public function update(TaskFormRequest $request, Task $task): RedirectResponse
     {
-        $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-        ]);
+        if ($task->user_id !== $request->user()->id) {
+            return to_route('unauthorized');
+        }
+
+        $validated = $request->validated();
 
         $task->update($validated);
 
-        return redirect()->route('tasks.index')->with('success', 'Task updated.');
+        return redirect()->route('dashboard')->with([
+            'type' => 'success',
+            'message' => 'Task updated'
+        ]);
     }
+
+
+    // TO AJUST BELOW ------------------------------------------------------------
 
     /**
      * Delete a specific task.

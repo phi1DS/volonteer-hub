@@ -20,6 +20,7 @@ class DashboardController extends Controller
                 'active' => true,
             ])
             ->with('user:id,name')
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return Inertia::render('dashboard', [

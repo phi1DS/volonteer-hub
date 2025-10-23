@@ -20,11 +20,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ tasks }: DashboardProps) {
-
-    // TODO use route alias
-
-    console.log(task_edit(1));
-
+    
     const { props } = usePage<{ flash: { message?: string, type?: string } }>();
     const flash = props.flash;
 

@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property \DateTime $date_start
  * @property \DateTime $date_end
  * @property bool $active
+ * @property \DateTime $created_at
+ * @property \DateTime $updated_at
  */
 class Task extends Model
 {

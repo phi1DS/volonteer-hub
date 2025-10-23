@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import TaskForm from './taskForm';
+import { task_store } from '@/routes/tasks';
 
 const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Dashboard', href: dashboard().url },
@@ -15,8 +17,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function CreateTask() {
 
 	// TODO : date handling
-	// flashbag
-	// letter overflow
 
     return (
     <AppLayout breadcrumbs={breadcrumbs}>
@@ -30,69 +30,10 @@ export default function CreateTask() {
 
 			<CardContent>
 
-				<Form action="/dashboard/tasks" method="post" className="flex flex-col gap-4">
-
-					<div>
-						<Label htmlFor="subject">Sujet *</Label>
-						<Input id="name"
-							type="text"
-							name="subject"
-							required
-						/>
-					</div>
-
-					<div>
-						<Label htmlFor="message">Message *</Label>
-						<Input
-							id="message"
-							type="textarea"
-							name="message"
-							required
-						/>
-					</div>
-
-					<div>
-						<Label htmlFor="organisation">Organisation</Label>
-						<Input 
-							id="organisation"
-							type="text"
-							name="organisation"
-							placeholder="Nom assocation ou groupe"
-						/>
-					</div>
-
-					<div>
-						<Label htmlFor="contact_information">Contact information *</Label>
-						<Input 
-							id="contact_information"
-							type="text"
-							name="contact_information"
-							placeholder="Email or phone"
-						/>
-					</div>
-
-					<div>
-						<Label htmlFor="date_start">Date start *</Label>
-						<Input
-							type="datetime-local"
-							name="date_start"
-							required
-						/>
-					</div>
-
-					<div>
-						<Label htmlFor="date_end">Date end *</Label>
-						<Input
-							type="datetime-local"
-							name="date_end"
-							required
-						/>
-					</div>
-
-					<Button type="submit" className="mt-4">
-						Create Task
-					</Button>
-				</Form>
+				<TaskForm
+					action={task_store().url}
+					submitLabel="Create Task">
+				</TaskForm>
 
 			</CardContent>
 			</Card>

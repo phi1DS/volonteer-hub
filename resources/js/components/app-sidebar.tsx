@@ -13,22 +13,16 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { Book } from 'lucide-react';
 import AppLogo from './app-logo';
-import resolve, { task_inactive } from '@/routes/tasks';
 
 
 const mainNavItems: NavItem[] = [
     {
         title: 'My Tasks',
         href: dashboard(),
-        icon: LayoutGrid,
+        icon: Book,
     },
-    {
-        title: 'Passed tasks',
-        href: task_inactive(),
-        icon: LayoutGrid,
-    }
 ];
 
 const footerNavItems: NavItem[] = [

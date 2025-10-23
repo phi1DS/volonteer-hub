@@ -30,16 +30,18 @@ Route::get('/homepage', [HomePageController::class, 'homepage'])
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
+     // for intertia aut aliasing generation (avoid '.')
+
     // Task CRUD routes
     Route::prefix('/dashboard/tasks')->name('tasks.')->group(function () {        
-        Route::get('/inactive', [TaskController::class, 'showInActiveTasksForUser'])->name('task_inactive'); // for intertia aut aliasing generation (avoid '.')
+        // Route::get('/inactive', [TaskController::class, 'showInActiveTasksForUser'])->name('task_inactive');
+        Route::post('/{task}/resolve', [DashboardController::class, 'markTaskAsResolve'])->name('task_resolve');
 
         Route::get('/create', [TaskController::class, 'create'])->name('task_create');
         Route::post('/', [TaskController::class, 'store'])->name('task_store');
 
         Route::get('/{task}/edit', [TaskController::class, 'edit'])->name('task_edit');
         Route::put('/{task}', [TaskController::class, 'update'])->name('task_update');
-        Route::post('/{task}/resolve', [DashboardController::class, 'markTaskAsResolve'])->name('task_resolve');
 
         Route::delete('/{task}', [TaskController::class, 'destroy'])->name('task_destroy');
     });
