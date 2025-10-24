@@ -1,22 +1,45 @@
 import TaskCard from '@/components/tasks/taskCard';
-import taskCard from '@/components/tasks/taskCard';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { about, dashboard, login, register } from '@/routes';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { about, dashboard, homepage, login, register } from '@/routes';
 import { type SharedData } from '@/types';
 import { type Task } from '@/types/models';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { formatDistanceToNow } from "date-fns";
+import { Link, router, usePage } from '@inertiajs/react';
+import { useState } from 'react';
 
 interface PageProps {
   tasks: Task[];
-  [key: string]: any; // to remove or adapt
 }
 
-export default function Welcome() {
+export default function Homepage({ tasks }: PageProps) {
     const { auth } = usePage<SharedData>().props;
-    const { tasks } = usePage<PageProps>().props
+
+    const [organisationFilter, setOrganisationFilter] = useState("");
+    const [userFilter, setUserFilter] = useState("");
+    const [dateSearchStartFilter, setDateSearchStartFilter] = useState("");
+    const [dateSearchEndFilter, setDateSearchEndFilter] = useState("");
+
+    const handleFilter = () => {
+        router.get(
+            homepage(),
+            {
+                organisationFilter,
+                userFilter,
+                dateSearchStartFilter,
+                dateSearchEndFilter,
+            },
+            { preserveState: true, replace: true } // check what this is for
+        );
+    };
+
+    const resetFilter = () => {
+        setOrganisationFilter("");
+        setUserFilter("");
+        setDateSearchStartFilter("");
+        setDateSearchEndFilter("");
+        router.get(homepage(), {}, { replace: true });
+    }
 
     return (
         <>
@@ -63,7 +86,7 @@ export default function Welcome() {
 
                     <div className="text-center mb-6">
                         <h1 className="text-3xl font-semibold mb-8 text-white mb-0">
-                            Open Volonteering Tasks
+                            Opened Volonteering Tasks
                         </h1>
                         <div>
                             <p className='text-gray-500'>Feel free to pick one !</p>
@@ -73,6 +96,59 @@ export default function Welcome() {
                 </header>
 
                 <div className="max-w-8xl mx-auto px-4">
+
+                    <div className="flex flex-wrap items-end gap-4 pb-4 text-gray-500 mb-8 justify-center">
+                        <div>
+                            <Label htmlFor="organisationFilter">Organisation</Label>
+                            <Input
+                                id="organisationFilter"
+                                value={organisationFilter}
+                                onChange={(e) => setOrganisationFilter(e.target.value)}
+                                placeholder="e.g. Green Peace"
+                                className="w-48"
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="userFilter">Created By</Label>
+                            <Input
+                                id="userFilter"
+                                value={userFilter}
+                                onChange={(e) => setUserFilter(e.target.value)}
+                                placeholder="e.g. John"
+                                className="w-48"
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="dateSearchStartFilter">From</Label>
+                            <Input
+                                id="dateSearchStartFilter"
+                                type="date"
+                                value={dateSearchStartFilter}
+                                onChange={(e) => setDateSearchStartFilter(e.target.value)}
+                                className="w-48"
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="dateSearchEnd">To</Label>
+                            <Input
+                                id="dateSearchEnd"
+                                type="date"
+                                value={dateSearchEndFilter}
+                                onChange={(e) => setDateSearchEndFilter(e.target.value)}
+                                className="w-48"
+                            />
+                        </div>
+
+                        <div className="flex gap-2">
+                            <Button onClick={handleFilter}>Filter</Button>
+                            <Button
+                                variant="secondary"
+                                onClick={resetFilter}
+                            >
+                                Reset
+                            </Button>
+                        </div>
+                    </div>
                     
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {tasks.length > 0 ?  (

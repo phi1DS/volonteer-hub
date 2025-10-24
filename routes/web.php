@@ -6,9 +6,9 @@ use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+
+Route::get('/', [HomePageController::class, 'homepage'])
+    ->name('homepage');
 
 Route::get('/about', function () {
     return Inertia::render('about', [
@@ -20,10 +20,6 @@ Route::get('/about', function () {
 Route::get('/unauthorized', function () {
     return Inertia::render('unauthorized');
 })->name('unauthorized');
-
-Route::get('/homepage', [HomePageController::class, 'homepage'])
-    ->name('homepage');
-
 
 // ---- Authenticated routes
 
