@@ -1,19 +1,25 @@
 import TaskCard from '@/components/tasks/taskCard';
+import TaskPagination from '@/components/tasks/taskPagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { about, dashboard, homepage, login, register } from '@/routes';
 import { type SharedData } from '@/types';
-import { type Task } from '@/types/models';
+import { PaginatedTasks, type Task } from '@/types/models';
 import { Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 interface PageProps {
-  tasks: Task[];
+  paginatedTasks: PaginatedTasks;
 }
 
-export default function Homepage({ tasks }: PageProps) {
+export default function Homepage({ paginatedTasks }: PageProps) {
     const { auth } = usePage<SharedData>().props;
+
+    console.log(paginatedTasks);
+
+    const tasks = paginatedTasks.data;
+
 
     const [organisationFilter, setOrganisationFilter] = useState("");
     const [userFilter, setUserFilter] = useState("");
@@ -43,7 +49,7 @@ export default function Homepage({ tasks }: PageProps) {
 
     return (
         <>
-            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
+            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:p-8 dark:bg-[#0a0a0a]">
                 
                 <header className="mb-6 w-full text-sm not-has-[nav]:hidden bg-[#0a0a0a]">
                     <nav className="flex items-center justify-between gap-4">
@@ -97,6 +103,7 @@ export default function Homepage({ tasks }: PageProps) {
 
                 <div className="max-w-8xl mx-auto px-4">
 
+                    {/* Filters */}
                     <div className="flex flex-wrap items-end gap-4 pb-4 text-gray-500 mb-8 justify-center">
                         <div>
                             <Label htmlFor="organisationFilter">Organisation</Label>
@@ -150,6 +157,7 @@ export default function Homepage({ tasks }: PageProps) {
                         </div>
                     </div>
                     
+                    {/* Table */}
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {tasks.length > 0 ?  (
                             tasks.map((task) => (
@@ -159,6 +167,21 @@ export default function Homepage({ tasks }: PageProps) {
                             <p className="text-gray-500">No tasks available yet.</p>
                         )}
                     </div>
+
+                    {/* Pagination */}
+                    <TaskPagination paginatedTasks={paginatedTasks}></TaskPagination>
+
+                    {/* <div className="flex justify-center mt-4 space-x-2">
+                        {Array.from({ length: paginatedTasks.last_page }, (_, i) => i + 1).map((page) => (
+                            <Button
+                                key={page}
+                                disabled={page === paginatedTasks.current_page}
+                                onClick={() => router.get(homepage().url + "?page=" + page)}
+                            >
+                                {page}
+                            </Button>
+                        ))}
+                    </div> */}
                     
                 </div>
                 <div className="hidden h-14.5 lg:block"></div>

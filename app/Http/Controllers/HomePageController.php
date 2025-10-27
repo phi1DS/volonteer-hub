@@ -41,10 +41,10 @@ class HomePageController extends Controller
             $query->where('date_start', '<=', $validatedFilterData['dateSearchEndFilter']);
         }
 
-        $tasks = $query->limit(10)->get();
+        $paginatedTasks = $query->paginate(12);
 
         return Inertia::render('homepage', [
-            'tasks' => $tasks,
+            'paginatedTasks' => $paginatedTasks,
         ]);
     }
 }
