@@ -1,5 +1,4 @@
 import TaskCard from '@/components/tasks/taskCard';
-import TaskPagination from '@/components/tasks/taskPagination';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,18 +7,18 @@ import { type SharedData } from '@/types';
 import { PaginatedTasks, type Task } from '@/types/models';
 import { Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
+import Pagination from '@/components/ui/pagination';
 
 interface PageProps {
   paginatedTasks: PaginatedTasks;
 }
 
 export default function Homepage({ paginatedTasks }: PageProps) {
-    const { auth } = usePage<SharedData>().props;
 
-    console.log(paginatedTasks);
+    const { auth } = usePage<SharedData>().props;
+    // console.log(paginatedTasks);
 
     const tasks = paginatedTasks.data;
-
 
     const [organisationFilter, setOrganisationFilter] = useState("");
     const [userFilter, setUserFilter] = useState("");
@@ -35,7 +34,7 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                 dateSearchStartFilter,
                 dateSearchEndFilter,
             },
-            { preserveState: true, replace: true } // check what this is for
+            { preserveState: true, replace: true }
         );
     };
 
@@ -161,7 +160,7 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {tasks.length > 0 ?  (
                             tasks.map((task) => (
-                                <TaskCard task={task} key={task.id}></TaskCard>
+                                <TaskCard task={task} key={task.id}/>
                             ))
                         ) : (
                             <p className="text-gray-500">No tasks available yet.</p>
@@ -169,19 +168,14 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                     </div>
 
                     {/* Pagination */}
-                    <TaskPagination paginatedTasks={paginatedTasks}></TaskPagination>
-
-                    {/* <div className="flex justify-center mt-4 space-x-2">
-                        {Array.from({ length: paginatedTasks.last_page }, (_, i) => i + 1).map((page) => (
-                            <Button
-                                key={page}
-                                disabled={page === paginatedTasks.current_page}
-                                onClick={() => router.get(homepage().url + "?page=" + page)}
-                            >
-                                {page}
-                            </Button>
-                        ))}
-                    </div> */}
+                    <Pagination
+                        paginatedModel={paginatedTasks}
+                        filters={{
+                            organisationFilter,
+                            userFilter,
+                            dateSearchStartFilter,
+                            dateSearchEndFilter,
+                        }}/>
                     
                 </div>
                 <div className="hidden h-14.5 lg:block"></div>
