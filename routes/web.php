@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      // for intertia aut aliasing generation (avoid '.')
 
     // Task CRUD routes
-    Route::prefix('/dashboard/tasks')->name('tasks.')->group(function () {        
+    Route::prefix('/dashboard/tasks')->name('tasks.')->group(function () {
         // Route::get('/inactive', [TaskController::class, 'showInActiveTasksForUser'])->name('task_inactive');
         Route::post('/{task}/resolve', [DashboardController::class, 'markTaskAsResolve'])->name('task_resolve');
 

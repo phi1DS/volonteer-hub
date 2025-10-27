@@ -6,7 +6,7 @@ export default function Header() {
     const { auth } = usePage<SharedData>().props;
 
     return (
-        <header className="mb-6 w-full text-sm not-has-[nav]:hidden bg-[#0a0a0a]">
+        <header className="mb-6 w-full text-sm not-has-[nav]:hidden">
             <nav className="flex items-center justify-between gap-4">
 
                 <Link href={homepage()} className="mr-6">

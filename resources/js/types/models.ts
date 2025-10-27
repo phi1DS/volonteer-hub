@@ -1,7 +1,6 @@
-export interface User extends Model {
+export interface UserLight extends Model {
   id: number
   name: string
-  email: string
 }
 
 export interface Task extends Model {
@@ -13,7 +12,7 @@ export interface Task extends Model {
   date_end: string
   created_at: string
   active: boolean
-  user?: User
+  user?: UserLight
 }
 
 export interface Model {
