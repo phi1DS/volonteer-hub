@@ -26,7 +26,7 @@ export default function TaskCard({cardFooter, task}: TaskCardProps) {
                 </CardHeader>
                 <CardContent>
                     <p className="text-gray-700 mb-2 mt-4">{truncate(task.message)}</p>
-                    <p className="text-sm text-gray-500 mt-4">{task.contact_information}</p>
+                    <p className="text-sm text-gray-500 mt-4">Contact info : {task.contact_information}</p>
                     <p className="text-sm text-gray-500">
                         From:{" "}
                         {new Date(task.date_start).toLocaleString("fr-FR", {

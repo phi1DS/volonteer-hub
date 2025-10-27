@@ -1,11 +1,10 @@
-export interface User {
+export interface User extends Model {
   id: number
   name: string
   email: string
 }
 
-export interface Task {
-  id: number
+export interface Task extends Model {
   subject: string
   message: string
   organisation?: string
@@ -15,6 +14,10 @@ export interface Task {
   created_at: string
   active: boolean
   user?: User
+}
+
+export interface Model {
+  id: number
 }
 
 export interface PaginatedTasks {
@@ -32,18 +35,18 @@ export interface PaginatedTasks {
   total: number
 }
 
-export interface PaginatedModel {
+export interface PaginatedModel<Model> {
   current_page: number
-  data: []
-  from: number
+  data: Model[]
+  from: number | null
   last_page: number
-  last_page_url: string
+  last_page_url: string | null
   links: PageLink[]
-  next_page_url: string
+  next_page_url: string | null
   path: string
   per_page: number
-  prev_page_url: string|null
-  to: number
+  prev_page_url: string | null
+  to: number | null
   total: number
 }
 
@@ -51,5 +54,5 @@ export interface PageLink {
   active: boolean
   label: string
   page: number
-  url: string
+  url: string | null
 }

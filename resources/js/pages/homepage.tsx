@@ -8,6 +8,7 @@ import { PaginatedTasks, type Task } from '@/types/models';
 import { Link, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import Pagination from '@/components/ui/pagination';
+import Header from '@/layouts/app-public/header';
 
 interface PageProps {
   paginatedTasks: PaginatedTasks;
@@ -50,55 +51,16 @@ export default function Homepage({ paginatedTasks }: PageProps) {
         <>
             <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:p-8 dark:bg-[#0a0a0a]">
                 
-                <header className="mb-6 w-full text-sm not-has-[nav]:hidden bg-[#0a0a0a]">
-                    <nav className="flex items-center justify-between gap-4">
-                        <div>
-                            <p className='text-gray-500 font-bold'>Vonunteer Hub</p>
-                        </div>
-
-                        <div className="flex items-center">
-                            <Link href={about()} className="mr-6">
-                                <p className="text-muted-foreground text-sm font-normal underline">
-                                    About
-                                </p>
-                            </Link>
-
-                            {auth.user ? (
-                                <Link
-                                    href={dashboard()}
-                                    className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                                >
-                                    Dashboard
-                                </Link>
-                            ) : (
-                                <>
-                                    <Link
-                                        href={login()}
-                                        className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
-                                    >
-                                        Log in
-                                    </Link>
-                                    <Link
-                                        href={register()}
-                                        className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                                    >
-                                        Register
-                                    </Link>
-                                </>
-                            )}
-                        </div>
-                    </nav>
-
-                    <div className="text-center mb-6">
-                        <h1 className="text-3xl font-semibold mb-8 text-white mb-0">
-                            Opened Volonteering Tasks
-                        </h1>
-                        <div>
-                            <p className='text-gray-500'>Feel free to pick one !</p>
-                        </div>
+                <Header />
+                
+                <div className="text-center mb-12">
+                    <h1 className="text-3xl font-semibold mb-4 text-white">
+                        Opened Volonteering Tasks
+                    </h1>
+                    <div>
+                        <p className='text-gray-500'>Feel free to pick one !</p>
                     </div>
-                    
-                </header>
+                </div>
 
                 <div className="max-w-8xl mx-auto px-4">
 
@@ -175,7 +137,7 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                             userFilter,
                             dateSearchStartFilter,
                             dateSearchEndFilter,
-                        }}/>
+                    }}/>
                     
                 </div>
                 <div className="hidden h-14.5 lg:block"></div>
