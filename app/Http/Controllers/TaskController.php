@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
@@ -16,9 +17,9 @@ class TaskController extends Controller
         $authenticatedUser = auth()->user();
 
         $tasks = Task::where([
-                'user_id' => $authenticatedUser->id,
-                'active' => false
-            ])
+            'user_id' => $authenticatedUser->id,
+            'active' => false,
+        ])
             ->with('user:id,name')
             ->orderBy('date_start', 'DESC')
             ->get();
@@ -47,10 +48,9 @@ class TaskController extends Controller
 
         return to_route('dashboard')->with([
             'type' => 'success',
-            'message' => 'Task created'
+            'message' => 'Task created',
         ]);
     }
-
 
     /**
      * Show the form for editing a task.
@@ -77,10 +77,9 @@ class TaskController extends Controller
 
         return redirect()->route('dashboard')->with([
             'type' => 'success',
-            'message' => 'Task updated'
+            'message' => 'Task updated',
         ]);
     }
-
 
     // TO AJUST BELOW ------------------------------------------------------------
 

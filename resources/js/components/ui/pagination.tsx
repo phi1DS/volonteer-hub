@@ -5,7 +5,7 @@ import { homepage } from "@/routes";
 
 interface PageProps {
   paginatedModel: PaginatedModel<Model>;
-  filters: Record<string, any>;
+  filters: Record<string, string>;
 }
 
 export default function Pagination ({ paginatedModel, filters }: PageProps) {

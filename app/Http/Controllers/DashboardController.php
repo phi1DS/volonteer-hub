@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
@@ -16,9 +17,9 @@ class DashboardController extends Controller
         $authenticatedUser = auth()->user();
 
         $tasks = Task::where([
-                'user_id' => $authenticatedUser->id,
-                'active' => true,
-            ])
+            'user_id' => $authenticatedUser->id,
+            'active' => true,
+        ])
             ->with('user:id,name,profile_picture_path')
             ->orderBy('created_at', 'DESC')
             ->limit(20)
@@ -40,7 +41,7 @@ class DashboardController extends Controller
 
         return to_route('dashboard')->with([
             'type' => 'success',
-            'message' => 'Task marked as resolved'
+            'message' => 'Task marked as resolved',
         ]);
     }
 }

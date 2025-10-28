@@ -10,11 +10,11 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { getAssetsPath } from '@/helpers';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import profile, { edit } from '@/routes/profile';
 import { useState } from 'react';
-import { getAssetsPath } from '@/helpers';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -35,7 +35,9 @@ export default function Profile({
     console.log(auth.user);
 
     const [preview, setPreview] = useState<string | null>(
-        auth.user.profile_picture_path ? getAssetsPath(auth.user.profile_picture_path) : null
+        auth.user.profile_picture_path
+            ? getAssetsPath(auth.user.profile_picture_path)
+            : null,
     );
 
     return (
@@ -151,24 +153,26 @@ export default function Profile({
                     <Form
                         action={profile.picture_update().url}
                         method="post"
-                        className="space-y-6 "
+                        className="space-y-6"
                         encType="multipart/form-data"
                     >
                         <div className="grid gap-2">
-                            <Label htmlFor="profile_picture" className="mb-4">Profile picture</Label>
+                            <Label htmlFor="profile_picture" className="mb-4">
+                                Profile picture
+                            </Label>
 
                             <div className="flex items-center gap-4">
                                 {/* Image preview */}
                                 {preview ? (
-                                <img
-                                    src={preview}
-                                    alt="Profile preview"
-                                    className="h-16 w-16 rounded-full object-cover border"
-                                />
+                                    <img
+                                        src={preview}
+                                        alt="Profile preview"
+                                        className="h-16 w-16 rounded-full border object-cover"
+                                    />
                                 ) : (
-                                <div className="h-16 w-16 rounded-full bg-gray-200 dark:bg-neutral-700 flex items-center text-center text-gray-400 text-sm">
-                                    <p>No Image</p>
-                                </div>
+                                    <div className="flex h-16 w-16 items-center rounded-full bg-gray-200 text-center text-sm text-gray-400 dark:bg-neutral-700">
+                                        <p>No Image</p>
+                                    </div>
                                 )}
 
                                 {/* File input */}
@@ -182,17 +186,18 @@ export default function Profile({
                                         if (file) {
                                             const reader = new FileReader();
                                             reader.onload = (event) =>
-                                                setPreview(event.target?.result as string);
+                                                setPreview(
+                                                    event.target
+                                                        ?.result as string,
+                                                );
                                             reader.readAsDataURL(file);
                                         }
                                     }}
                                 />
                             </div>
 
-                            <div className="flex items-center gap-4 mt-3">
-                                <Button>
-                                    Save
-                                </Button>
+                            <div className="mt-3 flex items-center gap-4">
+                                <Button>Save</Button>
                             </div>
                         </div>
                     </Form>

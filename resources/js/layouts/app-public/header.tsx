@@ -1,6 +1,6 @@
-import { about, dashboard, homepage, login, register } from "@/routes";
-import { Link, usePage } from "@inertiajs/react";
+import { about, dashboard, homepage, login, register } from '@/routes';
 import { type SharedData } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
 
 export default function Header() {
     const { auth } = usePage<SharedData>().props;
@@ -8,16 +8,13 @@ export default function Header() {
     return (
         <header className="mb-6 w-full text-sm not-has-[nav]:hidden">
             <nav className="flex items-center justify-between gap-4">
-
                 <Link href={homepage()} className="mr-6">
-                    <p className="text-gray-500 font-bold">
-                        Vonunteer Hub
-                    </p>
+                    <p className="font-bold text-gray-500">Vonunteer Hub</p>
                 </Link>
 
                 <div className="flex items-center">
                     <Link href={about()} className="mr-6">
-                        <p className="text-muted-foreground text-sm font-normal underline">
+                        <p className="text-sm font-normal text-muted-foreground underline">
                             About
                         </p>
                     </Link>
@@ -47,7 +44,6 @@ export default function Header() {
                     )}
                 </div>
             </nav>
-            
         </header>
     );
-} 
+}

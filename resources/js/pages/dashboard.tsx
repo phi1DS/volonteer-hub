@@ -4,7 +4,7 @@ import TaskOutdatedNotice from '@/components/tasks/taskOutdated';
 import { Button } from '@/components/ui/button';
 import { CardFooter } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { about, dashboard } from '@/routes';
+import { dashboard } from '@/routes';
 import { task_create, task_edit, task_resolve } from '@/routes/tasks';
 import { type BreadcrumbItem } from '@/types';
 import { Task } from '@/types/models';
@@ -18,17 +18,16 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface DashboardProps {
-  tasks: Task[]
+    tasks: Task[];
 }
 
 export default function Dashboard({ tasks }: DashboardProps) {
-
-    const { props } = usePage<{ flash: { message?: string, type?: string } }>();
+    const { props } = usePage<{ flash: { message?: string; type?: string } }>();
     const flash = props.flash;
 
     const handleResolveTask = (taskId: number) => {
         router.post(task_resolve(taskId));
-    }
+    };
 
     console.log(tasks);
 
@@ -44,25 +43,34 @@ export default function Dashboard({ tasks }: DashboardProps) {
                     </Link>
                 </div>
 
-                <FlashMessage message={flash.message} type={flash.type as any} />
+                <FlashMessage
+                    message={flash.message}
+                    type={flash.type as 'success' | 'error' | 'info'}
+                />
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {tasks.length > 0 ? (
-                        tasks.map(function(task) {
+                        tasks.map(function (task) {
                             const now = new Date();
                             const dateStart = new Date(task.date_start);
 
                             const cardFooter = (
                                 <>
-                                    { dateStart < now && (
-                                        <TaskOutdatedNotice />
-                                    )}
-                                    <CardFooter className='flex justify-between'>
+                                    {dateStart < now && <TaskOutdatedNotice />}
+                                    <CardFooter className="flex justify-between">
                                         <Link href={task_edit(task.id)}>
-                                            <Button variant="secondary">Update</Button>
+                                            <Button variant="secondary">
+                                                Update
+                                            </Button>
                                         </Link>
-                                        <Link className="text-muted-foreground text-sm leading-normal font-normal underline underline-offset-4">
-                                            <p onClick={() => handleResolveTask(task.id)}>Mark as Resolved</p>
+                                        <Link className="text-sm leading-normal font-normal text-muted-foreground underline underline-offset-4">
+                                            <p
+                                                onClick={() =>
+                                                    handleResolveTask(task.id)
+                                                }
+                                            >
+                                                Mark as Resolved
+                                            </p>
                                         </Link>
                                     </CardFooter>
                                 </>
@@ -70,14 +78,16 @@ export default function Dashboard({ tasks }: DashboardProps) {
 
                             return (
                                 <div key={task.id}>
-                                    <TaskCard cardFooter={cardFooter} task={task}></TaskCard>
+                                    <TaskCard
+                                        cardFooter={cardFooter}
+                                        task={task}
+                                    ></TaskCard>
                                 </div>
                             );
                         })
-                        
                     ) : (
-                    <p className="text-gray-500">No tasks available yet.</p>
-                )}
+                        <p className="text-gray-500">No tasks available yet.</p>
+                    )}
                 </div>
             </div>
         </AppLayout>

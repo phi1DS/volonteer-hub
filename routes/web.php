@@ -25,7 +25,7 @@ Route::get('/unauthorized', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
-     // for intertia aut aliasing generation (avoid '.')
+    // for intertia aut aliasing generation (avoid '.')
 
     // Task CRUD routes
     Route::prefix('/dashboard/tasks')->name('tasks.')->group(function () {

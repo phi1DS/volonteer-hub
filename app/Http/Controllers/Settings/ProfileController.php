@@ -50,7 +50,7 @@ class ProfileController extends Controller
             'profile_picture' => ['nullable', 'image', 'max:2048'], // 2 MB max
         ]);
 
-        //** User */
+        // ** User */
         $user = $request->user();
 
         if ($request->hasFile('profile_picture')) { // does not exist !!!!!!!!!!!!!
@@ -59,7 +59,7 @@ class ProfileController extends Controller
             }
 
             $path = $request->file('profile_picture')->store('profileImages', 'public'); // rewrites file name
-            
+
             $user->profile_picture_path = $path;
             $user->save();
         }

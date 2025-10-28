@@ -3,5 +3,5 @@ export function getAssetsPath(uri: string): string {
 }
 
 export function getDefaultProfilePicturePath(): string {
-    return getAssetsPath('profileImages/profile_default.jpg')
+    return getAssetsPath('profileImages/profile_default.jpg');
 }

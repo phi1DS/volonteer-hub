@@ -16,7 +16,6 @@ import { Link } from '@inertiajs/react';
 import { Book, House } from 'lucide-react';
 import AppLogo from './app-logo';
 
-
 const mainNavItems: NavItem[] = [
     {
         title: 'Homepage',

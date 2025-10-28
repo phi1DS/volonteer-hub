@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
@@ -32,12 +33,12 @@ class HomePageController extends Controller
         }
 
         if (isset($validatedFilterData['userFilter']) && $validatedFilterData['userFilter'] !== null) {
-            $query->whereHas('user', fn($q) => $q->where('users.name', 'LIKE', '%'.$validatedFilterData['userFilter'].'%'));
+            $query->whereHas('user', fn ($q) => $q->where('users.name', 'LIKE', '%'.$validatedFilterData['userFilter'].'%'));
         }
 
         if (
-            isset($validatedFilterData['dateSearchStartFilter']) && 
-            isset($validatedFilterData['dateSearchEndFilter']) && 
+            isset($validatedFilterData['dateSearchStartFilter']) &&
+            isset($validatedFilterData['dateSearchEndFilter']) &&
             $validatedFilterData['dateSearchStartFilter'] !== null &&
             $validatedFilterData['dateSearchEndFilter'] !== null
         ) {
