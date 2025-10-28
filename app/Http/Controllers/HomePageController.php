@@ -20,7 +20,7 @@ class HomePageController extends Controller
         ]);
 
         $query = Task::query()
-            ->with('user:id,name')
+            ->with('user:id,name,profile_picture_path')
             ->where('active', true);
 
         if (isset($validatedFilterData['organisationFilter']) && $validatedFilterData['organisationFilter'] !== null) {

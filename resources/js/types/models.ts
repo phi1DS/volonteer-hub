@@ -1,6 +1,6 @@
 export interface UserLight extends Model {
-  id: number
   name: string
+  profile_picture_path: string
 }
 
 export interface Task extends Model {
@@ -12,7 +12,7 @@ export interface Task extends Model {
   date_end: string
   created_at: string
   active: boolean
-  user?: UserLight
+  user: UserLight
 }
 
 export interface Model {

@@ -1,10 +1,10 @@
-import { PaginatedModel } from "@/types/models";
+import { Model, PaginatedModel } from "@/types/models";
 import { Button } from "@/components/ui/button";
 import { router } from "@inertiajs/react";
 import { homepage } from "@/routes";
 
 interface PageProps {
-  paginatedModel: PaginatedModel;
+  paginatedModel: PaginatedModel<Model>;
   filters: Record<string, any>;
 }
 

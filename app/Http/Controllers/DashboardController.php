@@ -19,7 +19,7 @@ class DashboardController extends Controller
                 'user_id' => $authenticatedUser->id,
                 'active' => true,
             ])
-            ->with('user:id,name')
+            ->with('user:id,name,profile_picture_path')
             ->orderBy('created_at', 'DESC')
             ->get();
 

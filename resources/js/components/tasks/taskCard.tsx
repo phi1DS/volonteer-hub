@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Task } from "@/types/models";
+import { getAssetsPath, getDefaultProfilePicturePath } from "@/helpers";
 
 interface TaskCardProps {
   cardFooter?: ReactNode;
@@ -12,11 +13,23 @@ export default function TaskCard({cardFooter, task}: TaskCardProps) {
         return text.length > maxLength ? text.slice(0, maxLength) + "…" : text
     }
 
+    let profilePictureUrl = getDefaultProfilePicturePath();
+    if(task.user.profile_picture_path !== null) {
+        profilePictureUrl = getAssetsPath(task.user.profile_picture_path);
+    }
+
     return(
         <Card className="rounded-xl shadow-sm flex justify-between">
             <div>
                 <CardHeader>
-                    <CardTitle>{task.subject}</CardTitle>
+                    <div className="flex justify-start align-center">
+                        <img
+                            src={profilePictureUrl}
+                            alt="Profile preview"
+                            className="h-10 w-10 mr-5 rounded-full object-cover border"
+                        />
+                        <CardTitle className="mt-1">{task.subject}</CardTitle>
+                    </div>
                     <p className="text-sm text-gray-500 mt-3">
                         Organisation : {task.organisation || "No organisation"}
                     </p>

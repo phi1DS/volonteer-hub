@@ -14,6 +14,7 @@ import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import profile, { edit } from '@/routes/profile';
 import { useState } from 'react';
+import { getAssetsPath } from '@/helpers';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -34,7 +35,7 @@ export default function Profile({
     console.log(auth.user);
 
     const [preview, setPreview] = useState<string | null>(
-        `/storage/${auth.user.profile_picture_path}` || null // TODO pathing to improve
+        auth.user.profile_picture_path ? getAssetsPath(auth.user.profile_picture_path) : null
     );
 
     return (
