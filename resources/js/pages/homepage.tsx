@@ -94,6 +94,7 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                                 value={dateSearchStartFilter}
                                 onChange={(e) => setDateSearchStartFilter(e.target.value)}
                                 className="w-48"
+                                min={new Date().toISOString().split("T")[0]}
                             />
                         </div>
                         <div>
@@ -104,6 +105,11 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                                 value={dateSearchEndFilter}
                                 onChange={(e) => setDateSearchEndFilter(e.target.value)}
                                 className="w-48"
+                                min={
+                                    dateSearchStartFilter
+                                        ? dateSearchStartFilter
+                                        : new Date().toISOString().split("T")[0]
+                                }
                             />
                         </div>
 

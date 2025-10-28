@@ -21,6 +21,7 @@ class DashboardController extends Controller
             ])
             ->with('user:id,name,profile_picture_path')
             ->orderBy('created_at', 'DESC')
+            ->limit(20)
             ->get();
 
         return Inertia::render('dashboard', [
