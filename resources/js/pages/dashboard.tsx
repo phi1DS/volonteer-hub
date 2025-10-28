@@ -97,7 +97,6 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                     redirectUrl={dashboard().url}
                     filters={{}}
                 />
-
             </div>
         </AppLayout>
     );
