@@ -1,104 +1,153 @@
-import { Badge } from '@/components/ui/badge';
+import TaskCard from '@/components/tasks/taskCard';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { dashboard, login, register } from '@/routes';
-import { type SharedData } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { formatDistanceToNow } from "date-fns";
-
-interface User {
-  id: number
-  name: string
-}
-
-interface Task {
-  id: number
-  title: string
-  created_at: string
-  user?: User
-}
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import Pagination from '@/components/ui/pagination';
+import Header from '@/layouts/app-public/header';
+import { homepage } from '@/routes';
+import { PaginatedTasks } from '@/types/models';
+import { router } from '@inertiajs/react';
+import { useState } from 'react';
 
 interface PageProps {
-  tasks: Task[];
-  [key: string]: any; // to remove or adapt
+    paginatedTasks: PaginatedTasks;
 }
 
-export default function Welcome() {
-    const { auth } = usePage<SharedData>().props;
-    const { tasks } = usePage<PageProps>().props
+export default function Homepage({ paginatedTasks }: PageProps) {
+    // console.log(paginatedTasks);
+
+    const tasks = paginatedTasks.data;
+
+    const [organisationFilter, setOrganisationFilter] = useState('');
+    const [userFilter, setUserFilter] = useState('');
+    const [dateSearchStartFilter, setDateSearchStartFilter] = useState('');
+    const [dateSearchEndFilter, setDateSearchEndFilter] = useState('');
+
+    const handleFilter = () => {
+        router.get(
+            homepage(),
+            {
+                organisationFilter,
+                userFilter,
+                dateSearchStartFilter,
+                dateSearchEndFilter,
+            },
+            { preserveState: true, replace: true },
+        );
+    };
+
+    const resetFilter = () => {
+        setOrganisationFilter('');
+        setUserFilter('');
+        setDateSearchStartFilter('');
+        setDateSearchEndFilter('');
+        router.get(homepage(), {}, { replace: true });
+    };
 
     return (
         <>
-            <Head title="Welcome">
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link
-                    href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600"
-                    rel="stylesheet"
-                />
-            </Head>
-            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
-                <header className="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl">
-                    <nav className="flex items-center justify-end gap-4">
-                        {auth.user ? (
-                            <Link
-                                href={dashboard()}
-                                className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                            >
-                                Dashboard
-                            </Link>
-                        ) : (
-                            <>
-                                <Link
-                                    href={login()}
-                                    className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
-                                >
-                                    Log in
-                                </Link>
-                                <Link
-                                    href={register()}
-                                    className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                                >
-                                    Register
-                                </Link>
-                            </>
-                        )}
-                    </nav>
-                </header>
-                <div className="max-w-3xl mx-auto px-4">
-                    <h1 className="text-3xl font-semibold mb-8 text-gray-800">
-                    Latest Tasks
+            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:p-8 dark:bg-[#0a0a0a]">
+                <Header />
+
+                <div className="mb-12 text-center">
+                    <h1 className="mb-4 text-3xl font-semibold text-white">
+                        Opened Volonteering Tasks
                     </h1>
-
-                    {tasks.length === 0 ? (
-                    <p className="text-gray-500">No tasks yet.</p>
-                    ) : (
-                    <div className="grid gap-4">
-                        {tasks.map((task) => (
-                        <Card key={task.id} className="shadow-sm hover:shadow-md transition">
-                            <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle className="text-lg font-medium">
-                                {task.title}
-                            </CardTitle>
-                            <Badge variant="secondary">
-                                {task.user?.name ?? "Unknown"}
-                            </Badge>
-                            </CardHeader>
-
-                            <CardContent className="text-sm text-gray-500 flex items-center justify-between">
-                            <span>
-                                Created{" "}
-                                {formatDistanceToNow(new Date(task.created_at), {
-                                addSuffix: true,
-                                })}
-                            </span>
-                            <Button size="sm" variant="outline">
-                                View
-                            </Button>
-                            </CardContent>
-                        </Card>
-                        ))}
+                    <div>
+                        <p className="text-gray-500">Feel free to pick one !</p>
                     </div>
-                    )}
+                </div>
+
+                <div className="max-w-8xl mx-auto px-4">
+                    {/* Filters */}
+                    <div className="mb-8 flex flex-wrap items-end justify-center gap-4 pb-4 text-gray-500">
+                        <div>
+                            <Label htmlFor="organisationFilter">
+                                Organisation
+                            </Label>
+                            <Input
+                                id="organisationFilter"
+                                value={organisationFilter}
+                                onChange={(e) =>
+                                    setOrganisationFilter(e.target.value)
+                                }
+                                placeholder="e.g. Green Peace"
+                                className="w-48"
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="userFilter">Created By</Label>
+                            <Input
+                                id="userFilter"
+                                value={userFilter}
+                                onChange={(e) => setUserFilter(e.target.value)}
+                                placeholder="e.g. John"
+                                className="w-48"
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="dateSearchStartFilter">From</Label>
+                            <Input
+                                id="dateSearchStartFilter"
+                                type="date"
+                                value={dateSearchStartFilter}
+                                onChange={(e) =>
+                                    setDateSearchStartFilter(e.target.value)
+                                }
+                                className="w-48"
+                                min={new Date().toISOString().split('T')[0]}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="dateSearchEnd">To</Label>
+                            <Input
+                                id="dateSearchEnd"
+                                type="date"
+                                value={dateSearchEndFilter}
+                                onChange={(e) =>
+                                    setDateSearchEndFilter(e.target.value)
+                                }
+                                className="w-48"
+                                min={
+                                    dateSearchStartFilter
+                                        ? dateSearchStartFilter
+                                        : new Date().toISOString().split('T')[0]
+                                }
+                            />
+                        </div>
+
+                        <div className="flex gap-2">
+                            <Button onClick={handleFilter}>Filter</Button>
+                            <Button variant="secondary" onClick={resetFilter}>
+                                Reset
+                            </Button>
+                        </div>
+                    </div>
+
+                    {/* Table */}
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {tasks.length > 0 ? (
+                            tasks.map((task) => (
+                                <TaskCard task={task} key={task.id} />
+                            ))
+                        ) : (
+                            <p className="text-gray-500">
+                                No tasks available yet.
+                            </p>
+                        )}
+                    </div>
+
+                    {/* Pagination */}
+                    <Pagination
+                        paginatedModel={paginatedTasks}
+                        redirectUrl={homepage().url}
+                        filters={{
+                            organisationFilter,
+                            userFilter,
+                            dateSearchStartFilter,
+                            dateSearchEndFilter,
+                        }}
+                    />
                 </div>
                 <div className="hidden h-14.5 lg:block"></div>
             </div>
