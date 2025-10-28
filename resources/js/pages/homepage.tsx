@@ -140,6 +140,7 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                     {/* Pagination */}
                     <Pagination
                         paginatedModel={paginatedTasks}
+                        redirectUrl={homepage().url}
                         filters={{
                             organisationFilter,
                             userFilter,

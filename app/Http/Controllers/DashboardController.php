@@ -16,17 +16,16 @@ class DashboardController extends Controller
     {
         $authenticatedUser = auth()->user();
 
-        $tasks = Task::where([
+        $paginatedTasks = Task::query()->where([
             'user_id' => $authenticatedUser->id,
             'active' => true,
         ])
             ->with('user:id,name,profile_picture_path')
             ->orderBy('created_at', 'DESC')
-            ->limit(20)
-            ->get();
+            ->paginate(9);
 
         return Inertia::render('dashboard', [
-            'tasks' => $tasks,
+            'paginatedTasks' => $paginatedTasks,
         ]);
     }
 

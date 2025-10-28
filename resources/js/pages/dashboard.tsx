@@ -3,11 +3,12 @@ import TaskCard from '@/components/tasks/taskCard';
 import TaskOutdatedNotice from '@/components/tasks/taskOutdated';
 import { Button } from '@/components/ui/button';
 import { CardFooter } from '@/components/ui/card';
+import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { task_create, task_edit, task_resolve } from '@/routes/tasks';
 import { type BreadcrumbItem } from '@/types';
-import { Task } from '@/types/models';
+import { PaginatedModel, Task } from '@/types/models';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -18,18 +19,19 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface DashboardProps {
-    tasks: Task[];
+    paginatedTasks: PaginatedModel<Task>;
 }
 
-export default function Dashboard({ tasks }: DashboardProps) {
+export default function Dashboard({ paginatedTasks }: DashboardProps) {
     const { props } = usePage<{ flash: { message?: string; type?: string } }>();
     const flash = props.flash;
+
+    const tasks = paginatedTasks.data;
+    console.log(tasks);
 
     const handleResolveTask = (taskId: number) => {
         router.post(task_resolve(taskId));
     };
-
-    console.log(tasks);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -89,6 +91,13 @@ export default function Dashboard({ tasks }: DashboardProps) {
                         <p className="text-gray-500">No tasks available yet.</p>
                     )}
                 </div>
+
+                <Pagination
+                    paginatedModel={paginatedTasks}
+                    redirectUrl={dashboard().url}
+                    filters={{}}
+                />
+
             </div>
         </AppLayout>
     );

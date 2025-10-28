@@ -6,14 +6,10 @@ use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [HomePageController::class, 'homepage'])
-    ->name('homepage');
+Route::get('/', [HomePageController::class, 'homepage'])->name('homepage');
 
 Route::get('/about', function () {
-    return Inertia::render('about', [
-        'title' => 'About Page',
-        'description' => 'This is an example of a new Inertia/React page.',
-    ]);
+    return Inertia::render('about');
 })->name('about');
 
 Route::get('/unauthorized', function () {
@@ -37,8 +33,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/{task}/edit', [TaskController::class, 'edit'])->name('task_edit');
         Route::put('/{task}', [TaskController::class, 'update'])->name('task_update');
-
-        Route::delete('/{task}', [TaskController::class, 'destroy'])->name('task_destroy');
     });
 });
 
