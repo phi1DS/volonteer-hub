@@ -2,13 +2,16 @@ import { getAssetsPath, getDefaultProfilePicturePath } from '@/helpers';
 import { Task } from '@/types/models';
 import { ReactNode } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { cn } from '@/lib/utils';
+import TaskOutdatedNotice from './taskOutdated';
 
 interface TaskCardProps {
     cardFooter?: ReactNode;
     task: Task;
+    className?: string;
 }
 
-export default function TaskCard({ cardFooter, task }: TaskCardProps) {
+export default function TaskCard({ cardFooter, task, className }: TaskCardProps) {
     const truncate = (text: string, maxLength = 400) => {
         return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
     };
@@ -18,8 +21,11 @@ export default function TaskCard({ cardFooter, task }: TaskCardProps) {
         profilePictureUrl = getAssetsPath(task.user.profile_picture_path);
     }
 
+    const now = new Date();
+    const dateStart = new Date(task.date_start);
+
     return (
-        <Card className="flex justify-between rounded-xl shadow-sm">
+        <Card className={cn("flex justify-between rounded-xl shadow-sm", className)}>
             <div>
                 <CardHeader>
                     <div className="align-center flex justify-start">
@@ -60,6 +66,16 @@ export default function TaskCard({ cardFooter, task }: TaskCardProps) {
                     </p>
                 </CardContent>
             </div>
+
+            { task.active === false && (
+                <div className="flex items-center justify-center gap-2 p-2 text-center text-sm text-red-400">
+                    <p>
+                        Closed Task
+                    </p>
+                </div>
+            )}
+            
+            { (task.active === true && dateStart < now) && <TaskOutdatedNotice /> }
 
             {cardFooter}
         </Card>

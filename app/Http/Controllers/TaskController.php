@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TaskFormRequest;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -16,16 +17,16 @@ class TaskController extends Controller
     {
         $authenticatedUser = auth()->user();
 
-        $tasks = Task::where([
+        $paginatedInactiveTasks = Task::where([
             'user_id' => $authenticatedUser->id,
             'active' => false,
         ])
-            ->with('user:id,name')
-            ->orderBy('date_start', 'DESC')
-            ->get();
+            ->with('user:id,name,profile_picture_path')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(9);
 
-        return Inertia::render('task/inactive', [
-            'tasks' => $tasks,
+        return Inertia::render('tasks/inactive', [
+            'paginatedInactiveTasks' => $paginatedInactiveTasks,
         ]);
     }
 
@@ -65,7 +66,7 @@ class TaskController extends Controller
     /**
      * Update a specific task.
      */
-    public function update(TaskFormRequest $request, Task $task): RedirectResponse
+    public function update(Request $request, Task $task): RedirectResponse
     {
         if ($task->user_id !== $request->user()->id) {
             return to_route('unauthorized');
@@ -81,15 +82,33 @@ class TaskController extends Controller
         ]);
     }
 
-    // TO AJUST BELOW ------------------------------------------------------------
-
-    /**
-     * Delete a specific task.
-     */
-    public function destroy(Task $task): RedirectResponse
+    public function markTaskAsResolve(Request $request, Task $task): RedirectResponse
     {
-        $task->delete();
+        if ($task->user_id !== $request->user()->id) {
+            return to_route('unauthorized');
+        }
 
-        return redirect()->route('tasks.index')->with('success', 'Task deleted.');
+        $task->active = false;
+        $task->save();
+
+        return to_route('dashboard')->with([
+            'type' => 'success',
+            'message' => 'Task marked as resolved',
+        ]);
+    }
+
+    public function reopenTask(Request $request, Task $task): RedirectResponse
+    {
+        if ($task->user_id !== $request->user()->id) {
+            return to_route('unauthorized');
+        }
+
+        $task->active = true;
+        $task->save();
+
+        return to_route('task_inactive')->with([
+            'type' => 'success',
+            'message' => 'Task reopened',
+        ]);
     }
 }

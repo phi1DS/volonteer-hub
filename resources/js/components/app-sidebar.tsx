@@ -13,8 +13,9 @@ import {
 import { dashboard, homepage } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Book, House } from 'lucide-react';
+import { Archive, Book, House } from 'lucide-react';
 import AppLogo from './app-logo';
+import { task_inactive } from '@/routes/tasks';
 
 const mainNavItems: NavItem[] = [
     {
@@ -23,9 +24,14 @@ const mainNavItems: NavItem[] = [
         icon: House,
     },
     {
-        title: 'My Tasks',
+        title: 'Opened Tasks',
         href: dashboard(),
         icon: Book,
+    },
+    {
+        title: 'Closed Tasks',
+        href: task_inactive(),
+        icon: Archive,
     },
 ];
 

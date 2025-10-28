@@ -53,12 +53,8 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {tasks.length > 0 ? (
                         tasks.map(function (task) {
-                            const now = new Date();
-                            const dateStart = new Date(task.date_start);
-
                             const cardFooter = (
                                 <>
-                                    {dateStart < now && <TaskOutdatedNotice />}
                                     <CardFooter className="flex justify-between">
                                         <Link href={task_edit(task.id)}>
                                             <Button variant="secondary">
@@ -71,7 +67,7 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                                                     handleResolveTask(task.id)
                                                 }
                                             >
-                                                Mark as Resolved
+                                                Close Task
                                             </p>
                                         </Link>
                                     </CardFooter>
