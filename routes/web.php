@@ -4,7 +4,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\VolunteerAnswerController as BackendVolunteerAnswerController;
 use App\Http\Controllers\VolunteerAnswerController as FrontendVolunteerAnswerController;
 use App\Http\Controllers\HomePageController;
-use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Backend\TaskController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
