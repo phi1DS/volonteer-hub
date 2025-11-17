@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Task } from '@/types/models';
 import { Form } from '@inertiajs/react';
+import { useState } from 'react';
 
 interface TaskFormProps {
     action: string;
@@ -18,6 +19,11 @@ export default function TaskForm({
     task = {},
     submitLabel = 'Save Task',
 }: TaskFormProps) {
+
+    const [startDate, setStartDate] = useState(
+        task.date_start ? new Date(task.date_start).toISOString().slice(0, 16) : ''
+    );
+
     return (
         <Form action={action} method="post" className="flex flex-col gap-4">
             {/* Laravel PUT method override if needed */}
@@ -80,13 +86,7 @@ export default function TaskForm({
                     type="datetime-local"
                     name="date_start"
                     required
-                    defaultValue={
-                        task.date_start
-                            ? new Date(task.date_start)
-                                  .toISOString()
-                                  .slice(0, 16)
-                            : ''
-                    }
+                    defaultValue={startDate}
                 />
             </div>
 
@@ -101,6 +101,7 @@ export default function TaskForm({
                             ? new Date(task.date_end).toISOString().slice(0, 16)
                             : ''
                     }
+                    min={startDate}
                 />
             </div>
 

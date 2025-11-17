@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskFormRequest;
 use App\Models\Task;
+use DateTime;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -66,7 +67,7 @@ class TaskController extends Controller
     /**
      * Update a specific task.
      */
-    public function update(Request $request, Task $task): RedirectResponse
+    public function update(TaskFormRequest $request, Task $task): RedirectResponse
     {
         if ($task->user_id !== $request->user()->id) {
             return to_route('unauthorized');
