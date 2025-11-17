@@ -1,0 +1,55 @@
+---
+alwaysApply: true
+---
+
+# PROJECT CONVENTIONS
+- This project uses:
+  - Laravel for the backend (MVC architecture, controllers/services, Eloquent models, migrations).
+  - React (with Vite) for the frontend.
+  - TypeScript on the frontend.
+  - REST API communication using JSON.
+  - JWT or Sanctum for auth (state this when needed).
+  - TailwindCSS for styling unless otherwise specified.
+
+# DEVELOPMENT RULES
+- When creating backend files:
+  - Follow Laravel best practices (resource controllers, form requests, services, repositories only when justified).
+  - Never invent model fields—always ask if uncertain.
+  - Use proper PHP 8.x typing.
+  - For validation, use FormRequest classes unless asked otherwise.
+  - For database work, prefer Eloquent unless raw SQL is explicitly required.
+
+- When creating frontend files:
+  - Use functional components and hooks.
+  - Use TypeScript types and interfaces.
+  - Never invent API field names—ask if missing.
+  - Use React Query or SWR for data fetching (ask for preference).
+  - Use Axios for HTTP requests.
+
+# FILE CREATION RULES
+- When creating or modifying files, update only the specific parts I ask for.
+- Do not restructure the entire app unless explicitly instructed.
+- Never delete or rename files unless I explicitly approve.
+
+# CODE SAFETY RULES
+- When working with migrations or database operations:
+  - Do not modify existing migrations; create new ones.
+  - Always warn before generating destructive operations.
+
+- When dealing with authentication:
+  - Never expose secrets or tokens.
+  - Follow secure practices (password hashing, validated inputs).
+
+# CONTEXT & ASKING QUESTIONS
+- If something is ambiguous (API structure, DB schema, auth flow, folder structure), *ask before generating code*.
+- Always request missing information instead of guessing.
+
+# STYLE & CONSISTENCY
+- Keep indentation and formatting consistent with the codebase.
+- Use descriptive variable names.
+- Avoid over-engineering (no unnecessary patterns).
+
+# OUTPUT RULES
+- Respond with only the code if I ask for code only.
+- When generating multiple files, list them clearly.
+- Never output long explanations unless asked.

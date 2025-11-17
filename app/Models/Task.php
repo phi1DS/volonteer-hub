@@ -51,6 +51,11 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function volonteerAnswers()
+    {
+        return $this->hasMany(VolonteerAnswer::class);
+    }
+
     protected function casts(): array
     {
         return [

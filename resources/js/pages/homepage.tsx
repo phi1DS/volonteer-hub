@@ -1,13 +1,18 @@
 import TaskCard from '@/components/tasks/taskCard';
 import { Button } from '@/components/ui/button';
+import { CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Pagination from '@/components/ui/pagination';
 import Header from '@/layouts/app-public/header';
 import { homepage } from '@/routes';
-import { PaginatedTasks } from '@/types/models';
+import { PaginatedModel, Task } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
+import VolonteerAnswerModal from '@/components/tasks/volonteerAnswerModal';
+import FlashMessage from '@/components/flashMessage';
+
+type PaginatedTasks = PaginatedModel<Task>;
 
 interface PageProps {
     paginatedTasks: PaginatedTasks;
@@ -17,6 +22,9 @@ export default function Homepage({ paginatedTasks }: PageProps) {
     // console.log(paginatedTasks);
 
     const tasks = paginatedTasks.data;
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const [organisationFilter, setOrganisationFilter] = useState('');
     const [userFilter, setUserFilter] = useState('');
@@ -44,6 +52,22 @@ export default function Homepage({ paginatedTasks }: PageProps) {
         router.get(homepage(), {}, { replace: true });
     };
 
+    const handleOpenModal = (task: Task) => {
+        setSelectedTask(task);
+        setIsModalOpen(true);
+    };
+
+    const handleDialogOpenChange = (open: boolean) => {
+        setIsModalOpen(open);
+        if (!open) {
+            setSelectedTask(null);
+        }
+    };
+
+    const handleVolonteerSuccess = (message: string) => {
+        setSuccessMessage(message);
+    };
+
     return (
         <>
             <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:p-8 dark:bg-[#0a0a0a]">
@@ -59,6 +83,12 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                 </div>
 
                 <div className="max-w-8xl mx-auto px-4">
+                    {successMessage && (
+                        <FlashMessage
+                            message={successMessage}
+                            type={'success'}
+                        />
+                    )}
                     {/* Filters */}
                     <div className="mb-8 flex flex-wrap items-end justify-center gap-4 pb-4 text-gray-500">
                         <div>
@@ -127,9 +157,27 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                     {/* Table */}
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {tasks.length > 0 ? (
-                            tasks.map((task) => (
-                                <TaskCard task={task} key={task.id} />
-                            ))
+                            tasks.map((task) => {
+                                const footer = (
+                                    <CardFooter className="mt-auto w-full justify-end">
+                                        <Button
+                                            type="button"
+                                            className="w-full bg-secondary text-white hover:bg-secondary/80"
+                                            onClick={() => handleOpenModal(task)}
+                                        >
+                                            I want to help
+                                        </Button>
+                                    </CardFooter>
+                                );
+
+                                return (
+                                    <TaskCard
+                                        task={task}
+                                        key={task.id}
+                                        cardFooter={footer}
+                                    />
+                                );
+                            })
                         ) : (
                             <p className="text-gray-500">
                                 No tasks available yet.
@@ -151,6 +199,13 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                 </div>
                 <div className="hidden h-14.5 lg:block"></div>
             </div>
+
+            <VolonteerAnswerModal
+                open={isModalOpen}
+                task={selectedTask}
+                onOpenChange={handleDialogOpenChange}
+                onSuccess={handleVolonteerSuccess}
+            />
         </>
     );
 }

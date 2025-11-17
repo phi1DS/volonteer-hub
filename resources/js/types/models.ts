@@ -1,3 +1,7 @@
+export interface Model {
+    id: number;
+}
+
 export interface UserLight extends Model {
     name: string;
     profile_picture_path: string;
@@ -15,8 +19,11 @@ export interface Task extends Model {
     user: UserLight;
 }
 
-export interface Model {
-    id: number;
+export interface VolonteerAnswer extends Model {
+    name: string;
+    message: string;
+    created_at: string;
+    task: Task;
 }
 
 export interface PaginatedModel<Model> {
@@ -39,4 +46,12 @@ export interface PageLink {
     label: string;
     page: number;
     url: string | null;
+}
+
+export interface VolonteerAnswer {
+    id: number;
+    name: string;
+    message: string;
+    created_at: string;
+    task: Task;
 }

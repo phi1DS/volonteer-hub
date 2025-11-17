@@ -13,9 +13,10 @@ import {
 import { dashboard, homepage } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Archive, Book, House } from 'lucide-react';
+import { Archive, Book, House, MessageCircle } from 'lucide-react';
 import AppLogo from './app-logo';
 import { task_inactive } from '@/routes/tasks';
+import { volonteer_answer_list } from '@/routes/volonteer_answer_backend';
 
 const mainNavItems: NavItem[] = [
     {
@@ -32,6 +33,11 @@ const mainNavItems: NavItem[] = [
         title: 'Closed Tasks',
         href: task_inactive(),
         icon: Archive,
+    },
+    {
+        title: 'Volonteer Answers',
+        href: volonteer_answer_list(),
+        icon: MessageCircle,
     },
 ];
 
