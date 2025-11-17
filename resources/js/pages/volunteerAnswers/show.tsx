@@ -2,11 +2,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
-import { volonteer_answer_list } from '@/routes/volonteer_answer_backend';
+import { volunteer_answer_list } from '@/routes/volunteer_answer_backend';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { type VolonteerAnswer } from '@/types/models';
-
+import { type VolunteerAnswer } from '@/types/models';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,8 +13,8 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: dashboard().url,
     },
     {
-        title: 'Volonteer answers',
-        href: volonteer_answer_list().url,
+        title: 'Volunteer answers',
+        href: volunteer_answer_list().url,
     },
     {
         title: 'Answer details',
@@ -24,18 +23,18 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface PageProps {
-    volonteerAnswer: VolonteerAnswer;
+    volunteerAnswer: VolunteerAnswer;
 }
 
-export default function VolonteerAnswerShow({ volonteerAnswer }: PageProps) {
-    const submittedAt = new Date(volonteerAnswer.created_at).toLocaleString('fr-FR', {
+export default function VolunteerAnswerShow({ volunteerAnswer }: PageProps) {
+    const submittedAt = new Date(volunteerAnswer.created_at).toLocaleString('fr-FR', {
         dateStyle: 'full',
         timeStyle: 'short',
     });
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Answer from ${volonteerAnswer.name}`} />
+            <Head title={`Answer from ${volunteerAnswer.name}`} />
 
             <div className="flex flex-col gap-6 p-4">
                 <div className="flex items-center justify-between">
@@ -46,22 +45,25 @@ export default function VolonteerAnswerShow({ volonteerAnswer }: PageProps) {
                         </p>
                     </div>
 
-                    <Link href={volonteer_answer_list().url}>
+                    <Link href={volunteer_answer_list().url}>
                         <Button variant="outline">Back to answers</Button>
                     </Link>
                 </div>
 
                 <div className="">
                     <Card className="h-full">
+                        <CardHeader>
+                            <CardTitle>Volunteer</CardTitle>
+                        </CardHeader>
                         <CardContent className="space-y-3">
                             <div>
                                 <p className="text-xs uppercase text-muted-foreground">Name</p>
-                                <p className="text-base text-foreground">{volonteerAnswer.name}</p>
+                                <p className="text-base text-foreground">{volunteerAnswer.name}</p>
                             </div>
                             <div>
                                 <p className="text-xs uppercase text-muted-foreground">Message</p>
                                 <p className="whitespace-pre-line text-base text-foreground">
-                                    {volonteerAnswer.message || 'No message provided.'}
+                                    {volunteerAnswer.message || 'No message provided.'}
                                 </p>
                             </div>
                         </CardContent>

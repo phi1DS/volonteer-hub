@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\VolonteerAnswer;
+use App\Models\VolunteerAnswer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class VolonteerAnswerController extends Controller
+class VolunteerAnswerController extends Controller
 {
     public function store(Request $request): JsonResponse
     {
@@ -19,11 +19,11 @@ class VolonteerAnswerController extends Controller
             'name' => ['required', 'string'],
         ]);
 
-        $volonteerAnswer = VolonteerAnswer::create($validated);
+        $volunteerAnswer = VolunteerAnswer::create($validated);
 
         return new JsonResponse([
             'message' => 'Answer submitted successfully',
-            'volonteerAnswer' => $volonteerAnswer,
+            'volunteerAnswer' => $volunteerAnswer,
         ], 200);
     }
 }

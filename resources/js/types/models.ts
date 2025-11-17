@@ -19,13 +19,6 @@ export interface Task extends Model {
     user: UserLight;
 }
 
-export interface VolonteerAnswer extends Model {
-    name: string;
-    message: string;
-    created_at: string;
-    task: Task;
-}
-
 export interface PaginatedModel<Model> {
     current_page: number;
     data: Model[];
@@ -48,8 +41,7 @@ export interface PageLink {
     url: string | null;
 }
 
-export interface VolonteerAnswer {
-    id: number;
+export interface VolunteerAnswer extends Model {
     name: string;
     message: string;
     created_at: string;

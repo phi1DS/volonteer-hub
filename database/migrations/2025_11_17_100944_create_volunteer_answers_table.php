@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('volonteer_answers', function (Blueprint $table) {
+        Schema::create('volunteer_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('task_id')->constrained()->cascadeOnDelete();
             $table->string('message');
@@ -25,6 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('volonteer_answers');
+        Schema::dropIfExists('volunteer_answers');
     }
 };
+

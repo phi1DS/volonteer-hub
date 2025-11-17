@@ -16,7 +16,7 @@ import { Link } from '@inertiajs/react';
 import { Archive, Book, House, MessageCircle } from 'lucide-react';
 import AppLogo from './app-logo';
 import { task_inactive } from '@/routes/tasks';
-import { volonteer_answer_list } from '@/routes/volonteer_answer_backend';
+import { volunteer_answer_list } from '@/routes/volunteer_answer_backend';
 
 const mainNavItems: NavItem[] = [
     {
@@ -35,8 +35,8 @@ const mainNavItems: NavItem[] = [
         icon: Archive,
     },
     {
-        title: 'Volonteer Answers',
-        href: volonteer_answer_list(),
+        title: 'Volunteer Answers',
+        href: volunteer_answer_list(),
         icon: MessageCircle,
     },
 ];

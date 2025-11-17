@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\VolonteerAnswer;
+use App\Models\VolunteerAnswer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class VolonteerAnswerController extends Controller
+class VolunteerAnswerController extends Controller
 {
     public function list(Request $request): Response
     {
         $taskFilter = $request->string('task')->trim()->toString();
         $userId = (int) Auth::id();
 
-        $paginatedVolonteerAnswers = VolonteerAnswer::query()
+        $paginatedVolunteerAnswers = VolunteerAnswer::query()
             ->whereHas('task', function ($query) use ($taskFilter, $userId) {
                 $query->where('user_id', $userId)
                     ->when($taskFilter, function ($taskQuery) use ($taskFilter) {
@@ -32,25 +32,25 @@ class VolonteerAnswerController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('volonteerAnswers/list', [
-            'paginatedVolonteerAnswers' => $paginatedVolonteerAnswers,
+        return Inertia::render('volunteerAnswers/list', [
+            'paginatedVolunteerAnswers' => $paginatedVolunteerAnswers,
             'filters' => [
                 'task' => $taskFilter,
             ],
         ]);
     }
 
-    public function show(VolonteerAnswer $volonteerAnswer): RedirectResponse|Response
+    public function show(VolunteerAnswer $volunteerAnswer): RedirectResponse|Response
     {
-        $volonteerAnswer->load('task');
+        $volunteerAnswer->load('task');
 
-        $isVoloneerAnswerAssociatedToAuthUser = $volonteerAnswer->task && $volonteerAnswer->task->user_id === auth()->user()->id;
-        if (! $isVoloneerAnswerAssociatedToAuthUser) {
+        $isVolunteerAnswerAssociatedToAuthUser = $volunteerAnswer->task && $volunteerAnswer->task->user_id === Auth::id();
+        if (! $isVolunteerAnswerAssociatedToAuthUser) {
             return to_route('unauthorized');
         }
 
-        return Inertia::render('volonteerAnswers/show', [
-            'volonteerAnswer' => $volonteerAnswer,
+        return Inertia::render('volunteerAnswers/show', [
+            'volunteerAnswer' => $volunteerAnswer,
         ]);
     }
 }

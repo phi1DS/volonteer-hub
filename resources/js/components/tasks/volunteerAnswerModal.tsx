@@ -14,30 +14,31 @@ import httpClient, { isAxiosError } from '@/lib/axios';
 import { Task } from '@/types/models';
 import { FormEvent, useEffect, useState } from 'react';
 
-interface VolonteerAnswerModalProps {
+interface VolunteerAnswerModalProps {
     open: boolean;
     task: Task | null;
     onOpenChange: (open: boolean) => void;
     onSuccess?: (message: string) => void;
 }
 
-const successMessage = 'Thank you ! Your answer has been shared with the task owner.';
+const successMessage =
+    'Thank you! Your answer has been shared with the task owner.';
 
-export default function VolonteerAnswerModal({
+export default function VolunteerAnswerModal({
     open,
     task,
     onOpenChange,
     onSuccess,
-}: VolonteerAnswerModalProps) {
-    const [volonteerName, setVolonteerName] = useState('');
-    const [volonteerMessage, setVolonteerMessage] = useState('');
+}: VolunteerAnswerModalProps) {
+    const [volunteerName, setVolunteerName] = useState('');
+    const [volunteerMessage, setVolunteerMessage] = useState('');
     const [modalError, setModalError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (!open) {
-            setVolonteerName('');
-            setVolonteerMessage('');
+            setVolunteerName('');
+            setVolunteerMessage('');
             setModalError(null);
             setIsSubmitting(false);
         }
@@ -47,8 +48,8 @@ export default function VolonteerAnswerModal({
         onOpenChange(nextOpen);
         if (!nextOpen) {
             setTimeout(() => {
-                setVolonteerName('');
-                setVolonteerMessage('');
+                setVolunteerName('');
+                setVolunteerMessage('');
                 setModalError(null);
             }, 0);
         }
@@ -65,10 +66,10 @@ export default function VolonteerAnswerModal({
         setModalError(null);
 
         try {
-            await httpClient.post('/volonteer-answer', {
+            await httpClient.post('/volunteer-answer', {
                 task_id: task.id,
-                name: volonteerName,
-                message: volonteerMessage,
+                name: volunteerName,
+                message: volunteerMessage,
             });
 
             onSuccess?.(successMessage);
@@ -123,12 +124,12 @@ export default function VolonteerAnswerModal({
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="volonteer-name">Your name</Label>
+                        <Label htmlFor="volunteer-name">Your name</Label>
                         <Input
-                            id="volonteer-name"
-                            value={volonteerName}
+                            id="volunteer-name"
+                            value={volunteerName}
                             onChange={(event) =>
-                                setVolonteerName(event.target.value)
+                                setVolunteerName(event.target.value)
                             }
                             placeholder="Jane Doe"
                             required
@@ -136,12 +137,12 @@ export default function VolonteerAnswerModal({
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="volonteer-message">Your message</Label>
+                        <Label htmlFor="volunteer-message">Your message</Label>
                         <Textarea
-                            id="volonteer-message"
-                            value={volonteerMessage}
+                            id="volunteer-message"
+                            value={volunteerMessage}
                             onChange={(event) =>
-                                setVolonteerMessage(event.target.value)
+                                setVolunteerMessage(event.target.value)
                             }
                             placeholder="I'd be happy to help with..."
                             required

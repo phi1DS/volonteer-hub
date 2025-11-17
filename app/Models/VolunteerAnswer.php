@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
  */
-class VolonteerAnswer extends Model
+class VolunteerAnswer extends Model
 {
     use HasFactory;
 

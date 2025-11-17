@@ -51,9 +51,9 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function volonteerAnswers()
+    public function volunteerAnswers()
     {
-        return $this->hasMany(VolonteerAnswer::class);
+        return $this->hasMany(VolunteerAnswer::class);
     }
 
     protected function casts(): array

@@ -2,15 +2,14 @@ import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
-import { PaginatedModel, Task } from '@/types/models';
+import { PaginatedModel, VolunteerAnswer } from '@/types/models';
 import { Head, Link, router } from '@inertiajs/react';
 import {
-    volonteer_answer_list,
-    volonteer_answer_show,
-} from '@/routes/volonteer_answer_backend';
+    volunteer_answer_list,
+    volunteer_answer_show,
+} from '@/routes/volunteer_answer_backend';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { type VolonteerAnswer } from '@/types/models';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -19,13 +18,13 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: dashboard().url,
     },
     {
-        title: 'Volonteer answers',
-        href: volonteer_answer_list().url,
+        title: 'Volunteer answers',
+        href: volunteer_answer_list().url,
     },
 ];
 
 interface PageProps {
-    paginatedVolonteerAnswers: PaginatedModel<VolonteerAnswer>;
+    paginatedVolunteerAnswers: PaginatedModel<VolunteerAnswer>;
     filters?: {
         task?: string;
     };
@@ -39,16 +38,16 @@ const truncate = (text: string, maxLength = 40) => {
     return `${text.slice(0, maxLength)}…`;
 };
 
-export default function VolonteerAnswerList({
-    paginatedVolonteerAnswers,
+export default function VolunteerAnswerList({
+    paginatedVolunteerAnswers,
     filters = {},
 }: PageProps) {
-    const answers = paginatedVolonteerAnswers.data;
+    const answers = paginatedVolunteerAnswers.data;
     const [taskFilter, setTaskFilter] = useState(filters.task ?? '');
 
     const handleFilter = () => {
         router.get(
-            volonteer_answer_list(),
+            volunteer_answer_list(),
             {
                 task: taskFilter,
             },
@@ -62,7 +61,7 @@ export default function VolonteerAnswerList({
     const handleReset = () => {
         setTaskFilter('');
         router.get(
-            volonteer_answer_list(),
+            volunteer_answer_list(),
             {},
             {
                 replace: true,
@@ -72,13 +71,13 @@ export default function VolonteerAnswerList({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Volonteer answers" />
+            <Head title="Volunteer answers" />
 
             <div className="flex flex-col gap-6 p-4">
                 <div className="flex flex-col gap-4">
-                    <h1 className="text-2xl font-semibold">Volonteer answers</h1>
+                    <h1 className="text-2xl font-semibold">Volunteer answers</h1>
 
-                    <div className="flex justify-end gap-3 mt-2">
+                    <div className="mt-2 flex justify-end gap-3">
                         <div className="flex flex-col gap-1">
                             <Input
                                 id="taskFilter"
@@ -91,7 +90,9 @@ export default function VolonteerAnswerList({
                             />
                         </div>
                         <div className="flex gap-2">
-                            <Button variant="secondary" onClick={handleFilter}>Filter</Button>
+                            <Button variant="secondary" onClick={handleFilter}>
+                                Filter
+                            </Button>
                             <Button variant="secondary" onClick={handleReset}>
                                 Reset
                             </Button>
@@ -132,7 +133,7 @@ export default function VolonteerAnswerList({
                                             <td className="px-4 py-3 align-top text-muted-foreground">{submittedAt}</td>
                                             <td className="px-4 py-3 align-top text-right">
                                                 <Link
-                                                    href={`${volonteer_answer_show(answer.id).url}`}
+                                                    href={volunteer_answer_show(answer.id).url}
                                                     className="text-sm font-medium text-primary"
                                                 >
                                                     <Button variant="secondary">View details</Button>
@@ -144,7 +145,7 @@ export default function VolonteerAnswerList({
                             ) : (
                                 <tr>
                                     <td className="px-4 py-6 text-center text-muted-foreground" colSpan={5}>
-                                        No volonteer answers yet.
+                                        No volunteer answers yet.
                                     </td>
                                 </tr>
                             )}
@@ -153,8 +154,8 @@ export default function VolonteerAnswerList({
                 </div>
 
                 <Pagination
-                    paginatedModel={paginatedVolonteerAnswers}
-                    redirectUrl={volonteer_answer_list().url}
+                    paginatedModel={paginatedVolunteerAnswers}
+                    redirectUrl={volunteer_answer_list().url}
                     filters={{ task: taskFilter }}
                 />
             </div>

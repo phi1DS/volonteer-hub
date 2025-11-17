@@ -9,7 +9,7 @@ import { homepage } from '@/routes';
 import { PaginatedModel, Task } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
-import VolonteerAnswerModal from '@/components/tasks/volonteerAnswerModal';
+import VolunteerAnswerModal from '@/components/tasks/volunteerAnswerModal';
 import FlashMessage from '@/components/flashMessage';
 
 type PaginatedTasks = PaginatedModel<Task>;
@@ -64,7 +64,7 @@ export default function Homepage({ paginatedTasks }: PageProps) {
         }
     };
 
-    const handleVolonteerSuccess = (message: string) => {
+    const handleVolunteerSuccess = (message: string) => {
         setSuccessMessage(message);
     };
 
@@ -75,7 +75,7 @@ export default function Homepage({ paginatedTasks }: PageProps) {
 
                 <div className="mb-12 text-center">
                     <h1 className="mb-4 text-3xl font-semibold text-white">
-                        Opened Volonteering Tasks
+                        Opened Volunteering Tasks
                     </h1>
                     <div>
                         <p className="text-gray-500">Feel free to pick one !</p>
@@ -200,11 +200,11 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                 <div className="hidden h-14.5 lg:block"></div>
             </div>
 
-            <VolonteerAnswerModal
+            <VolunteerAnswerModal
                 open={isModalOpen}
                 task={selectedTask}
                 onOpenChange={handleDialogOpenChange}
-                onSuccess={handleVolonteerSuccess}
+                onSuccess={handleVolunteerSuccess}
             />
         </>
     );
