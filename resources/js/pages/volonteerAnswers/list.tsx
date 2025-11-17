@@ -3,10 +3,15 @@ import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { PaginatedModel, Task } from '@/types/models';
-import { Head, Link } from '@inertiajs/react';
-import { volonteer_answer_list, volonteer_answer_show } from '@/routes/volonteer_answer_backend';
+import { Head, Link, router } from '@inertiajs/react';
+import {
+    volonteer_answer_list,
+    volonteer_answer_show,
+} from '@/routes/volonteer_answer_backend';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { type VolonteerAnswer } from '@/types/models';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,6 +26,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface PageProps {
     paginatedVolonteerAnswers: PaginatedModel<VolonteerAnswer>;
+    filters?: {
+        task?: string;
+    };
 }
 
 const truncate = (text: string, maxLength = 40) => {
@@ -31,19 +39,64 @@ const truncate = (text: string, maxLength = 40) => {
     return `${text.slice(0, maxLength)}…`;
 };
 
-export default function VolonteerAnswerList({ paginatedVolonteerAnswers }: PageProps) {
+export default function VolonteerAnswerList({
+    paginatedVolonteerAnswers,
+    filters = {},
+}: PageProps) {
     const answers = paginatedVolonteerAnswers.data;
+    const [taskFilter, setTaskFilter] = useState(filters.task ?? '');
+
+    const handleFilter = () => {
+        router.get(
+            volonteer_answer_list(),
+            {
+                task: taskFilter,
+            },
+            {
+                replace: true,
+                preserveState: true,
+            },
+        );
+    };
+
+    const handleReset = () => {
+        setTaskFilter('');
+        router.get(
+            volonteer_answer_list(),
+            {},
+            {
+                replace: true,
+            },
+        );
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Volonteer answers" />
 
             <div className="flex flex-col gap-6 p-4">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-4">
                     <h1 className="text-2xl font-semibold">Volonteer answers</h1>
-                    <p className="text-muted-foreground">
-                        Here are the answers sent by volunteers for your tasks.
-                    </p>
+
+                    <div className="flex justify-end gap-3 mt-2">
+                        <div className="flex flex-col gap-1">
+                            <Input
+                                id="taskFilter"
+                                placeholder="Filter by task subject"
+                                value={taskFilter}
+                                onChange={(event) =>
+                                    setTaskFilter(event.target.value)
+                                }
+                                className="w-64"
+                            />
+                        </div>
+                        <div className="flex gap-2">
+                            <Button variant="secondary" onClick={handleFilter}>Filter</Button>
+                            <Button variant="secondary" onClick={handleReset}>
+                                Reset
+                            </Button>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -99,7 +152,11 @@ export default function VolonteerAnswerList({ paginatedVolonteerAnswers }: PageP
                     </table>
                 </div>
 
-                <Pagination paginatedModel={paginatedVolonteerAnswers} redirectUrl={volonteer_answer_list().url} filters={{}} />
+                <Pagination
+                    paginatedModel={paginatedVolonteerAnswers}
+                    redirectUrl={volonteer_answer_list().url}
+                    filters={{ task: taskFilter }}
+                />
             </div>
         </AppLayout>
     );
