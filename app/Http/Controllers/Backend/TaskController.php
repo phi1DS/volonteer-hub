@@ -107,7 +107,7 @@ class TaskController extends Controller
         $task->active = true;
         $task->save();
 
-        return to_route('task_inactive')->with([
+        return to_route('tasks.task_inactive')->with([
             'type' => 'success',
             'message' => 'Task reopened',
         ]);
