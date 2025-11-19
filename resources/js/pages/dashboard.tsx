@@ -27,14 +27,7 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
     const tasks = paginatedTasks.data;
 
     const handleResolveTask = async (taskId: number) => {
-        try {
-            await httpClient.post(task_close(taskId).url);
-
-            toast.success("Task marked as resolved");
-            router.reload({ only: ['paginatedTasks'] });
-        } catch (error) {
-            toast.error("Error when sending request");
-        }
+        router.post(task_close(taskId));
     };
 
     return (

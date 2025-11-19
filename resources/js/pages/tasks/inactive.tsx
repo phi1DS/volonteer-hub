@@ -22,14 +22,7 @@ export default function InactiveTasks({ paginatedInactiveTasks }: Props) {
     const tasks = paginatedInactiveTasks.data;
 
     const handleRepoenTask = async (taskId: number) => {
-        try {
-            await httpClient.post(task_reopen(taskId).url);
-
-            toast.success("Task marked as resolved");
-            router.reload({ only: ['paginatedInactiveTasks'] });
-        } catch (error) {
-            toast.error("Error when sending request");
-        }
+        router.post(task_reopen(taskId));
     };
 
     return (

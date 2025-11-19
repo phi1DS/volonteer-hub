@@ -72,32 +72,38 @@ class TaskController extends Controller
         ]);
     }
 
-    public function closeTask(Task $task): JsonResponse
+    public function closeTask(Task $task): RedirectResponse
     {
         if ($task->user_id !== auth()->user()->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return to_route('unauthorized')->with([
+                'type' => 'error',
+                'message' => 'Unauthorized',
+            ]);
         }
 
         $task->active = false;
         $task->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Task marked as resolved',
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Task marked as closed',
         ]);
     }
 
-    public function reopenTask(Task $task): RedirectResponse|JsonResponse
+    public function reopenTask(Task $task): RedirectResponse
     {
         if ($task->user_id !== auth()->user()->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return to_route('unauthorized')->with([
+                'type' => 'error',
+                'message' => 'Unauthorized',
+            ]);
         }
 
         $task->active = true;
         $task->save();
 
-        return response()->json([
-            'success' => true,
+        return back()->with([
+            'type' => 'success',
             'message' => 'Task marked as reopened',
         ]);
     }
