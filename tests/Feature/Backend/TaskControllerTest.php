@@ -11,6 +11,31 @@ class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_showInActiveTasksForUser() {
+        // Arrange
+        $user = User::factory()->create();
+
+        Task::factory()->count(3)->create([
+            'user_id' => $user->id,
+            'active' => false
+        ]);
+
+        Task::factory()->count(5)->create([
+            'user_id' => $user->id,
+            'active' => true
+        ]);
+
+        // Act
+        $response = $this->actingAs($user)->get(route('tasks.task_inactive'));
+
+        // Assert
+        $response->assertStatus(200);
+        $response->assertInertia(function ($page) {
+            $page->component('tasks/inactive')
+                 ->has('paginatedInactiveTasks.data', 3);
+        });
+    }
+
     public function test_can_reopen_task(): void
     {
         // Arrange

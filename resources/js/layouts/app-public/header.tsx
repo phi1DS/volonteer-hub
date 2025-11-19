@@ -9,7 +9,7 @@ export default function Header() {
         <header className="mb-6 w-full text-sm not-has-[nav]:hidden">
             <nav className="flex items-center justify-between gap-4">
                 <Link href={homepage()} className="mr-6">
-                    <p className="font-bold text-gray-500">Vonunteer Hub</p>
+                    <p className="font-bold text-gray-500">Volunteer Hub</p>
                 </Link>
 
                 <div className="flex items-center">

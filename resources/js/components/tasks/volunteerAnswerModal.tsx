@@ -116,9 +116,7 @@ export default function VolunteerAnswerModal({
                         Help with “{task?.subject ?? 'task'}”
                     </DialogTitle>
                     <DialogDescription>
-                        Share a short message with the task owner. They will
-                        reach out to you directly using the contact information
-                        provided in the task.
+                        Share a short message with the task owner. They will reach out to you directly. Please put your custom contact information in your message.
                     </DialogDescription>
                 </DialogHeader>
 

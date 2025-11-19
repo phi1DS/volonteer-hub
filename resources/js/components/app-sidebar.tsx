@@ -20,11 +20,6 @@ import { volunteer_answer_list } from '@/routes/volunteer_answer_backend';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Homepage',
-        href: homepage(),
-        icon: House,
-    },
-    {
         title: 'Opened Tasks',
         href: dashboard(),
         icon: Book,
@@ -61,7 +56,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href={homepage()} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

@@ -7,19 +7,17 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Requests\TaskFormRequest;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 
 class TaskController extends Controller
 {
     public function showInActiveTasksForUser(): Response
     {
-        $authenticatedUser = auth()->user();
-
         $paginatedInactiveTasks = Task::where([
-            'user_id' => $authenticatedUser->id,
+            'user_id' => auth()->user()->id,
             'active' => false,
         ])
             ->with('user:id,name,profile_picture_path')
@@ -36,9 +34,6 @@ class TaskController extends Controller
         return Inertia::render('tasks/create');
     }
 
-    /**
-     * Store a new task in the database.
-     */
     public function store(TaskFormRequest $request): RedirectResponse
     {
         $validated = $request->validated();
@@ -54,9 +49,6 @@ class TaskController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing a task.
-     */
     public function edit(Task $task): Response
     {
         return Inertia::render('tasks/edit', [
@@ -64,9 +56,6 @@ class TaskController extends Controller
         ]);
     }
 
-    /**
-     * Update a specific task.
-     */
     public function update(TaskFormRequest $request, Task $task): RedirectResponse
     {
         if ($task->user_id !== $request->user()->id) {
@@ -83,33 +72,33 @@ class TaskController extends Controller
         ]);
     }
 
-    public function markTaskAsResolve(Request $request, Task $task): RedirectResponse
+    public function closeTask(Task $task): JsonResponse
     {
-        if ($task->user_id !== $request->user()->id) {
-            return to_route('unauthorized');
+        if ($task->user_id !== auth()->user()->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $task->active = false;
         $task->save();
 
-        return to_route('dashboard')->with([
-            'type' => 'success',
+        return response()->json([
+            'success' => true,
             'message' => 'Task marked as resolved',
         ]);
     }
 
-    public function reopenTask(Request $request, Task $task): RedirectResponse
+    public function reopenTask(Task $task): RedirectResponse|JsonResponse
     {
-        if ($task->user_id !== $request->user()->id) {
-            return to_route('unauthorized');
+        if ($task->user_id !== auth()->user()->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
 
         $task->active = true;
         $task->save();
 
-        return to_route('tasks.task_inactive')->with([
-            'type' => 'success',
-            'message' => 'Task reopened',
+        return response()->json([
+            'success' => true,
+            'message' => 'Task marked as reopened',
         ]);
     }
 }

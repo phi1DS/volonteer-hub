@@ -1,15 +1,15 @@
-import FlashMessage from '@/components/flashMessage';
 import TaskCard from '@/components/tasks/taskCard';
-import TaskOutdatedNotice from '@/components/tasks/taskOutdated';
 import { Button } from '@/components/ui/button';
 import { CardFooter } from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
-import { task_create, task_edit, task_resolve } from '@/routes/tasks';
+import { task_create, task_edit, task_close } from '@/routes/tasks';
 import { type BreadcrumbItem } from '@/types';
 import { PaginatedModel, Task } from '@/types/models';
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
+import httpClient from '@/lib/axios';
+import { toast } from "sonner";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,14 +23,18 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ paginatedTasks }: DashboardProps) {
-    const { props } = usePage<{ flash: { message?: string; type?: string } }>();
-    const flash = props.flash;
 
     const tasks = paginatedTasks.data;
-    console.log(tasks);
 
-    const handleResolveTask = (taskId: number) => {
-        router.post(task_resolve(taskId));
+    const handleResolveTask = async (taskId: number) => {
+        try {
+            await httpClient.post(task_close(taskId).url);
+
+            toast.success("Task marked as resolved");
+            router.reload({ only: ['paginatedTasks'] });
+        } catch (error) {
+            toast.error("Error when sending request");
+        }
     };
 
     return (
@@ -45,11 +49,6 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                     </Link>
                 </div>
 
-                <FlashMessage
-                    message={flash.message}
-                    type={flash.type as 'success' | 'error' | 'info'}
-                />
-
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {tasks.length > 0 ? (
                         tasks.map(function (task) {
@@ -61,15 +60,12 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                                                 Update
                                             </Button>
                                         </Link>
-                                        <Link className="text-sm leading-normal font-normal text-muted-foreground underline underline-offset-4">
-                                            <p
-                                                onClick={() =>
-                                                    handleResolveTask(task.id)
-                                                }
-                                            >
-                                                Close Task
-                                            </p>
-                                        </Link>
+                                        <button
+                                            className="text-sm font-normal text-muted-foreground underline underline-offset-4 cursor-pointer"
+                                            onClick={() => handleResolveTask(task.id)}
+                                        >
+                                            Close Task
+                                        </button>
                                     </CardFooter>
                                 </>
                             );

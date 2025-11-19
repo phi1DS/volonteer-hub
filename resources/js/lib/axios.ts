@@ -9,9 +9,7 @@ const axiosInstance = axios.create({
 });
 
 if (typeof document !== 'undefined') {
-    const token =
-        document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
-            ?.content ?? null;
+    const token = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]') ?.content ?? null;
 
     if (token) {
         axiosInstance.defaults.headers.common['X-CSRF-TOKEN'] = token;

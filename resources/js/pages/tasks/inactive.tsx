@@ -1,12 +1,13 @@
 import TaskCard from "@/components/tasks/taskCard";
-import { Button } from "@/components/ui/button";
 import { CardFooter } from "@/components/ui/card";
 import AppLayout from "@/layouts/app-layout";
 import { dashboard } from "@/routes";
-import { task_edit, task_update } from "@/routes/tasks";
+import { task_reopen } from "@/routes/tasks";
 import { BreadcrumbItem } from "@/types";
 import { PaginatedModel, Task } from "@/types/models";
 import { Head, Link, router } from "@inertiajs/react";
+import httpClient from '@/lib/axios';
+import { toast } from "sonner";
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: dashboard().url },
@@ -17,14 +18,19 @@ interface Props {
 }
 
 export default function InactiveTasks({ paginatedInactiveTasks }: Props) {
-    const tasks = paginatedInactiveTasks.data;
-    console.log(tasks);
 
-    const handleRepoenTask = (task: Task) => {
-        task.active = false;
-        console.log("click");
-        router.post(task_update(task));
-    }
+    const tasks = paginatedInactiveTasks.data;
+
+    const handleRepoenTask = async (taskId: number) => {
+        try {
+            await httpClient.post(task_reopen(taskId).url);
+
+            toast.success("Task marked as resolved");
+            router.reload({ only: ['paginatedInactiveTasks'] });
+        } catch (error) {
+            toast.error("Error when sending request");
+        }
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -40,16 +46,16 @@ export default function InactiveTasks({ paginatedInactiveTasks }: Props) {
                         tasks.map(function (task) {
                             const cardFooter = (
                                 <>
-                                    <CardFooter className="flex justify-between">
-                                        {/* <Link className="text-sm leading-normal font-normal text-muted-foreground underline underline-offset-4">
+                                    <CardFooter className="flex justify-end">
+                                        <Link className="text-sm leading-normal font-normal text-muted-foreground underline underline-offset-4">
                                             <p
                                                 onClick={() =>
-                                                    handleRepoenTask(task)
+                                                    handleRepoenTask(task.id)
                                                 }
                                             >
                                                 Reopen Task
                                             </p>
-                                        </Link> */}
+                                        </Link>
                                     </CardFooter>
                                 </>
                             );

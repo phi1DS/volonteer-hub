@@ -4,7 +4,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\VolunteerAnswerController as BackendVolunteerAnswerController;
 use App\Http\Controllers\VolunteerAnswerController as FrontendVolunteerAnswerController;
 use App\Http\Controllers\HomePageController;
-use App\Http\Controllers\Backend\TaskController;
+use App\Http\Controllers\Backend\TaskController as BackendTaskController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -32,16 +32,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Task routes
     Route::prefix('/dashboard/tasks')->name('tasks.')->group(function () {
-        Route::get('/inactive', [TaskController::class, 'showInActiveTasksForUser'])->name('task_inactive');
+        Route::get('/inactive', [BackendTaskController::class, 'showInActiveTasksForUser'])->name('task_inactive');
         
-        Route::post('/{task}/resolve', [TaskController::class, 'markTaskAsResolve'])->name('task_resolve');
-        Route::post('/{task}/reopen', [TaskController::class, 'reopenTask'])->name('task_reopen');
+        Route::post('/{task}/close', [BackendTaskController::class, 'closeTask'])->name('task_close');
+        Route::post('/{task}/reopen', [BackendTaskController::class, 'reopenTask'])->name('task_reopen');
 
-        Route::get('/{task}/edit', [TaskController::class, 'edit'])->name('task_edit');
-        Route::put('/{task}', [TaskController::class, 'update'])->name('task_update');
+        Route::get('/{task}/edit', [BackendTaskController::class, 'edit'])->name('task_edit');
+        Route::put('/{task}', [BackendTaskController::class, 'update'])->name('task_update');
         
-        Route::get('/create', [TaskController::class, 'create'])->name('task_create');
-        Route::post('/', [TaskController::class, 'store'])->name('task_store');
+        Route::get('/create', [BackendTaskController::class, 'create'])->name('task_create');
+        Route::post('/', [BackendTaskController::class, 'store'])->name('task_store');
     });
 });
 
