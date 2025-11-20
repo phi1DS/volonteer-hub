@@ -13,10 +13,10 @@ export default function TaskOutdatedNotice() {
 
     return (
         <>
-            <div className="flex items-center justify-center gap-2 p-2 text-center text-sm text-orange-400">
-                <p className="cursor-pointer" onClick={() => setOpen(true)}>
-                    Outdated task
-                </p>
+            <div className='pt-2 px-6'>
+                <div className='p-2 bg-orange-800 rounded-xs text-xs inline-block cursor-pointer' onClick={() => setOpen(true)}>
+                    Outdated Task
+                </div>
             </div>
 
             {/* Modal */}

@@ -6,8 +6,6 @@ import { task_reopen } from "@/routes/tasks";
 import { BreadcrumbItem } from "@/types";
 import { PaginatedModel, Task } from "@/types/models";
 import { Head, Link, router } from "@inertiajs/react";
-import httpClient from '@/lib/axios';
-import { toast } from "sonner";
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: dashboard().url },
@@ -40,7 +38,7 @@ export default function InactiveTasks({ paginatedInactiveTasks }: Props) {
                             const cardFooter = (
                                 <>
                                     <CardFooter className="flex justify-end">
-                                        <Link className="text-sm leading-normal font-normal text-muted-foreground underline underline-offset-4">
+                                        <button className="text-sm leading-normal font-normal text-muted-foreground underline underline-offset-4 cursor-pointer">
                                             <p
                                                 onClick={() =>
                                                     handleRepoenTask(task.id)
@@ -48,7 +46,7 @@ export default function InactiveTasks({ paginatedInactiveTasks }: Props) {
                                             >
                                                 Reopen Task
                                             </p>
-                                        </Link>
+                                        </button>
                                     </CardFooter>
                                 </>
                             );

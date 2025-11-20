@@ -23,11 +23,13 @@ const mainNavItems: NavItem[] = [
         title: 'Opened Tasks',
         href: dashboard(),
         icon: Book,
+        preserveState: false,
     },
     {
         title: 'Closed Tasks',
         href: task_inactive(),
         icon: Archive,
+        preserveState: false,
     },
     {
         title: 'Volunteer Answers',

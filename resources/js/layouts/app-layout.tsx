@@ -15,10 +15,18 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
 
     useEffect(() => {
         if (flash.type === 'success') {
-            toast.success(flash.message);
+            toast.success(flash.message, {
+                style: {
+                    background: '#096e09ff',
+                },
+            });
         }
         if (flash.type === 'error') {
-            toast.error(flash.message);
+            toast.error(flash.message, {
+                style: {
+                    background: '#d60b04',
+                },
+            });
         }
     }, [flash]);
     

@@ -9,7 +9,7 @@ import { homepage } from '@/routes';
 import { PaginatedModel, Task } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
-import VolunteerAnswerModal from '@/components/tasks/volunteerAnswerModal';
+import VolunteerAnswerModal from '@/components/volunteerAnswer/volunteerAnswerModal';
 import PublicLayout from '@/layouts/public-layout';
 
 type PaginatedTasks = PaginatedModel<Task>;
@@ -70,7 +70,7 @@ export default function Homepage({ paginatedTasks }: PageProps) {
 
                 <div className="mb-12 text-center">
                     <h1 className="mb-4 text-3xl font-semibold text-white">
-                        Opened Volonteering Tasks
+                        Opened Volunteering Tasks
                     </h1>
                     <div>
                         <p className="text-gray-500">Feel free to pick one !</p>
@@ -113,7 +113,6 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                                 onChange={(e) =>
                                     setDateSearchStartFilter(e.target.value)
                                 }
-                                className="w-48"
                                 min={new Date().toISOString().split('T')[0]}
                             />
                         </div>
@@ -126,7 +125,6 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                                 onChange={(e) =>
                                     setDateSearchEndFilter(e.target.value)
                                 }
-                                className="w-48"
                                 min={
                                     dateSearchStartFilter
                                         ? dateSearchStartFilter
@@ -148,14 +146,13 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                         {tasks.length > 0 ? (
                             tasks.map((task) => {
                                 const footer = (
-                                    <CardFooter className="mt-auto w-full justify-end">
-                                        <Button
-                                            type="button"
-                                            className="w-full bg-secondary text-white hover:bg-secondary/80"
+                                    <CardFooter className="mt-auto w-full justify-center">
+                                        <button
+                                            className="text-sm font-normal text-muted-foreground underline underline-offset-4 cursor-pointer"
                                             onClick={() => handleOpenModal(task)}
                                         >
                                             I want to help
-                                        </Button>
+                                        </button>
                                     </CardFooter>
                                 );
 
