@@ -6,12 +6,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\VolunteerAnswer;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class VolunteerAnswerController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'task_id' => ['required', 'integer', 'exists:tasks,id'],
@@ -19,12 +19,12 @@ class VolunteerAnswerController extends Controller
             'name' => ['required', 'string'],
         ]);
 
-        $volunteerAnswer = VolunteerAnswer::create($validated);
+        VolunteerAnswer::create($validated);
 
-        return new JsonResponse([
-            'message' => 'Answer submitted successfully',
-            'volunteerAnswer' => $volunteerAnswer,
-        ], 200);
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Answer sent',
+        ]);
     }
 }
 

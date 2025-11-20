@@ -10,7 +10,7 @@ import { PaginatedModel, Task } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 import VolunteerAnswerModal from '@/components/tasks/volunteerAnswerModal';
-import FlashMessage from '@/components/flashMessage';
+import PublicLayout from '@/layouts/public-layout';
 
 type PaginatedTasks = PaginatedModel<Task>;
 
@@ -24,7 +24,6 @@ export default function Homepage({ paginatedTasks }: PageProps) {
     const tasks = paginatedTasks.data;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const [organisationFilter, setOrganisationFilter] = useState('');
     const [userFilter, setUserFilter] = useState('');
@@ -64,12 +63,8 @@ export default function Homepage({ paginatedTasks }: PageProps) {
         }
     };
 
-    const handleVolunteerSuccess = (message: string) => {
-        setSuccessMessage(message);
-    };
-
     return (
-        <>
+        <PublicLayout>
             <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:p-8 dark:bg-[#0a0a0a]">
                 <Header />
 
@@ -83,12 +78,6 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                 </div>
 
                 <div className="max-w-8xl mx-auto px-4">
-                    {successMessage && (
-                        <FlashMessage
-                            message={successMessage}
-                            type={'success'}
-                        />
-                    )}
                     {/* Filters */}
                     <div className="mb-8 flex flex-wrap items-end justify-center gap-4 pb-4 text-gray-500">
                         <div>
@@ -204,8 +193,7 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                 open={isModalOpen}
                 task={selectedTask}
                 onOpenChange={handleDialogOpenChange}
-                onSuccess={handleVolunteerSuccess}
             />
-        </>
+        </PublicLayout>
     );
 }

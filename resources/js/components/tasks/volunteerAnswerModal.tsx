@@ -10,36 +10,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import httpClient, { isAxiosError } from '@/lib/axios';
 import { Task } from '@/types/models';
 import { FormEvent, useEffect, useState } from 'react';
+import { toast } from "sonner";
+import volunteer_answer from '@/routes/volunteer_answer';
+import { router } from '@inertiajs/react';
 
 interface VolunteerAnswerModalProps {
     open: boolean;
     task: Task | null;
     onOpenChange: (open: boolean) => void;
-    onSuccess?: (message: string) => void;
 }
-
-const successMessage =
-    'Thank you! Your answer has been shared with the task owner.';
 
 export default function VolunteerAnswerModal({
     open,
     task,
     onOpenChange,
-    onSuccess,
 }: VolunteerAnswerModalProps) {
     const [volunteerName, setVolunteerName] = useState('');
     const [volunteerMessage, setVolunteerMessage] = useState('');
-    const [modalError, setModalError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (!open) {
             setVolunteerName('');
             setVolunteerMessage('');
-            setModalError(null);
             setIsSubmitting(false);
         }
     }, [open]);
@@ -50,7 +45,6 @@ export default function VolunteerAnswerModal({
             setTimeout(() => {
                 setVolunteerName('');
                 setVolunteerMessage('');
-                setModalError(null);
             }, 0);
         }
     };
@@ -63,46 +57,17 @@ export default function VolunteerAnswerModal({
         }
 
         setIsSubmitting(true);
-        setModalError(null);
 
         try {
-            await httpClient.post('/volunteer-answer', {
+            router.post(volunteer_answer.store().url, {
                 task_id: task.id,
                 name: volunteerName,
                 message: volunteerMessage,
             });
 
-            onSuccess?.(successMessage);
             handleDialogOpenChange(false);
         } catch (error) {
-            setModalError(
-                isAxiosError(error)
-                    ? (() => {
-                          const payload = error.response?.data as {
-                              message?: string;
-                              errors?: Record<string, string[]>;
-                          } | null;
-
-                          if (payload?.errors) {
-                              const firstError = Object.values(payload.errors)
-                                  .flat()
-                                  .find(
-                                      (errorMessage) =>
-                                          typeof errorMessage === 'string',
-                                  );
-
-                              if (firstError) {
-                                  return firstError;
-                              }
-                          }
-
-                          return (
-                              payload?.message ??
-                              'Unable to submit your answer. Please try again.'
-                          );
-                      })()
-                    : 'An unexpected error occurred. Please try again.',
-            );
+            toast.error('Something wrong happened');
         } finally {
             setIsSubmitting(false);
         }
@@ -147,10 +112,6 @@ export default function VolunteerAnswerModal({
                             rows={5}
                         />
                     </div>
-
-                    {modalError && (
-                        <p className="text-sm text-red-500">{modalError}</p>
-                    )}
 
                     <DialogActionFooter>
                         <Button
