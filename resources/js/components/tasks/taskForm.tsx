@@ -19,9 +19,10 @@ export default function TaskForm({
     task = {},
     submitLabel = 'Save Task',
 }: TaskFormProps) {
-
     const [startDate, setStartDate] = useState(
-        task.date_start ? new Date(task.date_start).toISOString().slice(0, 16) : ''
+        task.date_start
+            ? new Date(task.date_start).toISOString().slice(0, 16)
+            : '',
     );
 
     return (

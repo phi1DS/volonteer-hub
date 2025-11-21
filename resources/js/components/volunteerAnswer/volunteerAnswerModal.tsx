@@ -1,20 +1,20 @@
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
+    DialogFooter as DialogActionFooter,
     DialogContent,
     DialogDescription,
-    DialogFooter as DialogActionFooter,
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Task } from '@/types/models';
-import { FormEvent, useEffect, useState } from 'react';
-import { toast } from "sonner";
 import volunteer_answer from '@/routes/volunteer_answer';
+import { Task } from '@/types/models';
 import { router } from '@inertiajs/react';
+import { FormEvent, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 interface VolunteerAnswerModalProps {
     open: boolean;
@@ -81,7 +81,9 @@ export default function VolunteerAnswerModal({
                         Help with “{task?.subject ?? 'task'}”
                     </DialogTitle>
                     <DialogDescription>
-                        Share a short message with the task owner. They will reach out to you directly. Please put your custom contact information in your message.
+                        Share a short message with the task owner. They will
+                        reach out to you directly. Please put your custom
+                        contact information in your message.
                     </DialogDescription>
                 </DialogHeader>
 
@@ -131,4 +133,3 @@ export default function VolunteerAnswerModal({
         </Dialog>
     );
 }
-

@@ -50,6 +50,12 @@ class HomePageController extends Controller
 
         return Inertia::render('homepage', [
             'paginatedTasks' => $paginatedTasks,
+            'filters' => [
+                'organisationFilter' => $validatedFilterData['organisationFilter'] ?? '',
+                'userFilter' => $validatedFilterData['userFilter'] ?? '',
+                'dateSearchStartFilter' => $validatedFilterData['dateSearchStartFilter'] ?? '',
+                'dateSearchEndFilter' => $validatedFilterData['dateSearchEndFilter'] ?? '',
+            ]
         ]);
     }
 }

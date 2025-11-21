@@ -4,31 +4,43 @@ import { CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Pagination from '@/components/ui/pagination';
+import VolunteerAnswerModal from '@/components/volunteerAnswer/volunteerAnswerModal';
 import Header from '@/layouts/app-public/header';
+import PublicLayout from '@/layouts/public-layout';
 import { homepage } from '@/routes';
 import { PaginatedModel, Task } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
-import VolunteerAnswerModal from '@/components/volunteerAnswer/volunteerAnswerModal';
-import PublicLayout from '@/layouts/public-layout';
 
 type PaginatedTasks = PaginatedModel<Task>;
 
 interface PageProps {
     paginatedTasks: PaginatedTasks;
+    filters: {
+        organisationFilter: string;
+        userFilter: string;
+        dateSearchStartFilter: string;
+        dateSearchEndFilter: string;
+    };
 }
 
-export default function Homepage({ paginatedTasks }: PageProps) {
+export default function Homepage({ paginatedTasks, filters }: PageProps) {
     // console.log(paginatedTasks);
 
     const tasks = paginatedTasks.data;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-    const [organisationFilter, setOrganisationFilter] = useState('');
-    const [userFilter, setUserFilter] = useState('');
-    const [dateSearchStartFilter, setDateSearchStartFilter] = useState('');
-    const [dateSearchEndFilter, setDateSearchEndFilter] = useState('');
+    const [organisationFilter, setOrganisationFilter] = useState(
+        filters?.organisationFilter ?? '',
+    );
+    const [userFilter, setUserFilter] = useState(filters?.userFilter ?? '');
+    const [dateSearchStartFilter, setDateSearchStartFilter] = useState(
+        filters?.dateSearchStartFilter ?? '',
+    );
+    const [dateSearchEndFilter, setDateSearchEndFilter] = useState(
+        filters?.dateSearchEndFilter ?? '',
+    );
 
     const handleFilter = () => {
         router.get(
@@ -148,8 +160,10 @@ export default function Homepage({ paginatedTasks }: PageProps) {
                                 const footer = (
                                     <CardFooter className="mt-auto w-full justify-center">
                                         <button
-                                            className="text-sm font-normal text-muted-foreground underline underline-offset-4 cursor-pointer"
-                                            onClick={() => handleOpenModal(task)}
+                                            className="cursor-pointer text-sm font-normal text-muted-foreground underline underline-offset-4"
+                                            onClick={() =>
+                                                handleOpenModal(task)
+                                            }
                                         >
                                             I want to help
                                         </button>

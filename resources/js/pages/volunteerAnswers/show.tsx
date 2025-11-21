@@ -4,8 +4,8 @@ import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { volunteer_answer_list } from '@/routes/volunteer_answer_backend';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
 import { type VolunteerAnswer } from '@/types/models';
+import { Head, Link } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,10 +27,13 @@ interface PageProps {
 }
 
 export default function VolunteerAnswerShow({ volunteerAnswer }: PageProps) {
-    const submittedAt = new Date(volunteerAnswer.created_at).toLocaleString('fr-FR', {
-        dateStyle: 'full',
-        timeStyle: 'short',
-    });
+    const submittedAt = new Date(volunteerAnswer.created_at).toLocaleString(
+        'fr-FR',
+        {
+            dateStyle: 'full',
+            timeStyle: 'short',
+        },
+    );
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -39,7 +42,9 @@ export default function VolunteerAnswerShow({ volunteerAnswer }: PageProps) {
             <div className="flex flex-col gap-6 p-4">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-semibold">Volunteer answer</h1>
+                        <h1 className="text-2xl font-semibold">
+                            Volunteer answer
+                        </h1>
                         <p className="text-sm text-muted-foreground">
                             Received on {submittedAt}
                         </p>
@@ -57,13 +62,20 @@ export default function VolunteerAnswerShow({ volunteerAnswer }: PageProps) {
                         </CardHeader>
                         <CardContent className="space-y-3">
                             <div>
-                                <p className="text-xs uppercase text-muted-foreground">Name</p>
-                                <p className="text-base text-foreground">{volunteerAnswer.name}</p>
+                                <p className="text-xs text-muted-foreground uppercase">
+                                    Name
+                                </p>
+                                <p className="text-base text-foreground">
+                                    {volunteerAnswer.name}
+                                </p>
                             </div>
                             <div>
-                                <p className="text-xs uppercase text-muted-foreground">Message</p>
-                                <p className="whitespace-pre-line text-base text-foreground">
-                                    {volunteerAnswer.message || 'No message provided.'}
+                                <p className="text-xs text-muted-foreground uppercase">
+                                    Message
+                                </p>
+                                <p className="text-base whitespace-pre-line text-foreground">
+                                    {volunteerAnswer.message ||
+                                        'No message provided.'}
                                 </p>
                             </div>
                         </CardContent>
@@ -73,4 +85,3 @@ export default function VolunteerAnswerShow({ volunteerAnswer }: PageProps) {
         </AppLayout>
     );
 }
-

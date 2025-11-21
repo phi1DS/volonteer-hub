@@ -19,7 +19,7 @@ export default function FlashMessage({
               : 'text-green-800';
 
     return (
-        <Alert className={`flex items-start justify-between mb-4`}>
+        <Alert className={`mb-4 flex items-start justify-between`}>
             <div>
                 <AlertDescription className={colorClasses}>
                     {message}

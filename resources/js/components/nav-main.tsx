@@ -21,7 +21,12 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                             isActive={page.url === item.href.url}
                             tooltip={{ children: item.title }}
                         >
-                            <Link href={item.href} {...(item.preserveState === false ? { preserveState: false } : {})}>
+                            <Link
+                                href={item.href}
+                                {...(item.preserveState === false
+                                    ? { preserveState: false }
+                                    : {})}
+                            >
                                 {item.icon && <item.icon />}
                                 <span>{item.title}</span>
                             </Link>

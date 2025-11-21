@@ -3,7 +3,7 @@ import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { useEffect, type ReactNode } from 'react';
-import { toast } from "sonner";
+import { toast } from 'sonner';
 
 interface AppLayoutProps {
     children: ReactNode;
@@ -11,7 +11,8 @@ interface AppLayoutProps {
 }
 
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
-    const { flash } = usePage<{ flash: { message?: string; type?: string } }>().props;
+    const { flash } = usePage<{ flash: { message?: string; type?: string } }>()
+        .props;
 
     useEffect(() => {
         if (flash.type === 'success') {
@@ -29,7 +30,7 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
             });
         }
     }, [flash]);
-    
+
     return (
         <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
             <Toaster />
@@ -37,4 +38,4 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
             {children}
         </AppLayoutTemplate>
     );
-}
+};

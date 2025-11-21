@@ -10,22 +10,34 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function showInActiveTasksForUser(): Response
+    public function showInActiveTasksForUser(Request $request): Response
     {
-        $paginatedInactiveTasks = Task::where([
+        $validated = $request->validate([
+            'subject' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $query = Task::query()->where([
             'user_id' => auth()->user()->id,
             'active' => false,
         ])
             ->with('user:id,name,profile_picture_path')
-            ->orderBy('created_at', 'DESC')
-            ->paginate(9);
+            ->orderBy('created_at', 'DESC');
+
+        if(isset($validated['subject']) && $validated['subject']) {
+            $query->where('subject', 'LIKE', '%' . $validated['subject'] . '%');
+        }
+
+        $paginatedInactiveTasks = $query->paginate(9);
 
         return Inertia::render('tasks/inactive', [
             'paginatedInactiveTasks' => $paginatedInactiveTasks,
+            'filters' => [
+                'subject' => $validated['subject'] ?? '',
+            ],
         ]);
     }
 

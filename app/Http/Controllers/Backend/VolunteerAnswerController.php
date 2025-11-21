@@ -14,6 +14,16 @@ use Inertia\Response;
 
 class VolunteerAnswerController extends Controller
 {
+    protected function isVolunteerAnswerLinkedToAuthUser(VolunteerAnswer $volunteerAnswer): bool {
+        $volunteerAnswer->loadMissing('task');
+
+        if (! $volunteerAnswer->task && $volunteerAnswer->task->user_id === Auth::id()) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function list(Request $request): Response
     {
         $taskFilter = $request->string('task')->trim()->toString();
@@ -42,15 +52,26 @@ class VolunteerAnswerController extends Controller
 
     public function show(VolunteerAnswer $volunteerAnswer): RedirectResponse|Response
     {
-        $volunteerAnswer->load('task');
-
-        $isVolunteerAnswerAssociatedToAuthUser = $volunteerAnswer->task && $volunteerAnswer->task->user_id === Auth::id();
-        if (! $isVolunteerAnswerAssociatedToAuthUser) {
+        if (! $this->isVolunteerAnswerLinkedToAuthUser($volunteerAnswer)) {
             return to_route('unauthorized');
         }
 
         return Inertia::render('volunteerAnswers/show', [
             'volunteerAnswer' => $volunteerAnswer,
+        ]);
+    }
+
+    public function destroy(VolunteerAnswer $volunteerAnswer): RedirectResponse
+    {
+        if (! $this->isVolunteerAnswerLinkedToAuthUser($volunteerAnswer)) {
+            return to_route('unauthorized');
+        }
+
+        $volunteerAnswer->delete();
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Answer deleted',
         ]);
     }
 }

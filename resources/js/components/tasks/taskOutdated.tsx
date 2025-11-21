@@ -13,8 +13,11 @@ export default function TaskOutdatedNotice() {
 
     return (
         <>
-            <div className='pt-2 px-6'>
-                <div className='p-2 bg-orange-800 rounded-xs text-xs inline-block cursor-pointer' onClick={() => setOpen(true)}>
+            <div className="px-6 pt-2">
+                <div
+                    className="inline-block cursor-pointer rounded-xs bg-orange-800 p-2 text-xs"
+                    onClick={() => setOpen(true)}
+                >
                     Outdated Task
                 </div>
             </div>

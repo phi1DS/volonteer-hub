@@ -1,14 +1,15 @@
 import { Toaster } from '@/components/ui/sonner';
 import { usePage } from '@inertiajs/react';
 import { useEffect, type ReactNode } from 'react';
-import { toast } from "sonner";
+import { toast } from 'sonner';
 
 interface AppLayoutProps {
     children: ReactNode;
 }
 
 export default ({ children }: AppLayoutProps) => {
-    const { flash } = usePage<{ flash: { message?: string; type?: string } }>().props;
+    const { flash } = usePage<{ flash: { message?: string; type?: string } }>()
+        .props;
 
     useEffect(() => {
         if (flash.type === 'success') {
@@ -26,12 +27,12 @@ export default ({ children }: AppLayoutProps) => {
             });
         }
     }, [flash]);
-    
+
     return (
         <>
-            <Toaster/>
+            <Toaster />
 
             {children}
         </>
     );
-}
+};

@@ -4,12 +4,10 @@ import { CardFooter } from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
-import { task_create, task_edit, task_close } from '@/routes/tasks';
+import { task_close, task_create, task_edit } from '@/routes/tasks';
 import { type BreadcrumbItem } from '@/types';
 import { PaginatedModel, Task } from '@/types/models';
 import { Head, Link, router } from '@inertiajs/react';
-import httpClient from '@/lib/axios';
-import { toast } from "sonner";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,7 +21,6 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ paginatedTasks }: DashboardProps) {
-
     const tasks = paginatedTasks.data;
 
     const handleResolveTask = async (taskId: number) => {
@@ -54,8 +51,10 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                                             </Button>
                                         </Link>
                                         <button
-                                            className="text-sm font-normal text-muted-foreground underline underline-offset-4 cursor-pointer"
-                                            onClick={() => handleResolveTask(task.id)}
+                                            className="cursor-pointer text-sm font-normal text-muted-foreground underline underline-offset-4"
+                                            onClick={() =>
+                                                handleResolveTask(task.id)
+                                            }
                                         >
                                             Close Task
                                         </button>

@@ -28,6 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('/dashboard/volunteer-answer')->name('volunteer_answer_backend.')->group(function () {
         Route::get('/', [BackendVolunteerAnswerController::class, 'list'])->name('volunteer_answer_list');
         Route::get('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'show'])->name('volunteer_answer_show');
+        Route::delete('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'destroy'])->name('volunteer_answer_delete');
     });
 
     // Task routes
