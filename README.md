@@ -69,3 +69,5 @@ composer run dev -> runs vite and hosts laravel locally
 ## Notes
 
 Uses sqlite as database by default.
+
+Project uses google captcha V3. Please input yout private and public keys into the .env

@@ -8,7 +8,10 @@ use App\Http\Controllers\Backend\TaskController as BackendTaskController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// ---- FronEnd - Public Routes
+
 Route::get('/', [HomePageController::class, 'homepage'])->name('homepage');
+Route::post('/volunteer-answer', [FrontendVolunteerAnswerController::class, 'store'])->name('volunteer_answer.store');
 
 Route::get('/about', function () {
     return Inertia::render('about');
@@ -18,20 +21,19 @@ Route::get('/unauthorized', function () {
     return Inertia::render('unauthorized');
 })->name('unauthorized');
 
-Route::post('/volunteer-answer', [FrontendVolunteerAnswerController::class, 'store'])->name('volunteer_answer.store');
-
-// ---- Authenticated routes
+// ---- Authenticated Routes
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
+    // VolunteerAnswers Backend Routes
     Route::prefix('/dashboard/volunteer-answer')->name('volunteer_answer_backend.')->group(function () {
         Route::get('/', [BackendVolunteerAnswerController::class, 'list'])->name('volunteer_answer_list');
         Route::get('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'show'])->name('volunteer_answer_show');
         Route::delete('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'destroy'])->name('volunteer_answer_delete');
     });
 
-    // Task routes
+    // Tasks Backend Routes
     Route::prefix('/dashboard/tasks')->name('tasks.')->group(function () {
         Route::get('/inactive', [BackendTaskController::class, 'showInActiveTasksForUser'])->name('task_inactive');
         
@@ -45,6 +47,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [BackendTaskController::class, 'store'])->name('task_store');
     });
 });
+
+// ---- Modules Routes
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

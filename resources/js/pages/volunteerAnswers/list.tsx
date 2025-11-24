@@ -159,7 +159,7 @@ export default function VolunteerAnswerList({
                                             <td className="px-4 py-3 align-top text-muted-foreground">
                                                 {submittedAt}
                                             </td>
-                                            <td className="px-4 py-3 text-right">
+                                            <td className="px-4 py-3 text-right flex gap-2">
                                                 <Link
                                                     href={
                                                         volunteer_answer_show(

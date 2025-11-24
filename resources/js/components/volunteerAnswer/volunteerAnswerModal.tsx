@@ -15,6 +15,7 @@ import { Task } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 interface VolunteerAnswerModalProps {
     open: boolean;
@@ -27,6 +28,7 @@ export default function VolunteerAnswerModal({
     task,
     onOpenChange,
 }: VolunteerAnswerModalProps) {
+    const { executeRecaptcha } = useGoogleReCaptcha();
     const [volunteerName, setVolunteerName] = useState('');
     const [volunteerMessage, setVolunteerMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,10 +53,15 @@ export default function VolunteerAnswerModal({
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         if (!task) {
             return;
         }
+
+        if (!executeRecaptcha) {
+            console.error("Recaptcha not loaded")
+            return;
+        }
+        const captchaToken = await executeRecaptcha('contact_form_submit');
 
         setIsSubmitting(true);
 
@@ -63,6 +70,7 @@ export default function VolunteerAnswerModal({
                 task_id: task.id,
                 name: volunteerName,
                 message: volunteerMessage,
+                captcha_token: captchaToken,
             });
 
             handleDialogOpenChange(false);

@@ -8,10 +8,11 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class HomePageController extends Controller
 {
-    public function homepage(Request $request): Response
+    public function homepage(Request $request): Response|RedirectResponse
     {
         $validatedFilterData = $request->validate([
             'organisationFilter' => ['nullable', 'string', 'max:255'],
