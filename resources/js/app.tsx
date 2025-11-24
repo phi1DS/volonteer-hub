@@ -19,12 +19,7 @@ createInertiaApp({
         const root = createRoot(el);
 
         root.render(
-            <GoogleReCaptchaProvider
-                reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-                scriptProps={{ async: true, defer: true }}
-            >
-                <App {...props} />
-            </GoogleReCaptchaProvider>
+            <App {...props} />
         );
     },
     progress: {

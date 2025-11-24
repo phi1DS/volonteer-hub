@@ -8,6 +8,7 @@ import { task_close, task_create, task_edit } from '@/routes/tasks';
 import { type BreadcrumbItem } from '@/types';
 import { PaginatedModel, Task } from '@/types/models';
 import { Head, Link, router } from '@inertiajs/react';
+import { Smile } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -37,6 +38,11 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                     <Link href={task_create()}>
                         <Button variant="secondary">Create New Task</Button>
                     </Link>
+                </div>
+
+                <div className="mx-auto text-gray-700 text-sm flex justify-center items-center gap-1">
+                    <p>The best filter is beeing organized</p>
+                    <Smile size={14}/>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
