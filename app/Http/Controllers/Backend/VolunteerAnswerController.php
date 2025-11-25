@@ -16,7 +16,6 @@ class VolunteerAnswerController extends Controller
 {
     protected function isVolunteerAnswerLinkedToAuthUser(VolunteerAnswer $volunteerAnswer): bool {
         $volunteerAnswer->loadMissing('task');
-
         if (! $volunteerAnswer->task && $volunteerAnswer->task->user_id === Auth::id()) {
             return false;
         }

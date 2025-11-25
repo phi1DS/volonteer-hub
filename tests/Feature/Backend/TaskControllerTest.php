@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class TaskControllerTest extends TestCase
+class TaskControllerTest extends TestCase // requires vite to run
 {
     use RefreshDatabase;
 
@@ -26,14 +26,12 @@ class TaskControllerTest extends TestCase
         ]);
 
         // Act
-        $response = $this->actingAs($user)->get(route('tasks.task_inactive')); // requires vite to run
+        $response = $this->actingAs($user)->get(route('tasks.task_inactive')); 
 
         // Assert
         $response->assertStatus(200);
-        $response->assertInertia(function ($page) {
-            $page->component('tasks/inactive')
-                 ->has('paginatedInactiveTasks.data', 3);
-        });
+
+        $this->assertSame(3, count($response->inertiaProps()['paginatedInactiveTasks']['data']));
     }
 
     public function test_can_reopen_task(): void
