@@ -62,6 +62,7 @@ And configure your .env file.
 npm install
 ```
 
+### 3. Run project locally
 ```bash
 composer run dev -> runs vite and hosts laravel locally
 ```
@@ -71,3 +72,10 @@ composer run dev -> runs vite and hosts laravel locally
 Uses sqlite as database by default.
 
 Project uses google captcha V3. Please input yout private and public keys into the .env
+
+## Additional Notes
+
+Run CI locally by using 'act':
+```bash
+./bin/act push -j ci -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest
+```
