@@ -29,7 +29,7 @@ export default function TaskCard({
     const dateStart = new Date(task.date_start);
 
     return (
-        <div>
+        <div className='w-[320px]'>
             <Card
                 className={cn(
                     'flex justify-between rounded-xl shadow-sm',

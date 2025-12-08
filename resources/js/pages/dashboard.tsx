@@ -45,7 +45,7 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                     <Smile size={14}/>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="flex flex-wrap justify-center gap-4">
                     {tasks.length > 0 ? (
                         tasks.map(function (task) {
                             const cardFooter = (
@@ -57,7 +57,7 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                                             </Button>
                                         </Link>
                                         <button
-                                            className="cursor-pointer text-sm font-normal text-muted-foreground underline underline-offset-4"
+                                            className="cursor-pointer text-sm font-normal text-muted-foreground underline underline-offset-4 hover:text-gray-800"
                                             onClick={() =>
                                                 handleResolveTask(task.id)
                                             }

@@ -154,13 +154,13 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                     </div>
 
                     {/* Table */}
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="flex flex-wrap justify-center gap-4">
                         {tasks.length > 0 ? (
                             tasks.map((task) => {
                                 const footer = (
                                     <CardFooter className="mt-auto w-full justify-center">
                                         <button
-                                            className="cursor-pointer text-sm font-normal text-muted-foreground underline underline-offset-4"
+                                            className="cursor-pointer text-sm font-normal text-muted-foreground underline underline-offset-4 hover:text-gray-800"
                                             onClick={() =>
                                                 handleOpenModal(task)
                                             }
