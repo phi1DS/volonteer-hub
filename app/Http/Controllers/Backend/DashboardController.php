@@ -20,7 +20,7 @@ class DashboardController extends Controller
             'active' => true,
         ])
             ->with('user:id,name,profile_picture_path')
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('date_start', 'DESC')
             ->paginate(9);
 
         return Inertia::render('dashboard', [

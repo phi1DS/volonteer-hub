@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import ConfirmDialog from '@/components/ui/confirmDialog';
 import { Input } from '@/components/ui/input';
 import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
@@ -74,137 +75,171 @@ export default function VolunteerAnswerList({
         router.delete(volunteer_answer_delete(answer));
     };
 
+    // -- Confirm Modal
+    
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
+
+    const openConfirmDialog = (answerId: number) => {
+        setSelectedAnswerId(answerId);
+        setConfirmOpen(true);
+    };
+
+    const onCancelModal = () => {
+        setConfirmOpen(false);
+        setSelectedAnswerId(null);
+    };
+
+    const onConfirmModal = async () => {
+        if (selectedAnswerId) {
+            router.delete(volunteer_answer_delete(selectedAnswerId));
+        }
+        setConfirmOpen(false);
+        setSelectedAnswerId(null);
+    };
+
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Volunteer answers" />
+        <>
+            <AppLayout breadcrumbs={breadcrumbs}>
+                <Head title="Volunteer answers" />
 
-            <div className="flex flex-col gap-6 p-4">
-                <div className="flex flex-col gap-4">
-                    <h1 className="text-2xl font-semibold">
-                        Volunteer answers
-                    </h1>
+                <div className="flex flex-col gap-6 p-4">
+                    <div className="flex flex-col gap-4">
+                        <h1 className="text-2xl font-semibold">
+                            Volunteer answers
+                        </h1>
 
-                    <div className="mt-2 flex justify-end gap-3">
-                        <div className="flex flex-col gap-1">
-                            <Input
-                                id="taskFilter"
-                                placeholder="Filter by task subject"
-                                value={taskFilter}
-                                onChange={(event) =>
-                                    setTaskFilter(event.target.value)
-                                }
-                                className="w-64"
-                            />
-                        </div>
-                        <div className="flex gap-2">
-                            <Button variant="secondary" onClick={handleFilter}>
-                                Filter
-                            </Button>
-                            <Button variant="secondary" onClick={handleReset}>
-                                Reset
-                            </Button>
+                        <div className="mt-2 flex justify-end gap-3">
+                            <div className="flex flex-col gap-1">
+                                <Input
+                                    id="taskFilter"
+                                    placeholder="Filter by task subject"
+                                    value={taskFilter}
+                                    onChange={(event) =>
+                                        setTaskFilter(event.target.value)
+                                    }
+                                    className="w-64"
+                                />
+                            </div>
+                            <div className="flex gap-2">
+                                <Button variant="secondary" onClick={handleFilter}>
+                                    Filter
+                                </Button>
+                                <Button variant="secondary" onClick={handleReset}>
+                                    Reset
+                                </Button>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="overflow-x-auto">
-                    <table className="w-full min-w-[650px] border-collapse rounded-lg border text-left text-sm shadow-sm">
-                        <thead className="bg-muted/60 text-xs text-muted-foreground">
-                            <tr>
-                                <th className="px-4 py-3 font-medium">Task</th>
-                                <th className="px-4 py-3 font-medium">
-                                    Volunteer
-                                </th>
-                                <th className="px-4 py-3 font-medium">
-                                    Volunteer message
-                                </th>
-                                <th className="px-4 py-3 font-medium">
-                                    Received on
-                                </th>
-                                <th className="px-4 py-3 text-right font-medium">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {answers.length > 0 ? (
-                                answers.map((answer) => {
-                                    const submittedAt = new Date(
-                                        answer.created_at,
-                                    ).toLocaleString('fr-FR', {
-                                        dateStyle: 'medium',
-                                        timeStyle: 'short',
-                                    });
-
-                                    return (
-                                        <tr
-                                            key={answer.id}
-                                            className="border-t transition"
-                                        >
-                                            <td className="px-4 py-3 align-top">
-                                                <p className="font-medium text-foreground">
-                                                    {answer.task.subject}
-                                                </p>
-                                            </td>
-                                            <td className="px-4 py-3 align-top">
-                                                <p className="font-medium text-foreground">
-                                                    {answer.name}
-                                                </p>
-                                            </td>
-                                            <td className="px-4 py-3 align-top">
-                                                <p>
-                                                    {truncate(answer.message)}
-                                                </p>
-                                            </td>
-                                            <td className="px-4 py-3 align-top text-muted-foreground">
-                                                {submittedAt}
-                                            </td>
-                                            <td className="px-4 py-3 text-right flex gap-2">
-                                                <Link
-                                                    href={
-                                                        volunteer_answer_show(
-                                                            answer.id,
-                                                        ).url
-                                                    }
-                                                    className="text-sm font-medium text-primary"
-                                                >
-                                                    <Button variant="secondary">
-                                                        View details
-                                                    </Button>
-                                                </Link>
-
-                                                <Button
-                                                    variant="secondary"
-                                                    onClick={() =>
-                                                        handleDelete(answer)
-                                                    }
-                                                >
-                                                    Delete
-                                                </Button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })
-                            ) : (
+                    <div className="overflow-x-auto">
+                        <table className="w-full min-w-[650px] border-collapse rounded-lg border text-left text-sm shadow-sm">
+                            <thead className="bg-muted/60 text-xs text-muted-foreground">
                                 <tr>
-                                    <td
-                                        className="px-4 py-6 text-center text-muted-foreground"
-                                        colSpan={5}
-                                    >
-                                        No volunteer answers yet.
-                                    </td>
+                                    <th className="px-4 py-3 font-medium">Task</th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Volunteer
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Volunteer message
+                                    </th>
+                                    <th className="px-4 py-3 font-medium">
+                                        Received on
+                                    </th>
+                                    <th className="px-4 py-3 text-right font-medium">
+                                        Actions
+                                    </th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {answers.length > 0 ? (
+                                    answers.map((answer) => {
+                                        const submittedAt = new Date(
+                                            answer.created_at,
+                                        ).toLocaleString('fr-FR', {
+                                            dateStyle: 'medium',
+                                            timeStyle: 'short',
+                                        });
 
-                <Pagination
-                    paginatedModel={paginatedVolunteerAnswers}
-                    redirectUrl={volunteer_answer_list().url}
-                    filters={{ task: taskFilter }}
-                />
-            </div>
-        </AppLayout>
+                                        return (
+                                            <tr
+                                                key={answer.id}
+                                                className="border-t transition"
+                                            >
+                                                <td className="px-4 py-3 align-top">
+                                                    <p className="font-medium text-foreground">
+                                                        {answer.task.subject}
+                                                    </p>
+                                                </td>
+                                                <td className="px-4 py-3 align-top">
+                                                    <p className="font-medium text-foreground">
+                                                        {answer.name}
+                                                    </p>
+                                                </td>
+                                                <td className="px-4 py-3 align-top">
+                                                    <p>
+                                                        {truncate(answer.message)}
+                                                    </p>
+                                                </td>
+                                                <td className="px-4 py-3 align-top text-muted-foreground">
+                                                    {submittedAt}
+                                                </td>
+                                                <td className="px-4 py-3 text-right flex gap-2">
+                                                    <Link
+                                                        href={
+                                                            volunteer_answer_show(
+                                                                answer.id,
+                                                            ).url
+                                                        }
+                                                        className="text-sm font-medium text-primary"
+                                                    >
+                                                        <Button variant="secondary">
+                                                            View details
+                                                        </Button>
+                                                    </Link>
+
+                                                    <Button
+                                                        variant="secondary"
+                                                        onClick={() =>
+                                                            openConfirmDialog(answer.id)
+                                                        }
+                                                    >
+                                                        Delete
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                ) : (
+                                    <tr>
+                                        <td
+                                            className="px-4 py-6 text-center text-muted-foreground"
+                                            colSpan={5}
+                                        >
+                                            No volunteer answers yet.
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <Pagination
+                        paginatedModel={paginatedVolunteerAnswers}
+                        redirectUrl={volunteer_answer_list().url}
+                        filters={{ task: taskFilter }}
+                    />
+                </div>
+            </AppLayout>
+            <ConfirmDialog
+                open={confirmOpen}
+                title="Delete this answer"
+                message="Are you sure you want to delete this answer ?"
+                confirmLabel="Delete"
+                cancelLabel="Cancel"
+                onConfirm={onConfirmModal}
+                onCancel={onCancelModal}
+            />
+        </>
     );
 }

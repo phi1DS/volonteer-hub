@@ -43,7 +43,7 @@ export default function Pagination ({ paginatedModel, redirectUrl, filters }: Pa
 	};
 
 	return (
-		<div className="flex justify-center mt-4 space-x-2">
+		<div className="flex justify-center mt-4 space-x-2 mb-2">
 			{
 				pages.map((page, index) =>
 					page === '...' ? (

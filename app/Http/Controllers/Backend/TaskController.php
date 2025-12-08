@@ -25,7 +25,7 @@ class TaskController extends Controller
             'active' => false,
         ])
             ->with('user:id,name,profile_picture_path')
-            ->orderBy('created_at', 'DESC');
+            ->orderBy('date_start', 'DESC');
 
         if(isset($validated['subject']) && $validated['subject']) {
             $query->where('subject', 'LIKE', '%' . $validated['subject'] . '%');
