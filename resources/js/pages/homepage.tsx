@@ -25,16 +25,11 @@ interface PageProps {
 }
 
 export default function Homepage({ paginatedTasks, filters }: PageProps) {
-    // console.log(paginatedTasks);
-
     const tasks = paginatedTasks.data;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-    const [organisationFilter, setOrganisationFilter] = useState(
-        filters?.organisationFilter ?? '',
-    );
-    const [userFilter, setUserFilter] = useState(filters?.userFilter ?? '');
+    const [textFilter, setTextFilter] = useState(filters?.userFilter ?? '');
     const [dateSearchStartFilter, setDateSearchStartFilter] = useState(
         filters?.dateSearchStartFilter ?? '',
     );
@@ -46,8 +41,7 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
         router.get(
             homepage(),
             {
-                organisationFilter,
-                userFilter,
+                textFilter,
                 dateSearchStartFilter,
                 dateSearchEndFilter,
             },
@@ -56,8 +50,7 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
     };
 
     const resetFilter = () => {
-        setOrganisationFilter('');
-        setUserFilter('');
+        setTextFilter('');
         setDateSearchStartFilter('');
         setDateSearchEndFilter('');
         router.get(homepage(), {}, { replace: true });
@@ -93,26 +86,12 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                     {/* Filters */}
                     <div className="mb-8 flex flex-wrap items-end justify-center gap-4 pb-4 text-gray-500">
                         <div>
-                            <Label htmlFor="organisationFilter">
-                                Organisation
-                            </Label>
+                            <Label htmlFor="textFilter">Text</Label>
                             <Input
-                                id="organisationFilter"
-                                value={organisationFilter}
-                                onChange={(e) =>
-                                    setOrganisationFilter(e.target.value)
-                                }
-                                placeholder="e.g. Green Peace"
-                                className="w-48"
-                            />
-                        </div>
-                        <div>
-                            <Label htmlFor="userFilter">Created By</Label>
-                            <Input
-                                id="userFilter"
-                                value={userFilter}
-                                onChange={(e) => setUserFilter(e.target.value)}
-                                placeholder="e.g. John"
+                                id="textFilter"
+                                value={textFilter}
+                                onChange={(e) => setTextFilter(e.target.value)}
+                                placeholder="e.g. Grass cutting"
                                 className="w-48"
                             />
                         </div>
@@ -185,13 +164,11 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                         )}
                     </div>
 
-                    {/* Pagination */}
                     <Pagination
                         paginatedModel={paginatedTasks}
                         redirectUrl={homepage().url}
                         filters={{
-                            organisationFilter,
-                            userFilter,
+                            textFilter,
                             dateSearchStartFilter,
                             dateSearchEndFilter,
                         }}

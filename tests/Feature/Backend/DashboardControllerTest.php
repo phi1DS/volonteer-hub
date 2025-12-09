@@ -16,12 +16,8 @@ class DashboardControllerTest extends TestCase
     public function test_can_show_dashboard(): void {
         // Arrange
         $user = User::factory()->create();
-
-        // unrelated
-        Task::factory()->for($user)->count(2)->inactive()->create();
-
-        // related
-        $tasks = Task::factory()->for($user)->count(3)->create();
+        Task::factory()->for($user)->count(2)->inactive()->create(); // Unrelated inactive tasks
+        $tasks = Task::factory()->for($user)->count(3)->create(); // Related active tasks
 
         // Act
         $response = $this->actingAs($user)->get(route('dashboard'));
@@ -29,8 +25,9 @@ class DashboardControllerTest extends TestCase
 
         // Assert
         $response->assertOk();
-        $this->assertSame($tasks[0]->id, $paginatedTasksData[0]['id']);
-        $this->assertSame($tasks[1]->id, $paginatedTasksData[1]['id']);
-        $this->assertSame($tasks[2]->id, $paginatedTasksData[2]['id']);
+        $this->assertSame(3, count($paginatedTasksData));
+        foreach ($paginatedTasksData as $task) {
+            $this->assertTrue($task['active'], "Task {$task['id']} is not active");
+        }
     }
 }

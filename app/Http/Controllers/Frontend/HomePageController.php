@@ -15,38 +15,38 @@ class HomePageController extends Controller
 {
     public function homepage(Request $request): Response|RedirectResponse
     {
-        $validatedFilterData = $request->validate([
-            'organisationFilter' => ['nullable', 'string', 'max:255'],
-            'userFilter' => ['nullable', 'string', 'max:255'],
+        $filters = $request->validate([
+            'textFilter' => ['nullable', 'string', 'max:255'],
             'dateSearchStartFilter' => ['nullable', 'date'],
             'dateSearchEndFilter' => ['nullable', 'date'],
         ]);
 
         $query = Task::query()
-            ->with('user:id,name,profile_picture_path')
-            ->where([
-                'active' => true,
-            ])
-            ->where('date_start', '>=', now())
-            ->orderBy('date_start', 'ASC');
+        ->with('user:id,name,profile_picture_path')
+        ->where('active', true)
+        ->where('date_start', '>=', now())
+        ->orderBy('date_start', 'ASC')
 
-        if (isset($validatedFilterData['organisationFilter']) && $validatedFilterData['organisationFilter'] !== null) {
-            $query->where('organisation', 'LIKE', '%'.$validatedFilterData['organisationFilter'].'%');
-        }
+        // Text search filter
+        ->when($filters['textFilter'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('subject', 'LIKE', "%{$search}%")
+                    ->orWhere('organisation', 'LIKE', "%{$search}%")
+                    ->orWhereHas('user', fn ($u) =>
+                        $u->where('name', 'LIKE', "%{$search}%")
+                    );
+            });
+        })
 
-        if (isset($validatedFilterData['userFilter']) && $validatedFilterData['userFilter'] !== null) {
-            $query->whereHas('user', fn ($q) => $q->where('users.name', 'LIKE', '%'.$validatedFilterData['userFilter'].'%'));
-        }
+        // Date start filter
+        ->when($start = $filters['dateSearchStartFilter'] ?? null,
+            fn($q) => $q->where('date_start', '>=', $start)
+        )
 
-        if (
-            isset($validatedFilterData['dateSearchStartFilter']) &&
-            isset($validatedFilterData['dateSearchEndFilter']) &&
-            $validatedFilterData['dateSearchStartFilter'] !== null &&
-            $validatedFilterData['dateSearchEndFilter'] !== null
-        ) {
-            $query->where('date_start', '>=', $validatedFilterData['dateSearchStartFilter']);
-            $query->where('date_start', '<=', $validatedFilterData['dateSearchEndFilter']);
-        }
+        // Date end filter
+        ->when($end = $filters['dateSearchEndFilter'] ?? null,
+            fn($q) => $q->where('date_start', '<=', $end)
+        );
 
         $paginatedTasks = $query->paginate(12);
 

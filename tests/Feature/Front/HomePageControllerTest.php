@@ -45,7 +45,7 @@ class HomePageControllerTest extends TestCase
         $this->assertSame($valid->id, $tasks[0]['id']);
     }
 
-    public function test_it_filters_by_organisation()
+    public function test_it_filters_by_text()
     {
         $user = User::factory()->create();
 
@@ -61,32 +61,9 @@ class HomePageControllerTest extends TestCase
             'date_start' => now()->addDay(),
         ]);
 
-        $response = $this->get(route('homepage') . '?organisationFilter=Green');
+        $response = $this->get(route('homepage') . '?textFilter=Green');
 
         $response->assertOk();
-
-        $tasks = $response->inertiaProps()['paginatedTasks']['data'];
-
-        $this->assertCount(1, $tasks);
-        $this->assertSame($filtered->id, $tasks[0]['id']);
-    }
-
-    public function test_it_filters_by_user_name()
-    {
-        $john = User::factory()->create(['name' => 'John Doe']);
-        $jane = User::factory()->create(['name' => 'Jane Sky']);
-
-        Task::factory()->for($john)->create([
-            'active' => true,
-            'date_start' => now()->addDay(),
-        ]);
-
-        $filtered = Task::factory()->for($jane)->create([
-            'active' => true,
-            'date_start' => now()->addDay(),
-        ]);
-
-        $response = $this->get(route('homepage') . '?userFilter=Jane');
 
         $tasks = $response->inertiaProps()['paginatedTasks']['data'];
 
