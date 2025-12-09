@@ -1,9 +1,12 @@
+import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
 import { about, dashboard, homepage, login, register } from '@/routes';
 import { type SharedData } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 
 export default function Header() {
     const { auth } = usePage<SharedData>().props;
+
+    const toAboutPage = () => router.get(about());
 
     return (
         <header className="mb-6 w-full text-sm not-has-[nav]:hidden">
@@ -24,15 +27,13 @@ export default function Header() {
                         </a>
                     )}
                 </div>
-                
-                    
 
                 <div className="flex items-center">
-                    <Link href={about()} className="mr-6">
-                        <p className="text-sm font-normal text-muted-foreground underline">
-                            About
-                        </p>
-                    </Link>
+                    <UnderlinedClickable
+                        onClick={toAboutPage}
+                        buttonText='About'
+                        className="mr-4"
+                    />
 
                     {auth.user ? (
                         <Link

@@ -4,6 +4,7 @@ import { CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Pagination from '@/components/ui/pagination';
+import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
 import VolunteerAnswerModal from '@/components/volunteerAnswer/volunteerAnswerModal';
 import Header from '@/layouts/app-public/header';
 import PublicLayout from '@/layouts/public-layout';
@@ -138,14 +139,10 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                             tasks.map((task) => {
                                 const footer = (
                                     <CardFooter className="mt-auto w-full justify-center">
-                                        <button
-                                            className="cursor-pointer text-sm font-normal text-muted-foreground underline underline-offset-4 hover:text-gray-800"
-                                            onClick={() =>
-                                                handleOpenModal(task)
-                                            }
-                                        >
-                                            I want to help
-                                        </button>
+                                        <UnderlinedClickable
+                                            onClick={() => handleOpenModal(task)}
+                                            buttonText='I want to help'
+                                        />
                                     </CardFooter>
                                 );
 

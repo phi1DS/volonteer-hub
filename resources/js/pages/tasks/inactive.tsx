@@ -12,6 +12,7 @@ import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
 import Pagination from '@/components/ui/pagination';
 import ConfirmDialog from '@/components/ui/confirmDialog';
+import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Dashboard', href: dashboard().url },
@@ -106,13 +107,10 @@ export default function InactiveTasks({
                                 const cardFooter = (
                                     <>
                                         <CardFooter className="flex justify-end">
-                                            <button className="cursor-pointer text-sm leading-normal font-normal text-muted-foreground underline underline-offset-4">
-                                                <p
-                                                    onClick={() => openConfirmDialog(task.id)}
-                                                >
-                                                    Reopen Task
-                                                </p>
-                                            </button>
+                                            <UnderlinedClickable
+                                                onClick={() => openConfirmDialog(task.id)}
+                                                buttonText='Reopen Task'
+                                            />
                                         </CardFooter>
                                     </>
                                 );

@@ -22,10 +22,10 @@ class HomePageController extends Controller
         ]);
 
         $query = Task::query()
-        ->with('user:id,name,profile_picture_path')
-        ->where('active', true)
-        ->where('date_start', '>=', now())
-        ->orderBy('date_start', 'ASC')
+            ->with('user:id,name,profile_picture_path')
+            ->where('active', true)
+            ->where('date_start', '>=', now())
+            ->orderBy('date_start', 'ASC')
 
         // Text search filter
         ->when($filters['textFilter'] ?? null, function ($query, $search) {

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { CardFooter } from '@/components/ui/card';
 import ConfirmDialog from '@/components/ui/confirmDialog';
 import Pagination from '@/components/ui/pagination';
+import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { task_close, task_create, task_edit } from '@/routes/tasks';
@@ -78,14 +79,12 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                                                     Update
                                                 </Button>
                                             </Link>
-                                            <button
-                                                className="cursor-pointer text-sm font-normal text-muted-foreground underline underline-offset-4 hover:text-gray-800"
+                                            <UnderlinedClickable
                                                 onClick={() =>
                                                     openConfirmDialog(task.id)
                                                 }
-                                            >
-                                                Close Task
-                                            </button>
+                                                buttonText='Close Task'
+                                            />
                                         </CardFooter>
                                     </>
                                 );
