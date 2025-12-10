@@ -1,6 +1,11 @@
 {
     "private": true,
     "type": "module",
+    "name": "volunteer-hub",
+    "engines": {
+        "node": "22",
+        "npm": "10"
+    },
     "scripts": {
         "build": "vite build",
         "build:ssr": "vite build && vite build --ssr",
