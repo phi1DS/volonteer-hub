@@ -22,9 +22,9 @@ class TaskFactory extends Factory
             'subject' => fake()->sentence(4),
             'message' => fake()->paragraph(),
             'organisation' => fake()->sentence(4),
-            'contact_information' => fake()->sentence(4),
-            'date_start' => fake()->dateTimeBetween('now', '+1 year'),
-            'date_end' => fake()->dateTimeBetween('now', '+2 year'),
+            'contact_information' => fake()->email(),
+            'date_start' => fake()->dateTimeBetween('now', '+10 year'),
+            'date_end' => fake()->dateTimeBetween('now', '+11 year'),
             'active' => true,
         ];
     }
