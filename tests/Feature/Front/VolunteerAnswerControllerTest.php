@@ -7,11 +7,13 @@ use App\Models\VolunteerAnswer;
 use App\Services\CaptchaService;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Mockery;
 
 class VolunteerAnswerControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     public function test_can_store(): void
     {
@@ -29,8 +31,8 @@ class VolunteerAnswerControllerTest extends TestCase
 
         $volunteerAnswerData = [
             'task_id' => $task->id,
-            'message' => fake()->paragraph(),
-            'name' => fake()->sentence(2),
+            'message' => $this->faker->paragraph(),
+            'name' => $this->faker->sentence(2),
             'captcha_token' => $captchaToken
         ];
 

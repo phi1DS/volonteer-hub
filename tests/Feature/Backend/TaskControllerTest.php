@@ -5,11 +5,13 @@ declare(strict_types=1);
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class TaskControllerTest extends TestCase // requires vite to run
+class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     public function test_showInActiveTasksForUser() {
         // Arrange
@@ -59,9 +61,9 @@ class TaskControllerTest extends TestCase // requires vite to run
         $taskProperties = [
             'user_id' => $user->id,
             'subject' => 'Old Subject',
-            'message' => fake()->paragraph(),
-            'organisation' => fake()->sentence(2),
-            'contact_information' => fake()->sentence(2),
+            'message' => $this->faker->paragraph(),
+            'organisation' => $this->faker->sentence(2),
+            'contact_information' => $this->faker->sentence(2),
             'date_start' => now(),
             'date_end' => now()->addDay(),
         ];
@@ -96,10 +98,10 @@ class TaskControllerTest extends TestCase // requires vite to run
         $task = Task::factory()->create();
 
         $payload = [
-            'subject' => fake()->sentence(2),
-            'message' => fake()->paragraph(),
-            'organisation' => fake()->sentence(2),
-            'contact_information' => fake()->sentence(2),
+            'subject' => $this->faker->sentence(2),
+            'message' => $this->faker->paragraph(),
+            'organisation' => $this->faker->sentence(2),
+            'contact_information' => $this->faker->sentence(2),
             'date_start' => now(),
             'date_end' => now()->addDay(),
         ];

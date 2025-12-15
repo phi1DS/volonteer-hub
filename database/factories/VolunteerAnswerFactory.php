@@ -19,8 +19,8 @@ class VolunteerAnswerFactory extends Factory
     {
         return [
             'task_id' => Task::factory(),
-            'message' => fake()->sentence(4),
-            'name' => fake()->name(),
+            'message' => $this->faker->sentence(4),
+            'name' => $this->faker->name(),
         ];
     }
 }

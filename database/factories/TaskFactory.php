@@ -19,12 +19,12 @@ class TaskFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'subject' => fake()->sentence(4),
-            'message' => fake()->paragraph(),
-            'organisation' => fake()->sentence(4),
-            'contact_information' => fake()->email(),
-            'date_start' => fake()->dateTimeBetween('now', '+10 year'),
-            'date_end' => fake()->dateTimeBetween('now', '+11 year'),
+            'subject' => $this->faker->sentence(4),
+            'message' => $this->faker->paragraph(),
+            'organisation' => $this->faker->sentence(4),
+            'contact_information' => $this->faker->email(),
+            'date_start' => $this->faker->dateTimeBetween('now', '+10 year'),
+            'date_end' => $this->faker->dateTimeBetween('now', '+11 year'),
             'active' => true,
         ];
     }
