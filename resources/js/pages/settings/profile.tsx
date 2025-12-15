@@ -10,7 +10,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { getAssetsPath } from '@/helpers';
+import { getStorageAssetsPath } from '@/helpers';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import profile, { edit } from '@/routes/profile';
@@ -36,7 +36,7 @@ export default function Profile({
 
     const [preview, setPreview] = useState<string | null>(
         auth.user.profile_picture_path
-            ? getAssetsPath(auth.user.profile_picture_path)
+            ? getStorageAssetsPath(auth.user.profile_picture_path)
             : null,
     );
 
@@ -150,7 +150,7 @@ export default function Profile({
                         )}
                     </Form>
 
-                    <Form
+                    {/* <Form
                         action={profile.picture_update().url}
                         method="post"
                         className="space-y-6"
@@ -162,7 +162,6 @@ export default function Profile({
                             </Label>
 
                             <div className="flex items-center gap-4">
-                                {/* Image preview */}
                                 {preview ? (
                                     <img
                                         src={preview}
@@ -175,7 +174,6 @@ export default function Profile({
                                     </div>
                                 )}
 
-                                {/* File input */}
                                 <Input
                                     id="profile_picture"
                                     type="file"
@@ -200,7 +198,7 @@ export default function Profile({
                                 <Button>Save</Button>
                             </div>
                         </div>
-                    </Form>
+                    </Form> */}
                 </div>
 
                 <DeleteUser />

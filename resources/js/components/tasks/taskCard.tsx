@@ -1,4 +1,4 @@
-import { getAssetsPath, getDefaultProfilePicturePath } from '@/helpers';
+import { getStorageAssetsPath, getDefaultProfilePicturePath } from '@/helpers';
 import { cn } from '@/lib/utils';
 import { Task } from '@/types/models';
 import { ReactNode } from 'react';
@@ -22,7 +22,7 @@ export default function TaskCard({
 
     let profilePictureUrl = getDefaultProfilePicturePath();
     if (task.user.profile_picture_path !== null) {
-        profilePictureUrl = getAssetsPath(task.user.profile_picture_path);
+        profilePictureUrl = getStorageAssetsPath(task.user.profile_picture_path);
     }
 
     const now = new Date();

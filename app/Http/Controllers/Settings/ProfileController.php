@@ -8,7 +8,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -41,31 +40,31 @@ class ProfileController extends Controller
         return to_route('profile.edit');
     }
 
-    /**
-     * Update the user's profile picture.
-     */
-    public function updatePicture(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'profile_picture' => ['nullable', 'image', 'max:2048'], // 2 MB max
-        ]);
+    // /**
+    //  * Update the user's profile picture.
+    //  */
+    // public function updatePicture(Request $request): RedirectResponse
+    // {
+    //     $request->validate([
+    //         'profile_picture' => ['nullable', 'image', 'max:2048'], // 2 MB max
+    //     ]);
 
-        // ** User */
-        $user = $request->user();
+    //     // ** User */
+    //     $user = $request->user();
 
-        if ($request->hasFile('profile_picture')) { // does not exist !!!!!!!!!!!!!
-            if ($user->profile_picture_path && Storage::disk('public')->exists($user->profile_picture_path)) {
-                Storage::disk('public')->delete($user->profile_picture_path);
-            }
+    //     if ($request->hasFile('profile_picture')) { // does not exist !!!!!!!!!!!!!
+    //         if ($user->profile_picture_path && Storage::disk('public')->exists($user->profile_picture_path)) {
+    //             Storage::disk('public')->delete($user->profile_picture_path);
+    //         }
 
-            $path = $request->file('profile_picture')->store('profileImages', 'public'); // rewrites file name
+    //         $path = $request->file('profile_picture')->store('profileImages', 'public'); // rewrites file name
 
-            $user->profile_picture_path = $path;
-            $user->save();
-        }
+    //         $user->profile_picture_path = $path;
+    //         $user->save();
+    //     }
 
-        return to_route('profile.edit');
-    }
+    //     return to_route('profile.edit');
+    // }
 
     /**
      * Delete the user's account.

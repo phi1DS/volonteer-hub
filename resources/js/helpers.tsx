@@ -1,7 +1,7 @@
-export function getAssetsPath(uri: string): string {
+export function getStorageAssetsPath(uri: string): string {
     return `/storage/${uri}`;
 }
 
 export function getDefaultProfilePicturePath(): string {
-    return getAssetsPath('profileImages/profile_default.jpg');
+    return '/assets/profile_default.jpg';
 }
