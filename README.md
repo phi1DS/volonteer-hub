@@ -69,13 +69,26 @@ composer run dev -> runs vite and hosts laravel locally
 
 ## Notes
 
-Uses sqlite as database by default.
+Uses sqlite as default database.
 
-Project uses google captcha V3. Please input yout private and public keys into the .env
+Project uses google captcha V3. Please input yout private and public keys into the .env.
 
 ## Additional Notes
 
-Run CI locally by using 'act':
+### testing CI locally
+
+Needs 'github actions act' library installed locally
+
+Run CI locally:
 ```bash
-./bin/act push -j ci -P ubuntu-latest=ghcr.io/catthehacker/ubuntu:act-latest
+./bin/act push
+```
+
+### Playwright e2e testing
+
+Copy and adapt .env.e2e.example to .env
+
+To execute e2e tests, run:
+```bash
+php artisan app:refresh-and-seed && npx playwright test
 ```
