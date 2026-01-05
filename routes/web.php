@@ -52,3 +52,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+if(config('app.env') === 'e2e') {
+    require __DIR__.'/e2etesting.php';
+}

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Task;
@@ -25,32 +24,34 @@ class E2eDatabaseSeeder extends Seeder
         // basic seeding
 
         $userName = 'e2eUser';
+        $userEmail = 'e2eUser@test.com';
         $user = User::factory()->create([
             'name' => $userName,
-            'password' => Hash::make('testpassword'),
+            'email' => $userEmail,
+            'password' => 'testpassword',
         ]);
 
         // user-close-task
 
-        $task = Task::factory()->for($user)->create([
+        Task::factory()->for($user)->create([
             'subject' => "Help with furniture",
         ]);
 
         // user-see-task
 
-        $task = Task::factory()->for($user)->create([
+        Task::factory()->for($user)->create([
             'subject' => "Help with cleaning dishes",
         ]);
 
         // user-update-task
 
         // AC1
-        $task = Task::factory()->for($user)->create([
+        Task::factory()->for($user)->create([
             'subject' => "Help with groceries",
         ]);
 
         // AC2
-        $task = Task::factory()->for($user)->create([
+        Task::factory()->for($user)->create([
             'subject' => "Help with glue",
         ]);
     }
