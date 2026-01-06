@@ -4,14 +4,14 @@ import { addYears, format } from 'date-fns';
 test.describe('Backoffice page tests', () => {
 
   test('test', async ({ page }) => {
-    await page.goto('http://localhost:8000/dashboard'); // root as var TODO
+    await page.goto('/dashboard'); // root as var TODO
 
     const header = page.locator('h1', { hasText: 'My created tasks' });
     await expect(header).toBeVisible();
   });
 
-  test('AC1: Successfully creates a task', async ({ page }) => {
-    await page.goto('http://localhost:8000/dashboard');
+  test('User create task AC1: Successfully creates a task', async ({ page }) => {
+    await page.goto('/dashboard');
 
     // Form filling
     const startDate = format(addYears(new Date(), 1), "yyyy-MM-dd'T'HH:mm");

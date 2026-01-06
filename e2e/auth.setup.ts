@@ -1,9 +1,16 @@
-import { test as setup } from '@playwright/test';
+import { test as setup, expect } from '@playwright/test';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import config from '../playwright.config';
 
-const authFile = path.join('/home/pdeiss/volonteer-hub/playwright/.auth/user.json'); // TODO optimise
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const authFile = path.resolve(__dirname, '../playwright/.auth/user.json');
 
 setup('authenticate', async ({ request }) => {
-  await request.get('http://localhost:8000/testing/login');
+  const response = await request.get('/testing/login');
+  expect(response.ok()).toBeTruthy();
+
   await request.storageState({ path: authFile });
 });
