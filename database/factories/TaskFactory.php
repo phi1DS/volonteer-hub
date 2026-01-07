@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,8 +24,8 @@ class TaskFactory extends Factory
             'message' => $this->faker->paragraph(),
             'organisation' => $this->faker->sentence(4),
             'contact_information' => $this->faker->email(),
-            'date_start' => $this->faker->dateTimeBetween('now', '+10 year'),
-            'date_end' => $this->faker->dateTimeBetween('now', '+11 year'),
+            'date_start' => Carbon::now()->addYears(5),
+            'date_end' => Carbon::now()->addYears(6),
             'active' => true,
         ];
     }

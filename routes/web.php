@@ -5,6 +5,8 @@ use App\Http\Controllers\Backend\VolunteerAnswerController as BackendVolunteerAn
 use App\Http\Controllers\Frontend\VolunteerAnswerController as FrontendVolunteerAnswerController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Backend\TaskController as BackendTaskController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -52,6 +54,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
-if(config('app.env') === 'e2e') {
-    require __DIR__.'/e2etesting.php';
+
+if(config('app.env') === 'e2e') { // e2e quick login
+    Route::get('/testing/login', function () {
+        $user = User::query()->where('name', 'e2eUser')->first();
+
+        Auth::login($user);
+
+        return response()->noContent();
+    });
 }

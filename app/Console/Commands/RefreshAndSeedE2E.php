@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class RefreshAndSeedE2E extends Command
 {
-    protected $signature = 'app:refresh-and-seed';
+    protected $signature = 'app:testing:refresh-and-seed';
     protected $description = 'Truncate all tables and run the specified seeder';
 
     public function handle(): int

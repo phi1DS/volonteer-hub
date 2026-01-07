@@ -4,7 +4,7 @@ A mini-platform where associations and non-profit organisations can publish loca
 
 ---
 
-## 🚀 Overview
+## Overview
 
 ![Homepage](./markdown_files/site_preview_homepage.png)
 
@@ -14,15 +14,16 @@ A mini-platform where associations and non-profit organisations can publish loca
 It allows users to:
 
 - Browse available volunteering tasks.
-- Filter by organisation, creator, or date range.
+- Filter tasks by organisation, subject, or date range.
 - Register and create new volunteering offers.
 - Manage their profile and upload a profile picture.
+- Display comments related for a task.
 
 This project is still under active development (WIP), so expect frequent updates and improvements.
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 **Frontend:**
 - [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
@@ -39,7 +40,7 @@ This project is still under active development (WIP), so expect frequent updates
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 ### 1. Clone the repository
 ```bash
@@ -88,7 +89,9 @@ Run CI locally:
 
 Copy and adapt .env.e2e.example to .env
 
+Currently supported DB: sqlite
+
 To execute e2e tests, run:
 ```bash
-php artisan app:refresh-and-seed && npx playwright test
+php artisan app:testing:refresh-and-seed && npx playwright test
 ```
