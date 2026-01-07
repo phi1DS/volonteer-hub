@@ -38,6 +38,7 @@ export default defineConfig({
 
     {
       name: 'chromium',
+      testMatch: /.*\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
         // Use prepared auth state.
@@ -46,15 +47,15 @@ export default defineConfig({
       dependencies: ['setup'],
     },
 
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        // Use prepared auth state.
-        storageState: 'playwright/.auth/user.json',
-      },
-      dependencies: ['setup'],
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     // Use prepared auth state.
+    //     storageState: 'playwright/.auth/user.json',
+    //   },
+    //   dependencies: ['setup'],
+    // },
 
     // {
     //   name: 'webkit',

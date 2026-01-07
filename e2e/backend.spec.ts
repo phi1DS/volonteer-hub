@@ -3,14 +3,14 @@ import { addYears, format } from 'date-fns';
 
 test.describe('Backoffice page tests', () => {
 
-  test('test', async ({ page }) => {
-    await page.goto('/dashboard'); // root as var TODO
+  test('User sees task AC1: Task shows up on task page', async ({ page }) => {
+    await page.goto('/dashboard');
 
-    const header = page.locator('h1', { hasText: 'My created tasks' });
-    await expect(header).toBeVisible();
+    await expect(page.getByText('Help with cleaning dishes')).toBeVisible();
+    await expect(page.getByText('Created By : e2eUser').nth(1)).toBeVisible();
   });
 
-  test('User create task AC1: Successfully creates a task', async ({ page }) => {
+  test('User create task AC1: Successfully create a task', async ({ page }) => {
     await page.goto('/dashboard');
 
     // Form filling
@@ -32,4 +32,40 @@ test.describe('Backoffice page tests', () => {
     await expect(page.getByRole('listitem').filter({ hasText: 'Task created' })).toBeVisible();
     await expect(page.getByText('Help with oranges')).toBeVisible();
   });
+
+  test('User close Task AC1: Successfully close task', async ({ page }) => {
+    await page.goto('/dashboard');
+
+    const taskTitle = 'Help with furniture';
+    const taskCard = page.locator('[data-slot="card"]', {
+      has: page.getByText(taskTitle),
+    });
+
+    // Precondition
+    await expect(taskCard).toBeVisible();
+
+    // Action
+    await taskCard.getByRole('button', { name: 'Close Task' }).click();
+    await page.locator('[data-slot="dialog-content"]').getByRole('button', { name: 'Close task' }).click(); // confirmation modal
+    
+    // Assertions
+    await expect(page.getByText('Task marked as closed')).toBeVisible();
+    await expect(taskCard).not.toBeVisible();
+  });
+
+  // test('User update Task AC1: Successfully update task', async ({ page }) => {
+  //   await page.goto('/dashboard');
+
+  //   const taskTitle = 'Help with groceries';
+  //   const taskCard = page.locator('[data-slot="card"]', {
+  //     has: page.getByText(taskTitle),
+  //   });
+
+  //   await taskCard.getByRole('button', { name: 'Update' }).click();
+  //   await page.getByRole('textbox', { name: 'Sujet *' }).fill('Help with fruits');
+  //   await page.getByRole('button', { name: 'Update Task' }).click();
+
+  //   await expect(page.getByText('Task updated')).toBeVisible();
+  //   await expect(page.getByText('Help with fruits')).toBeVisible();
+  // });
 });

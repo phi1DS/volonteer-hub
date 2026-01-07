@@ -75,7 +75,7 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                 <Header />
 
                 <div className="mb-12 text-center">
-                    <h1 className="mb-4 text-3xl font-semibold text-white">
+                    <h1 className="mb-4 text-3xl font-semibold">
                         Opened Volunteering Tasks
                     </h1>
                     <div>

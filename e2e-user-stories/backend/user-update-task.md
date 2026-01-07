@@ -10,8 +10,11 @@
 
 ### AC1: Successfully update task
 - **Given** a task with title "Help with groceries" exists for the logged-in user  
-- **When** the user edits the task and changes the title to "Help with fruits"  
-- **Then** the task is updated, and a success toast message appears  
+- **When** the user clicks on update task
+- **And** changes the title to "Help with fruits"
+- **And** clicks on update task button
+- **Then** the task is updated
+- **And** a success toast message appears  
 - **And** the task page shows the updated title "Help with fruits"
 
 ### AC2: Invalid input

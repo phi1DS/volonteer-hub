@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Task;
-use Illuminate\Support\Facades\Hash;
 
 class E2eDatabaseSeeder extends Seeder
 {
