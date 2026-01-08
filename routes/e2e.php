@@ -30,7 +30,7 @@ Route::post('/reset-seed', function () {
 })->name('reset-seed');
 
 Route::post('/prune-db', function () {
-    Artisan::call('app:testing:refresh-and-seed');
+    Artisan::call('app:testing:prune-db');
     return response()->json(['status' => 'db pruned']);
 })->name('dbprune');
 
