@@ -16,7 +16,7 @@ class VolunteerAnswerController extends Controller
 {
     protected function isVolunteerAnswerLinkedToAuthUser(VolunteerAnswer $volunteerAnswer): bool {
         $volunteerAnswer->loadMissing('task');
-        if (! $volunteerAnswer->task && $volunteerAnswer->task->user_id === Auth::id()) {
+        if (! $volunteerAnswer->task || $volunteerAnswer->task->user_id !== Auth::id()) {
             return false;
         }
 
@@ -57,6 +57,24 @@ class VolunteerAnswerController extends Controller
 
         return Inertia::render('volunteerAnswers/show', [
             'volunteerAnswer' => $volunteerAnswer,
+        ]);
+    }
+
+    public function update(Request $request, VolunteerAnswer $volunteerAnswer): RedirectResponse
+    {
+        if (! $this->isVolunteerAnswerLinkedToAuthUser($volunteerAnswer)) {
+            return to_route('unauthorized');
+        }
+
+        $validated = $request->validate([
+            'notes' => ['nullable', 'string', 'max:5000'],
+        ]);
+
+        $volunteerAnswer->update($validated);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Notes updated',
         ]);
     }
 

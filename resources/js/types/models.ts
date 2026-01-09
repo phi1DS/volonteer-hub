@@ -44,6 +44,7 @@ export interface PageLink {
 export interface VolunteerAnswer extends Model {
     name: string;
     message: string;
+    notes?: string;
     created_at: string;
     task: Task;
 }

@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
-import { volunteer_answer_list } from '@/routes/volunteer_answer_backend';
+import { volunteer_answer_list, volunteer_answer_update } from '@/routes/volunteer_answer_backend';
 import { type BreadcrumbItem } from '@/types';
 import { type VolunteerAnswer } from '@/types/models';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { Loader2 } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,6 +30,20 @@ interface PageProps {
 }
 
 export default function VolunteerAnswerShow({ volunteerAnswer }: PageProps) {
+    const { data, setData, patch, processing, errors } = useForm({
+        notes: volunteerAnswer.notes || '',
+    });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        const route = volunteer_answer_update({ volunteerAnswer: volunteerAnswer.id });
+        patch(route.url, {
+            onSuccess: () => {
+                // optional: show success toast if not already handled by layout
+            }
+        });
+    };
+
     const submittedAt = new Date(volunteerAnswer.created_at).toLocaleString(
         'fr-FR',
         {
@@ -55,7 +72,7 @@ export default function VolunteerAnswerShow({ volunteerAnswer }: PageProps) {
                     </Link>
                 </div>
 
-                <div className="">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Card className="h-full">
                         <CardHeader>
                             <CardTitle>Volunteer</CardTitle>
@@ -78,6 +95,37 @@ export default function VolunteerAnswerShow({ volunteerAnswer }: PageProps) {
                                         'No message provided.'}
                                 </p>
                             </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="h-full">
+                        <CardHeader>
+                            <CardTitle>Notes</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <form onSubmit={submit} className="space-y-4">
+                                <Textarea
+                                    value={data.notes}
+                                    onChange={(e) =>
+                                        setData('notes', e.target.value)
+                                    }
+                                    placeholder="Add your private notes about this volunteer..."
+                                    className="min-h-[150px]"
+                                />
+                                {errors.notes && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.notes}
+                                    </p>
+                                )}
+                                <div className="flex justify-end">
+                                    <Button type="submit" disabled={processing}>
+                                        {processing && (
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        )}
+                                        Save Notes
+                                    </Button>
+                                </div>
+                            </form>
                         </CardContent>
                     </Card>
                 </div>

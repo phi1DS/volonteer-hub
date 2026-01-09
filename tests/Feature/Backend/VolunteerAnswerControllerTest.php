@@ -88,6 +88,41 @@ class VolunteerAnswerControllerTest extends TestCase
         // Assert
         $response->assertFound();
         $this->assertSame(1, count(VolunteerAnswer::query()->get()));
-        $this->assertNull(VolunteerAnswer::query()->where($volunteerAnswer->id)->first());
+        $this->assertNull(VolunteerAnswer::query()->where('id', $volunteerAnswer->id)->first());
+    }
+
+    public function test_can_update_notes(): void {
+        // Arrange
+        $volunteerAnswer = VolunteerAnswer::factory()->for(
+            Task::factory()->for($this->user), 'task'
+        )->create(['notes' => 'old notes']);
+
+        // Act
+        $response = $this->actingAs($this->user)
+            ->patch(route('volunteer_answer_backend.volunteer_answer_update', ['volunteerAnswer' => $volunteerAnswer]), [
+                'notes' => 'new notes',
+            ]);
+
+        // Assert
+        $response->assertFound();
+        $this->assertSame('new notes', $volunteerAnswer->refresh()->notes);
+    }
+
+    public function test_cannot_update_notes_of_unauthorized_answer(): void {
+        // Arrange
+        $otherUser = User::factory()->create();
+        $volunteerAnswer = VolunteerAnswer::factory()->for(
+            Task::factory()->for($otherUser), 'task'
+        )->create(['notes' => 'old notes']);
+
+        // Act
+        $response = $this->actingAs($this->user)
+            ->patch(route('volunteer_answer_backend.volunteer_answer_update', ['volunteerAnswer' => $volunteerAnswer]), [
+                'notes' => 'new notes',
+            ]);
+
+        // Assert
+        $response->assertRedirect(route('unauthorized'));
+        $this->assertSame('old notes', $volunteerAnswer->refresh()->notes);
     }
 }

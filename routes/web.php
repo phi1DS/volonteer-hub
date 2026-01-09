@@ -32,19 +32,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('/dashboard/volunteer-answer')->name('volunteer_answer_backend.')->group(function () {
         Route::get('/', [BackendVolunteerAnswerController::class, 'list'])->name('volunteer_answer_list');
         Route::get('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'show'])->name('volunteer_answer_show');
+        Route::patch('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'update'])->name('volunteer_answer_update');
         Route::delete('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'destroy'])->name('volunteer_answer_delete');
     });
 
     // Tasks Backend Routes
     Route::prefix('/dashboard/tasks')->name('tasks.')->group(function () {
         Route::get('/inactive', [BackendTaskController::class, 'showInActiveTasksForUser'])->name('task_inactive');
-        
+
         Route::post('/{task}/close', [BackendTaskController::class, 'closeTask'])->name('task_close');
         Route::post('/{task}/reopen', [BackendTaskController::class, 'reopenTask'])->name('task_reopen');
 
         Route::get('/{task}/edit', [BackendTaskController::class, 'edit'])->name('task_edit');
         Route::put('/{task}', [BackendTaskController::class, 'update'])->name('task_update');
-        
+
         Route::get('/create', [BackendTaskController::class, 'create'])->name('task_create');
         Route::post('/', [BackendTaskController::class, 'store'])->name('task_store');
     });
