@@ -8,23 +8,17 @@ use App\Http\Controllers\Controller;
 use App\Models\VolunteerAnswer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class VolunteerAnswerController extends Controller
 {
-    protected function isVolunteerAnswerLinkedToAuthUser(VolunteerAnswer $volunteerAnswer): bool {
-        $volunteerAnswer->loadMissing('task');
-        if (! $volunteerAnswer->task || $volunteerAnswer->task->user_id !== Auth::id()) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function list(Request $request): Response
     {
+        $this->authorize('viewAny', VolunteerAnswer::class);
+
         $taskFilter = $request->string('task')->trim()->toString();
         $userId = (int) Auth::id();
 
@@ -51,9 +45,7 @@ class VolunteerAnswerController extends Controller
 
     public function show(VolunteerAnswer $volunteerAnswer): RedirectResponse|Response
     {
-        if (! $this->isVolunteerAnswerLinkedToAuthUser($volunteerAnswer)) {
-            return to_route('unauthorized');
-        }
+        $this->authorize('view', $volunteerAnswer);
 
         return Inertia::render('volunteerAnswers/show', [
             'volunteerAnswer' => $volunteerAnswer,
@@ -62,9 +54,7 @@ class VolunteerAnswerController extends Controller
 
     public function update(Request $request, VolunteerAnswer $volunteerAnswer): RedirectResponse
     {
-        if (! $this->isVolunteerAnswerLinkedToAuthUser($volunteerAnswer)) {
-            return to_route('unauthorized');
-        }
+        $this->authorize('update', $volunteerAnswer);
 
         $validated = $request->validate([
             'notes' => ['nullable', 'string', 'max:5000'],
@@ -80,9 +70,7 @@ class VolunteerAnswerController extends Controller
 
     public function destroy(VolunteerAnswer $volunteerAnswer): RedirectResponse
     {
-        if (! $this->isVolunteerAnswerLinkedToAuthUser($volunteerAnswer)) {
-            return to_route('unauthorized');
-        }
+        $this->authorize('delete', $volunteerAnswer);
 
         $volunteerAnswer->delete();
 

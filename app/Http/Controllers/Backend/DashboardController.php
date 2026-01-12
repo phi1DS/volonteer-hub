@@ -13,6 +13,8 @@ class DashboardController extends Controller
 {
     public function showDashboard(): Response
     {
+        $this->authorize('viewAny', Task::class);
+
         $authenticatedUser = auth()->user();
 
         $paginatedTasks = Task::query()->where([

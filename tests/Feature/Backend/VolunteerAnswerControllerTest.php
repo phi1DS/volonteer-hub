@@ -122,7 +122,7 @@ class VolunteerAnswerControllerTest extends TestCase
             ]);
 
         // Assert
-        $response->assertRedirect(route('unauthorized'));
+        $response->assertForbidden();
         $this->assertSame('old notes', $volunteerAnswer->refresh()->notes);
     }
 }

@@ -16,6 +16,8 @@ class TaskController extends Controller
 {
     public function showInActiveTasksForUser(Request $request): Response
     {
+        $this->authorize('viewAny', Task::class);
+
         $validated = $request->validate([
             'subject' => ['nullable', 'string', 'max:255'],
         ]);
@@ -43,11 +45,15 @@ class TaskController extends Controller
 
     public function create(): Response
     {
+        $this->authorize('create', Task::class);
+
         return Inertia::render('tasks/create');
     }
 
     public function store(TaskFormRequest $request): RedirectResponse
     {
+        $this->authorize('create', Task::class);
+
         $validated = $request->validated();
 
         Task::create([
@@ -63,6 +69,8 @@ class TaskController extends Controller
 
     public function edit(Task $task): Response
     {
+        $this->authorize('view', $task);
+
         return Inertia::render('tasks/edit', [
             'task' => $task,
         ]);
@@ -70,9 +78,7 @@ class TaskController extends Controller
 
     public function update(TaskFormRequest $request, Task $task): RedirectResponse
     {
-        if ($task->user_id !== $request->user()->id) {
-            return to_route('unauthorized');
-        }
+        $this->authorize('update', $task);
 
         $validated = $request->validated();
 
@@ -86,12 +92,7 @@ class TaskController extends Controller
 
     public function closeTask(Task $task): RedirectResponse
     {
-        if ($task->user_id !== auth()->user()->id) {
-            return to_route('unauthorized')->with([
-                'type' => 'error',
-                'message' => 'Unauthorized',
-            ]);
-        }
+        $this->authorize('update', $task);
 
         $task->active = false;
         $task->save();
@@ -104,12 +105,7 @@ class TaskController extends Controller
 
     public function reopenTask(Task $task): RedirectResponse
     {
-        if ($task->user_id !== auth()->user()->id) {
-            return to_route('unauthorized')->with([
-                'type' => 'error',
-                'message' => 'Unauthorized',
-            ]);
-        }
+        $this->authorize('update', $task);
 
         $task->active = true;
         $task->save();

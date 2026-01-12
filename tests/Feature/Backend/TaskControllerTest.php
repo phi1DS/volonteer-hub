@@ -28,7 +28,7 @@ class TaskControllerTest extends TestCase
         ]);
 
         // Act
-        $response = $this->actingAs($user)->get(route('tasks.task_inactive')); 
+        $response = $this->actingAs($user)->get(route('tasks.task_inactive'));
 
         // Assert
         $response->assertStatus(200);
@@ -110,9 +110,9 @@ class TaskControllerTest extends TestCase
         $response = $this->actingAs($user)->put(route('tasks.task_update', $task), $payload);
 
         // Assert
-        $response->assertRedirect(route('unauthorized'));
+        $response->assertForbidden();
 
         $task->refresh();
-        $this->assertNotEquals('Should Not Update', $task->title);
+        $this->assertNotEquals('Should Not Update', $task->subject);
     }
 }

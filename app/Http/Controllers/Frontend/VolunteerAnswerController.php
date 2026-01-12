@@ -14,6 +14,8 @@ class VolunteerAnswerController extends Controller
 {
     public function store(Request $request, CaptchaService $captchaService): RedirectResponse
     {
+        $this->authorize('create', VolunteerAnswer::class);
+
         $validated = $request->validate([
             'task_id' => ['required', 'integer', 'exists:tasks,id'],
             'message' => ['required', 'string'],
