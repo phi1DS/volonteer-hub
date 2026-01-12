@@ -47,15 +47,15 @@ class HomePageControllerTest extends TestCase
 
     public function test_it_filters_by_text()
     {
-        $user = User::factory()->create();
-
-        Task::factory()->for($user)->create([
+        Task::factory()->create([
+            'subject' => 'RedCross',
             'organisation' => 'RedCross',
             'active' => true,
             'date_start' => now()->addDay(),
         ]);
 
-        $filtered = Task::factory()->for($user)->create([
+        $filtered = Task::factory()->create([
+            'subject' => 'Green',
             'organisation' => 'GreenPeace',
             'active' => true,
             'date_start' => now()->addDay(),
