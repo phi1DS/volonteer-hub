@@ -29,6 +29,11 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                             >
                                 {item.icon && <item.icon />}
                                 <span>{item.title}</span>
+                                {item.count !== undefined && (
+                                    <span className="ml-auto text-xs font-medium text-muted-foreground">
+                                        {item.count}
+                                    </span>
+                                )}
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>

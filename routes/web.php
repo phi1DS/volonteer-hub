@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\VolunteerAnswerController as BackendVolunteerAn
 use App\Http\Controllers\Frontend\VolunteerAnswerController as FrontendVolunteerAnswerController;
 use App\Http\Controllers\Frontend\HomePageController;
 use App\Http\Controllers\Backend\TaskController as BackendTaskController;
+use App\Http\Controllers\Backend\SidebarController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -32,7 +33,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('/dashboard/volunteer-answer')->name('volunteer_answer_backend.')->group(function () {
         Route::get('/', [BackendVolunteerAnswerController::class, 'list'])->name('volunteer_answer_list');
         Route::get('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'show'])->name('volunteer_answer_show');
-        Route::patch('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'update'])->name('volunteer_answer_update');
         Route::delete('/{volunteerAnswer}', [BackendVolunteerAnswerController::class, 'destroy'])->name('volunteer_answer_delete');
     });
 
@@ -49,19 +49,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', [BackendTaskController::class, 'create'])->name('task_create');
         Route::post('/', [BackendTaskController::class, 'store'])->name('task_store');
     });
+
+    Route::get('/api/sidebar-counts', [SidebarController::class, 'getCounts'])->name('api.sidebar_counts');
 });
 
 // ---- Modules Routes
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
-
-if(config('app.env') === 'e2e') { // e2e quick login
-    Route::get('/testing/login', function () {
-        $user = User::query()->where('name', 'e2eUser')->first();
-
-        Auth::login($user);
-
-        return response()->noContent();
-    });
-}

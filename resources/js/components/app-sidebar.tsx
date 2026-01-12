@@ -15,43 +15,60 @@ import { task_inactive } from '@/routes/tasks';
 import { volunteer_answer_list } from '@/routes/volunteer_answer_backend';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
+import axios from 'axios';
 import { Archive, Book, MessageCircle } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Opened Tasks',
-        href: dashboard(),
-        icon: Book,
-        preserveState: false,
-    },
-    {
-        title: 'Closed Tasks',
-        href: task_inactive(),
-        icon: Archive,
-        preserveState: false,
-    },
-    {
-        title: 'Volunteer Answers',
-        href: volunteer_answer_list(),
-        icon: MessageCircle,
-    },
-];
-
-const footerNavItems: NavItem[] = [
-    // {
-    //     title: 'Repository',
-    //     href: 'https://github.com/laravel/react-starter-kit',
-    //     icon: Folder,
-    // },
-    // {
-    //     title: 'Documentation',
-    //     href: 'https://laravel.com/docs/starter-kits#react',
-    //     icon: BookOpen,
-    // },
-];
-
 export function AppSidebar() {
+    const [counts, setCounts] = useState({
+        openedTasks: 0,
+        closedTasks: 0,
+        volunteerAnswers: 0,
+    });
+
+    useEffect(() => {
+        axios.get('/api/sidebar-counts').then((response) => {
+            setCounts(response.data);
+        });
+    }, []);
+
+    const mainNavItems: NavItem[] = [
+        {
+            title: 'Opened Tasks',
+            href: dashboard(),
+            icon: Book,
+            preserveState: false,
+            count: counts.openedTasks,
+        },
+        {
+            title: 'Closed Tasks',
+            href: task_inactive(),
+            icon: Archive,
+            preserveState: false,
+            count: counts.closedTasks,
+        },
+        {
+            title: 'Volunteer Answers',
+            href: volunteer_answer_list(),
+            icon: MessageCircle,
+            count: counts.volunteerAnswers,
+        },
+    ];
+
+    const footerNavItems: NavItem[] = [
+        // {
+        //     title: 'Repository',
+        //     href: 'https://github.com/laravel/react-starter-kit',
+        //     icon: Folder,
+        // },
+        // {
+        //     title: 'Documentation',
+        //     href: 'https://laravel.com/docs/starter-kits#react',
+        //     icon: BookOpen,
+        // },
+    ];
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>

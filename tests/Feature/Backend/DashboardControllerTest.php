@@ -6,6 +6,7 @@ namespace Tests\Feature\Backend;
 
 use App\Models\Task;
 use App\Models\User;
+use App\Models\VolunteerAnswer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,8 +17,9 @@ class DashboardControllerTest extends TestCase
     public function test_can_show_dashboard(): void {
         // Arrange
         $user = User::factory()->create();
-        Task::factory()->for($user)->count(2)->inactive()->create(); // Unrelated inactive tasks
+        Task::factory()->for($user)->count(2)->create(['active' => false]); // Unrelated inactive tasks
         $tasks = Task::factory()->for($user)->count(3)->create(); // Related active tasks
+        VolunteerAnswer::factory()->for($tasks[0])->count(4)->create();
 
         // Act
         $response = $this->actingAs($user)->get(route('dashboard'));
