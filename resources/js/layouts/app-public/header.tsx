@@ -1,9 +1,11 @@
 import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
 import { about, dashboard, homepage, login, register } from '@/routes';
 import { type SharedData } from '@/types';
+import { useTranslate } from '@/hooks/use-translate';
 import { Link, router, usePage } from '@inertiajs/react';
 
 export default function Header() {
+    const { __ } = useTranslate();
     const { auth } = usePage<SharedData>().props;
 
     const toAboutPage = () => router.get(about());
@@ -18,12 +20,12 @@ export default function Header() {
                     </Link>
 
                     {import.meta.env.VITE_IS_SHOWCASE === 'true' && (
-                        <a 
+                        <a
                             className="text-center text-xs text-muted-foreground text-orange-400"
-                            href="https://github.com/phi1DS/volonteer-hub" 
+                            href="https://github.com/phi1DS/volonteer-hub"
                             target='_blank'
                         >
-                            Demo Mode | Github repository
+                            {__('Demo Mode')} | {__('Github repository')}
                         </a>
                     )}
                 </div>
@@ -31,7 +33,7 @@ export default function Header() {
                 <div className="flex items-center">
                     <UnderlinedClickable
                         onClick={toAboutPage}
-                        buttonText='About'
+                        buttonText={__('About')}
                         className="mr-4"
                     />
 
@@ -40,7 +42,7 @@ export default function Header() {
                             href={dashboard()}
                             className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                         >
-                            Dashboard
+                            {__('Dashboard')}
                         </Link>
                     ) : (
                         <>
@@ -48,13 +50,13 @@ export default function Header() {
                                 href={login()}
                                 className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
                             >
-                                Log in
+                                {__('Log in')}
                             </Link>
                             <Link
                                 href={register()}
                                 className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                             >
-                                Register
+                                {__('Register')}
                             </Link>
                         </>
                     )}

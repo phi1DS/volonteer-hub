@@ -1,6 +1,7 @@
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import { send } from '@/routes/verification';
 import { type BreadcrumbItem, type SharedData } from '@/types';
+import { useTranslate } from '@/hooks/use-translate';
 import { Transition } from '@headlessui/react';
 import { Form, Head, Link, usePage } from '@inertiajs/react';
 
@@ -16,13 +17,6 @@ import SettingsLayout from '@/layouts/settings/layout';
 import profile, { edit } from '@/routes/profile';
 import { useState } from 'react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Profile settings',
-        href: edit().url,
-    },
-];
-
 export default function Profile({
     mustVerifyEmail,
     status,
@@ -31,6 +25,14 @@ export default function Profile({
     status?: string;
 }) {
     const { auth } = usePage<SharedData>().props;
+    const { __ } = useTranslate();
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: __('Profile settings'),
+            href: edit().url,
+        },
+    ];
 
     console.log(auth.user);
 
@@ -42,13 +44,13 @@ export default function Profile({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Profile settings" />
+            <Head title={__('Profile settings')} />
 
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
-                        title="Profile information"
-                        description="Update your informations."
+                        title={__('Profile information')}
+                        description={__('Update your informations.')}
                     />
 
                     <Form
@@ -61,7 +63,7 @@ export default function Profile({
                         {({ processing, recentlySuccessful, errors }) => (
                             <>
                                 <div className="grid gap-2">
-                                    <Label htmlFor="name">Name</Label>
+                                    <Label htmlFor="name">{__('Name')}</Label>
 
                                     <Input
                                         id="name"
@@ -70,7 +72,7 @@ export default function Profile({
                                         name="name"
                                         required
                                         autoComplete="name"
-                                        placeholder="Full name"
+                                        placeholder={__('Full name')}
                                     />
 
                                     <InputError
@@ -80,7 +82,7 @@ export default function Profile({
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor="email">Email address</Label>
+                                    <Label htmlFor="email">{__('Email address')}</Label>
 
                                     <Input
                                         id="email"
@@ -90,7 +92,7 @@ export default function Profile({
                                         name="email"
                                         required
                                         autoComplete="username"
-                                        placeholder="Email address"
+                                        placeholder={__('Email address')}
                                     />
 
                                     <InputError
@@ -103,24 +105,20 @@ export default function Profile({
                                     auth.user.email_verified_at === null && (
                                         <div>
                                             <p className="-mt-4 text-sm text-muted-foreground">
-                                                Your email address is
-                                                unverified.{' '}
+                                                {__('Your email address is unverified.')}{' '}
                                                 <Link
                                                     href={send()}
                                                     as="button"
                                                     className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
                                                 >
-                                                    Click here to resend the
-                                                    verification email.
+                                                    {__('Click here to resend the verification email.')}
                                                 </Link>
                                             </p>
 
                                             {status ===
                                                 'verification-link-sent' && (
                                                 <div className="mt-2 text-sm font-medium text-green-600">
-                                                    A new verification link has
-                                                    been sent to your email
-                                                    address.
+                                                    {__('A new verification link has been sent to your email address.')}
                                                 </div>
                                             )}
                                         </div>
@@ -131,7 +129,7 @@ export default function Profile({
                                         disabled={processing}
                                         data-test="update-profile-button"
                                     >
-                                        Save
+                                        {__('Save')}
                                     </Button>
 
                                     <Transition
@@ -142,7 +140,7 @@ export default function Profile({
                                         leaveTo="opacity-0"
                                     >
                                         <p className="text-sm text-neutral-600">
-                                            Saved
+                                            {__('Saved')}
                                         </p>
                                     </Transition>
                                 </div>

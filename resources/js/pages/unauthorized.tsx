@@ -1,7 +1,9 @@
 import { Head } from '@inertiajs/react';
+import { useTranslate } from '@/hooks/use-translate';
 
 export default function About() {
-    const title = 'Unauthorised action';
+    const { __ } = useTranslate();
+    const title = __('Unauthorised action');
 
     return (
         <div className="p-6">

@@ -64,7 +64,7 @@ class VolunteerAnswerController extends Controller
 
         return back()->with([
             'type' => 'success',
-            'message' => 'Notes updated',
+            'message' => __('Notes updated'),
         ]);
     }
 
@@ -76,7 +76,7 @@ class VolunteerAnswerController extends Controller
 
         return back()->with([
             'type' => 'success',
-            'message' => 'Answer deleted',
+            'message' => __('Answer deleted'),
         ]);
     }
 }

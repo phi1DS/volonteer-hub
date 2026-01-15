@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import volunteer_answer from '@/routes/volunteer_answer';
+import { useTranslate } from '@/hooks/use-translate';
 import { Task } from '@/types/models';
 import { router } from '@inertiajs/react';
 import { FormEvent, useEffect, useState } from 'react';
@@ -28,6 +29,7 @@ export default function VolunteerAnswerModal({
     task,
     onOpenChange,
 }: VolunteerAnswerModalProps) {
+    const { __ } = useTranslate();
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [volunteerName, setVolunteerName] = useState('');
     const [volunteerMessage, setVolunteerMessage] = useState('');
@@ -75,7 +77,7 @@ export default function VolunteerAnswerModal({
 
             handleDialogOpenChange(false);
         } catch (error) {
-            toast.error('Something wrong happened');
+            toast.error(__('Something wrong happened'));
         } finally {
             setIsSubmitting(false);
         }
@@ -86,18 +88,16 @@ export default function VolunteerAnswerModal({
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>
-                        Help with “{task?.subject ?? 'task'}”
+                        {__('Help with')} “{task?.subject ?? __('task')}”
                     </DialogTitle>
                     <DialogDescription>
-                        Share a short message with the task owner. They will
-                        reach out to you directly. Please put your custom
-                        contact information in your message.
+                        {__('Share a short message with the task owner. They will reach out to you directly. Please put your custom contact information in your message.')}
                     </DialogDescription>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="volunteer-name">Your name</Label>
+                        <Label htmlFor="volunteer-name">{__('Your name')}</Label>
                         <Input
                             id="volunteer-name"
                             value={volunteerName}
@@ -110,14 +110,14 @@ export default function VolunteerAnswerModal({
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="volunteer-message">Your message</Label>
+                        <Label htmlFor="volunteer-message">{__('Your message')}</Label>
                         <Textarea
                             id="volunteer-message"
                             value={volunteerMessage}
                             onChange={(event) =>
                                 setVolunteerMessage(event.target.value)
                             }
-                            placeholder="I'd be happy to help with..."
+                            placeholder={__("I'd be happy to help with...")}
                             required
                             rows={5}
                         />
@@ -130,10 +130,10 @@ export default function VolunteerAnswerModal({
                             onClick={() => handleDialogOpenChange(false)}
                             disabled={isSubmitting}
                         >
-                            Cancel
+                            {__('Cancel')}
                         </Button>
                         <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Sending…' : 'Send my answer'}
+                            {isSubmitting ? __('Sending…') : __('Send my answer')}
                         </Button>
                     </DialogActionFooter>
                 </form>

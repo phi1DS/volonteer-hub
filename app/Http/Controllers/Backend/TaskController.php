@@ -63,7 +63,7 @@ class TaskController extends Controller
 
         return to_route('dashboard')->with([
             'type' => 'success',
-            'message' => 'Task created',
+            'message' => __('Task created'),
         ]);
     }
 
@@ -86,7 +86,7 @@ class TaskController extends Controller
 
         return redirect()->route('dashboard')->with([
             'type' => 'success',
-            'message' => 'Task updated',
+            'message' => __('Task updated'),
         ]);
     }
 
@@ -99,7 +99,7 @@ class TaskController extends Controller
 
         return back()->with([
             'type' => 'success',
-            'message' => 'Task marked as closed',
+            'message' => __('Task marked as closed'),
         ]);
     }
 
@@ -112,7 +112,7 @@ class TaskController extends Controller
 
         return back()->with([
             'type' => 'success',
-            'message' => 'Task marked as reopened',
+            'message' => __('Task marked as reopened'),
         ]);
     }
 }

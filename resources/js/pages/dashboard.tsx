@@ -9,26 +9,28 @@ import { dashboard } from '@/routes';
 import { task_close, task_create, task_edit } from '@/routes/tasks';
 import { type BreadcrumbItem } from '@/types';
 import { PaginatedModel, Task } from '@/types/models';
+import { useTranslate } from '@/hooks/use-translate';
 import { Head, Link, router } from '@inertiajs/react';
 import { Smile } from 'lucide-react';
 import { useState } from 'react';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard().url,
-    },
-];
 
 interface DashboardProps {
     paginatedTasks: PaginatedModel<Task>;
 }
 
 export default function Dashboard({ paginatedTasks }: DashboardProps) {
+    const { __ } = useTranslate();
     const tasks = paginatedTasks.data;
 
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: __('Dashboard'),
+            href: dashboard().url,
+        },
+    ];
+
     // -- Confirm Modal
-    
+
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
 
@@ -53,18 +55,18 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
     return (
         <>
             <AppLayout breadcrumbs={breadcrumbs}>
-                <Head title="Dashboard" />
+                <Head title={__('Dashboard')} />
 
                 <div className="flex flex-col gap-4 p-4">
                     <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-semibold">My created tasks</h1>
+                        <h1 className="text-2xl font-semibold">{__('My created tasks')}</h1>
                         <Link href={task_create()}>
-                            <Button variant="secondary">Create New Task</Button>
+                            <Button variant="secondary">{__('Create New Task')}</Button>
                         </Link>
                     </div>
 
                     <div className="mx-auto text-gray-700 text-sm flex justify-center items-center gap-1">
-                        <p>The best filter is beeing organized</p>
+                        <p>{__('The best filter is beeing organized')}</p>
                         <Smile size={14}/>
                     </div>
 
@@ -76,14 +78,14 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                                         <CardFooter className="flex justify-between">
                                             <Link href={task_edit(task.id)}>
                                                 <Button variant="secondary">
-                                                    Update
+                                                    {__('Update')}
                                                 </Button>
                                             </Link>
                                             <UnderlinedClickable
                                                 onClick={() =>
                                                     openConfirmDialog(task.id)
                                                 }
-                                                buttonText='Close Task'
+                                                buttonText={__('Close Task')}
                                             />
                                         </CardFooter>
                                     </>
@@ -99,7 +101,7 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                                 );
                             })
                         ) : (
-                            <p className="text-gray-500">No tasks available yet.</p>
+                            <p className="text-gray-500">{__('No tasks available yet.')}</p>
                         )}
                     </div>
 
@@ -113,10 +115,10 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
 
             <ConfirmDialog
                 open={confirmOpen}
-                title="Close this task?"
-                message="Are you sure you want to close this task?"
-                confirmLabel="Close task"
-                cancelLabel="Cancel"
+                title={__('Close this task?')}
+                message={__('Are you sure you want to close this task?')}
+                confirmLabel={__('Close task')}
+                cancelLabel={__('Cancel')}
                 onConfirm={onConfirmModal}
                 onCancel={onCancelModal}
             />

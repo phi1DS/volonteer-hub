@@ -10,6 +10,7 @@ import Header from '@/layouts/app-public/header';
 import PublicLayout from '@/layouts/public-layout';
 import { homepage } from '@/routes';
 import { PaginatedModel, Task } from '@/types/models';
+import { useTranslate } from '@/hooks/use-translate';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -26,6 +27,7 @@ interface PageProps {
 }
 
 export default function Homepage({ paginatedTasks, filters }: PageProps) {
+    const { __ } = useTranslate();
     const tasks = paginatedTasks.data;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -76,10 +78,10 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
 
                 <div className="mb-12 text-center">
                     <h1 className="mb-4 text-3xl font-semibold">
-                        Opened Volunteering Tasks
+                        {__('Opened Volunteering Tasks')}
                     </h1>
                     <div>
-                        <p className="text-gray-500">Feel free to pick one !</p>
+                        <p className="text-gray-500">{__('Feel free to pick one !')}</p>
                     </div>
                 </div>
 
@@ -87,17 +89,17 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                     {/* Filters */}
                     <div className="mb-8 flex flex-wrap items-end justify-center gap-4 pb-4 text-gray-500">
                         <div>
-                            <Label htmlFor="textFilter">Text</Label>
+                            <Label htmlFor="textFilter">{__('Text')}</Label>
                             <Input
                                 id="textFilter"
                                 value={textFilter}
                                 onChange={(e) => setTextFilter(e.target.value)}
-                                placeholder="e.g. Grass cutting"
+                                placeholder={__('e.g. Grass cutting')}
                                 className="w-48"
                             />
                         </div>
                         <div>
-                            <Label htmlFor="dateSearchStartFilter">From</Label>
+                            <Label htmlFor="dateSearchStartFilter">{__('From')}</Label>
                             <Input
                                 id="dateSearchStartFilter"
                                 type="date"
@@ -109,7 +111,7 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                             />
                         </div>
                         <div>
-                            <Label htmlFor="dateSearchEnd">To</Label>
+                            <Label htmlFor="dateSearchEnd">{__('To')}</Label>
                             <Input
                                 id="dateSearchEnd"
                                 type="date"
@@ -126,9 +128,9 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                         </div>
 
                         <div className="flex gap-2">
-                            <Button onClick={handleFilter}>Filter</Button>
+                            <Button onClick={handleFilter}>{__('Filter')}</Button>
                             <Button variant="secondary" onClick={resetFilter}>
-                                Reset
+                                {__('Reset')}
                             </Button>
                         </div>
                     </div>
@@ -141,7 +143,7 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                                     <CardFooter className="mt-auto w-full justify-center">
                                         <UnderlinedClickable
                                             onClick={() => handleOpenModal(task)}
-                                            buttonText='I want to help'
+                                            buttonText={__('I want to help')}
                                         />
                                     </CardFooter>
                                 );
@@ -156,7 +158,7 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                             })
                         ) : (
                             <p className="text-gray-500">
-                                No tasks available yet.
+                                {__('No tasks available yet.')}
                             </p>
                         )}
                     </div>

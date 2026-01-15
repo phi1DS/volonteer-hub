@@ -34,7 +34,7 @@ class VolunteerAnswerController extends Controller
 
         return back()->with([
             'type' => 'success',
-            'message' => 'Answer sent',
+            'message' => __('Answer sent'),
         ]);
     }
 }

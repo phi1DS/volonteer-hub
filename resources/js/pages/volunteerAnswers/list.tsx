@@ -11,19 +11,9 @@ import {
 } from '@/routes/volunteer_answer_backend';
 import { type BreadcrumbItem } from '@/types';
 import { PaginatedModel, VolunteerAnswer } from '@/types/models';
+import { useTranslate } from '@/hooks/use-translate';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard().url,
-    },
-    {
-        title: 'Volunteer answers',
-        href: volunteer_answer_list().url,
-    },
-];
 
 interface PageProps {
     paginatedVolunteerAnswers: PaginatedModel<VolunteerAnswer>;
@@ -44,7 +34,19 @@ export default function VolunteerAnswerList({
     paginatedVolunteerAnswers,
     filters = {},
 }: PageProps) {
+    const { __ } = useTranslate();
     const answers = paginatedVolunteerAnswers.data;
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: __('Dashboard'),
+            href: dashboard().url,
+        },
+        {
+            title: __('Volunteer answers'),
+            href: volunteer_answer_list().url,
+        },
+    ];
     const [taskFilter, setTaskFilter] = useState(filters.task ?? '');
 
     const handleFilter = () => {
@@ -76,7 +78,7 @@ export default function VolunteerAnswerList({
     };
 
     // -- Confirm Modal
-    
+
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
 
@@ -101,19 +103,19 @@ export default function VolunteerAnswerList({
     return (
         <>
             <AppLayout breadcrumbs={breadcrumbs}>
-                <Head title="Volunteer answers" />
+                <Head title={__('Volunteer answers')} />
 
                 <div className="flex flex-col gap-6 p-4">
                     <div className="flex flex-col gap-4">
                         <h1 className="text-2xl font-semibold">
-                            Volunteer answers
+                            {__('Volunteer answers')}
                         </h1>
 
                         <div className="mt-2 flex justify-end gap-3">
                             <div className="flex flex-col gap-1">
                                 <Input
                                     id="taskFilter"
-                                    placeholder="Filter by task subject"
+                                    placeholder={__('Filter by task subject')}
                                     value={taskFilter}
                                     onChange={(event) =>
                                         setTaskFilter(event.target.value)
@@ -123,10 +125,10 @@ export default function VolunteerAnswerList({
                             </div>
                             <div className="flex gap-2">
                                 <Button variant="secondary" onClick={handleFilter}>
-                                    Filter
+                                    {__('Filter')}
                                 </Button>
                                 <Button variant="secondary" onClick={handleReset}>
-                                    Reset
+                                    {__('Reset')}
                                 </Button>
                             </div>
                         </div>
@@ -136,18 +138,18 @@ export default function VolunteerAnswerList({
                         <table className="w-full min-w-[650px] border-collapse rounded-lg border text-left text-sm shadow-sm">
                             <thead className="bg-muted/60 text-xs text-muted-foreground">
                                 <tr>
-                                    <th className="px-4 py-3 font-medium">Task</th>
+                                    <th className="px-4 py-3 font-medium">{__('Task')}</th>
                                     <th className="px-4 py-3 font-medium">
-                                        Volunteer
+                                        {__('Volunteer')}
                                     </th>
                                     <th className="px-4 py-3 font-medium">
-                                        Volunteer message
+                                        {__('Volunteer message')}
                                     </th>
                                     <th className="px-4 py-3 font-medium">
-                                        Received on
+                                        {__('Received on')}
                                     </th>
                                     <th className="px-4 py-3 text-right font-medium">
-                                        Actions
+                                        {__('Actions')}
                                     </th>
                                 </tr>
                             </thead>
@@ -194,7 +196,7 @@ export default function VolunteerAnswerList({
                                                         className="text-sm font-medium text-primary"
                                                     >
                                                         <Button variant="secondary">
-                                                            View details
+                                                            {__('View details')}
                                                         </Button>
                                                     </Link>
 
@@ -204,7 +206,7 @@ export default function VolunteerAnswerList({
                                                             openConfirmDialog(answer.id)
                                                         }
                                                     >
-                                                        Delete
+                                                        {__('Delete')}
                                                     </Button>
                                                 </td>
                                             </tr>
@@ -216,7 +218,7 @@ export default function VolunteerAnswerList({
                                             className="px-4 py-6 text-center text-muted-foreground"
                                             colSpan={5}
                                         >
-                                            No volunteer answers yet.
+                                            {__('No volunteer answers yet.')}
                                         </td>
                                     </tr>
                                 )}
@@ -233,10 +235,10 @@ export default function VolunteerAnswerList({
             </AppLayout>
             <ConfirmDialog
                 open={confirmOpen}
-                title="Delete this answer"
-                message="Are you sure you want to delete this answer ?"
-                confirmLabel="Delete"
-                cancelLabel="Cancel"
+                title={__('Delete this answer')}
+                message={__('Are you sure you want to delete this answer ?')}
+                confirmLabel={__('Delete')}
+                cancelLabel={__('Cancel')}
                 onConfirm={onConfirmModal}
                 onCancel={onCancelModal}
             />

@@ -7,6 +7,7 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { useTranslate } from '@/hooks/use-translate';
 
 interface ConfirmDialogProps {
     open: boolean;
@@ -20,27 +21,32 @@ interface ConfirmDialogProps {
 
 export default function ConfirmDialog({
     open,
-    title = "Confirmation",
+    title,
     message,
-    confirmLabel = "Confirm",
-    cancelLabel = "Cancel",
+    confirmLabel,
+    cancelLabel,
     onConfirm,
     onCancel,
 }: ConfirmDialogProps) {
+    const { __ } = useTranslate();
+    const finalTitle = title || __("Confirmation");
+    const finalConfirmLabel = confirmLabel || __("Confirm");
+    const finalCancelLabel = cancelLabel || __("Cancel");
+
     return (
         <Dialog open={open} onOpenChange={onCancel}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>{title}</DialogTitle>
+                    <DialogTitle>{finalTitle}</DialogTitle>
                     <DialogDescription>{message}</DialogDescription>
                 </DialogHeader>
 
                 <DialogFooter className="flex justify-end gap-2">
                     <Button variant="secondary" onClick={onCancel}>
-                        {cancelLabel}
+                        {finalCancelLabel}
                     </Button>
                     <Button onClick={onConfirm}>
-                        {confirmLabel}
+                        {finalConfirmLabel}
                     </Button>
                 </DialogFooter>
             </DialogContent>

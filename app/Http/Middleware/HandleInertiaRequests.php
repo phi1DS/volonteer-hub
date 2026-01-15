@@ -2,8 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Task;
+use App\Models\VolunteerAnswer;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -40,6 +43,11 @@ class HandleInertiaRequests extends Middleware
 
         $user = $request->user();
 
+        $translationFile = lang_path(app()->getLocale() . '.json');
+        $translations = is_readable($translationFile)
+            ? json_decode(file_get_contents($translationFile), true)
+            : [];
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -53,9 +61,14 @@ class HandleInertiaRequests extends Middleware
                 'type' => $request->session()->get('type'),
             ],
             'locale' => app()->getLocale(),
-            'translations' => is_readable(lang_path(app()->getLocale() . '.json'))
-                ? json_decode(file_get_contents(lang_path(app()->getLocale() . '.json')), true)
-                : [],
+            'translations' => $translations,
+            'sidebarCounts' => fn () =>
+                Auth::check()
+                    ? [
+                        'openedTasks' => Task::query()->where('user_id', Auth::id())->where('active', true)->count(),
+                        'closedTasks' => Task::query()->where('user_id', Auth::id())->where('active', false)->count(),
+                        'volunteerAnswers' => VolunteerAnswer::query()->whereRelation('task', 'user_id', Auth::id())->count(),
+                    ] : null,
         ];
     }
 }

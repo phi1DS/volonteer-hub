@@ -31,7 +31,14 @@ export interface SharedData {
     sidebarOpen: boolean;
     locale: string;
     translations: Record<string, string>;
+    sidebarCounts?: SidebarCounts | null;
     [key: string]: unknown;
+}
+
+export interface SidebarCounts {
+    openedTasks: number;
+    closedTasks: number;
+    volunteerAnswers: number;
 }
 
 export interface User {
