@@ -52,6 +52,10 @@ class HandleInertiaRequests extends Middleware
                 'message' => $request->session()->get('message'),
                 'type' => $request->session()->get('type'),
             ],
+            'locale' => app()->getLocale(),
+            'translations' => is_readable(lang_path(app()->getLocale() . '.json'))
+                ? json_decode(file_get_contents(lang_path(app()->getLocale() . '.json')), true)
+                : [],
         ];
     }
 }

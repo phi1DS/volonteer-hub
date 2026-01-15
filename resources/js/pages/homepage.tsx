@@ -71,7 +71,7 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
 
     return (
         <PublicLayout>
-            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:p-8 dark:bg-[#0a0a0a]">
+            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 lg:p-8 dark:bg-[#0a0a0a]">
                 <Header />
 
                 <div className="mb-12 text-center">
