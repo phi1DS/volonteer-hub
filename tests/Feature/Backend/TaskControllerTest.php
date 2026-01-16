@@ -13,18 +13,19 @@ class TaskControllerTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    public function test_showInActiveTasksForUser() {
+    public function test_show_in_active_tasks_for_user()
+    {
         // Arrange
         $user = User::factory()->create();
 
         Task::factory()->count(3)->create([
             'user_id' => $user->id,
-            'active' => false
+            'active' => false,
         ]);
 
         Task::factory()->count(5)->create([
             'user_id' => $user->id,
-            'active' => true
+            'active' => true,
         ]);
 
         // Act
@@ -73,7 +74,7 @@ class TaskControllerTest extends TestCase
 
         $payload = [
             ...$taskProperties,
-            'subject' => 'New Subject'
+            'subject' => 'New Subject',
         ];
         unset($payload['user_id']);
 

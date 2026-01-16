@@ -39,4 +39,3 @@ class VolunteerAnswer extends Model
         return $this->belongsTo(Task::class);
     }
 }
-

@@ -43,7 +43,7 @@ class HandleInertiaRequests extends Middleware
 
         $user = $request->user();
 
-        $translationFile = lang_path(app()->getLocale() . '.json');
+        $translationFile = lang_path(app()->getLocale().'.json');
         $translations = is_readable($translationFile)
             ? json_decode(file_get_contents($translationFile), true)
             : [];
@@ -62,8 +62,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => app()->getLocale(),
             'translations' => $translations,
-            'sidebarCounts' => fn () =>
-                Auth::check()
+            'sidebarCounts' => fn () => Auth::check()
                     ? [
                         'openedTasks' => Task::query()->where('user_id', Auth::id())->where('active', true)->count(),
                         'closedTasks' => Task::query()->where('user_id', Auth::id())->where('active', false)->count(),

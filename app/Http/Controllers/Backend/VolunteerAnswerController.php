@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\VolunteerAnswer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -80,4 +79,3 @@ class VolunteerAnswerController extends Controller
         ]);
     }
 }
-

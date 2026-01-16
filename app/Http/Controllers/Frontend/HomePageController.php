@@ -28,25 +28,24 @@ class HomePageController extends Controller
             ->orderBy('date_start', 'ASC')
 
         // Text search filter
-        ->when($filters['textFilter'] ?? null, function ($query, $search) {
-            $query->where(function ($query) use ($search) {
-                $query->where('subject', 'LIKE', "%{$search}%")
-                    ->orWhere('organisation', 'LIKE', "%{$search}%")
-                    ->orWhereHas('user', fn ($u) =>
-                        $u->where('name', 'LIKE', "%{$search}%")
-                    );
-            });
-        })
+            ->when($filters['textFilter'] ?? null, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('subject', 'LIKE', "%{$search}%")
+                        ->orWhere('organisation', 'LIKE', "%{$search}%")
+                        ->orWhereHas('user', fn ($u) => $u->where('name', 'LIKE', "%{$search}%")
+                        );
+                });
+            })
 
         // Date start filter
-        ->when($start = $filters['dateSearchStartFilter'] ?? null,
-            fn($q) => $q->where('date_start', '>=', $start)
-        )
+            ->when($start = $filters['dateSearchStartFilter'] ?? null,
+                fn ($q) => $q->where('date_start', '>=', $start)
+            )
 
         // Date end filter
-        ->when($end = $filters['dateSearchEndFilter'] ?? null,
-            fn($q) => $q->where('date_start', '<=', $end)
-        );
+            ->when($end = $filters['dateSearchEndFilter'] ?? null,
+                fn ($q) => $q->where('date_start', '<=', $end)
+            );
 
         $paginatedTasks = $query->paginate(12);
 
@@ -57,7 +56,7 @@ class HomePageController extends Controller
                 'userFilter' => $filters['userFilter'] ?? '',
                 'dateSearchStartFilter' => $filters['dateSearchStartFilter'] ?? '',
                 'dateSearchEndFilter' => $filters['dateSearchEndFilter'] ?? '',
-            ]
+            ],
         ]);
     }
 }

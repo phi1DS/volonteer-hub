@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskFormRequest;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -29,8 +29,8 @@ class TaskController extends Controller
             ->with('user:id,name,profile_picture_path')
             ->orderBy('date_start', 'DESC');
 
-        if(isset($validated['subject']) && $validated['subject']) {
-            $query->where('subject', 'LIKE', '%' . $validated['subject'] . '%');
+        if (isset($validated['subject']) && $validated['subject']) {
+            $query->where('subject', 'LIKE', '%'.$validated['subject'].'%');
         }
 
         $paginatedInactiveTasks = $query->paginate(9);

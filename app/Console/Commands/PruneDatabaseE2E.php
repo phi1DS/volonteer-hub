@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class PruneDatabaseE2E extends Command
 {
     protected $signature = 'app:testing:prune-db';
+
     protected $description = 'Truncate all tables except default e2e user and sessions table';
 
     // exclude e2e user and session to keep them alive between tests and save time
@@ -19,7 +20,7 @@ class PruneDatabaseE2E extends Command
 
         // Check connection type
         $connection = DB::connection()->getDriverName();
-        if($connection !== 'sqlite') {
+        if ($connection !== 'sqlite') {
             $this->info('Requires sqlite.');
 
             return 0;
@@ -33,7 +34,7 @@ class PruneDatabaseE2E extends Command
             $tableName = $table->name;
 
             if ($tableName === 'sessions') { // -> to improve at some point to only delete non seeded e2e user session
-                continue; 
+                continue;
             }
 
             if ($tableName === 'users') {
@@ -41,6 +42,7 @@ class PruneDatabaseE2E extends Command
                 DB::table('users')
                     ->where('email', '<>', $e2eUserEmail)
                     ->delete();
+
                 continue;
             }
 
@@ -50,7 +52,7 @@ class PruneDatabaseE2E extends Command
         DB::statement('PRAGMA foreign_keys = ON;');
 
         $this->info('DB pruned successfully.');
-        
+
         return 0;
     }
 }

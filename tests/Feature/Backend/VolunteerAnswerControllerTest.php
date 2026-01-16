@@ -22,7 +22,8 @@ class VolunteerAnswerControllerTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    public function test_can_list(): void {
+    public function test_can_list(): void
+    {
         // Arrange
         // unrelated task
         $unrelatedTask = Task::factory()->for($this->user)->create([
@@ -39,7 +40,7 @@ class VolunteerAnswerControllerTest extends TestCase
 
         // Act
         $response = $this->actingAs($this->user)
-            ->get(route('volunteer_answer_backend.volunteer_answer_list') . '?task=' . $filterPrefix);
+            ->get(route('volunteer_answer_backend.volunteer_answer_list').'?task='.$filterPrefix);
 
         $volunteerAnswersData = $response->inertiaProps()['paginatedVolunteerAnswers']['data'];
 
@@ -51,7 +52,8 @@ class VolunteerAnswerControllerTest extends TestCase
         $this->assertSame($volunteerAnswers[2]->id, $volunteerAnswersData[2]['id']);
     }
 
-    public function test_can_show_and_filter(): void {
+    public function test_can_show_and_filter(): void
+    {
         // Arrange
         // unrelated
         VolunteerAnswer::factory()->create();
@@ -71,7 +73,8 @@ class VolunteerAnswerControllerTest extends TestCase
         $this->assertSame($volunteerAnswer->id, $volunteerAnswerData['id']);
     }
 
-    public function test_can_delete(): void {
+    public function test_can_delete(): void
+    {
         // Arrange
         // unrelated
         VolunteerAnswer::factory()->create();

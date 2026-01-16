@@ -6,7 +6,8 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 
-class CaptchaService {
+class CaptchaService
+{
     private string $recaptchaSecretKey;
 
     public function __construct()

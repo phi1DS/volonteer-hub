@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Backend\DashboardController;
-use App\Http\Controllers\Backend\VolunteerAnswerController as BackendVolunteerAnswerController;
-use App\Http\Controllers\Frontend\VolunteerAnswerController as FrontendVolunteerAnswerController;
-use App\Http\Controllers\Frontend\HomePageController;
-use App\Http\Controllers\Backend\TaskController as BackendTaskController;
 use App\Http\Controllers\Backend\SidebarController;
+use App\Http\Controllers\Backend\TaskController as BackendTaskController;
+use App\Http\Controllers\Backend\VolunteerAnswerController as BackendVolunteerAnswerController;
+use App\Http\Controllers\Frontend\HomePageController;
+use App\Http\Controllers\Frontend\VolunteerAnswerController as FrontendVolunteerAnswerController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -58,7 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
-if(config('app.env') === 'e2e') { // e2e quick login
+if (config('app.env') === 'e2e') { // e2e quick login
     Route::get('/testing/login', function () {
         $user = User::query()->where('name', 'e2eUser')->first();
 

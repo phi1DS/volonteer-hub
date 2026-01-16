@@ -14,7 +14,8 @@ class DashboardControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_can_show_dashboard(): void {
+    public function test_can_show_dashboard(): void
+    {
         // Arrange
         $user = User::factory()->create();
         Task::factory()->for($user)->count(2)->create(['active' => false]); // Unrelated inactive tasks

@@ -19,7 +19,7 @@ class SidebarController extends Controller
         return response()->json([
             'openedTasks' => $user ? Task::where('user_id', $user->id)->where('active', true)->count() : 0,
             'closedTasks' => $user ? Task::where('user_id', $user->id)->where('active', false)->count() : 0,
-            'volunteerAnswers' => $user ? VolunteerAnswer::whereHas('task', fn($q) => $q->where('user_id', $user->id))->count() : 0,
+            'volunteerAnswers' => $user ? VolunteerAnswer::whereHas('task', fn ($q) => $q->where('user_id', $user->id))->count() : 0,
         ]);
     }
 }

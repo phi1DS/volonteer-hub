@@ -43,13 +43,13 @@ return [
         ],
 
         // scalingo version
-        'mysql' => array(
-            'driver'    => 'mysql',
-            'url'       => env('DATABASE_URL'),
-            'charset'   => 'utf8',
+        'mysql' => [
+            'driver' => 'mysql',
+            'url' => env('DATABASE_URL'),
+            'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-        ),
+            'prefix' => '',
+        ],
 
         // 'mysql' => [
         //     'driver' => 'mysql',

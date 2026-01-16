@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\VolunteerAnswer;
-use Illuminate\Auth\Access\Response;
 
 class VolunteerAnswerPolicy
 {
@@ -22,6 +21,7 @@ class VolunteerAnswerPolicy
     public function view(User $user, VolunteerAnswer $volunteerAnswer): bool
     {
         $volunteerAnswer->loadMissing('task');
+
         return $volunteerAnswer->task && $user->id === $volunteerAnswer->task->user_id;
     }
 
@@ -39,6 +39,7 @@ class VolunteerAnswerPolicy
     public function update(User $user, VolunteerAnswer $volunteerAnswer): bool
     {
         $volunteerAnswer->loadMissing('task');
+
         return $volunteerAnswer->task && $user->id === $volunteerAnswer->task->user_id;
     }
 
@@ -48,6 +49,7 @@ class VolunteerAnswerPolicy
     public function delete(User $user, VolunteerAnswer $volunteerAnswer): bool
     {
         $volunteerAnswer->loadMissing('task');
+
         return $volunteerAnswer->task && $user->id === $volunteerAnswer->task->user_id;
     }
 

@@ -5,10 +5,10 @@ namespace Tests\Feature\Front;
 use App\Models\Task;
 use App\Models\VolunteerAnswer;
 use App\Services\CaptchaService;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Mockery;
+use Tests\TestCase;
 
 class VolunteerAnswerControllerTest extends TestCase
 {
@@ -21,7 +21,7 @@ class VolunteerAnswerControllerTest extends TestCase
         $captchaToken = 'token';
         $captchaMock = Mockery::mock(CaptchaService::class);
         $this->app->instance(CaptchaService::class, $captchaMock);
-        
+
         $captchaMock->shouldReceive('isCaptchaTokenValid')
             ->once()
             ->with($captchaToken)
@@ -33,11 +33,11 @@ class VolunteerAnswerControllerTest extends TestCase
             'task_id' => $task->id,
             'message' => $this->faker->paragraph(),
             'name' => $this->faker->sentence(2),
-            'captcha_token' => $captchaToken
+            'captcha_token' => $captchaToken,
         ];
 
         // Act
-        $response = $this->post(route('volunteer_answer.store') , $volunteerAnswerData);
+        $response = $this->post(route('volunteer_answer.store'), $volunteerAnswerData);
         $response->assertFound();
 
         // Assert

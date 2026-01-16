@@ -23,7 +23,7 @@ class VolunteerAnswerController extends Controller
             'captcha_token' => ['required', 'string'],
         ]);
 
-        if(! $captchaService->isCaptchaTokenValid($validated['captcha_token'])) {
+        if (! $captchaService->isCaptchaTokenValid($validated['captcha_token'])) {
             return back()->with([
                 'type' => 'error',
                 'message' => 'Captcha failed, try again.',
@@ -38,4 +38,3 @@ class VolunteerAnswerController extends Controller
         ]);
     }
 }
-

@@ -61,7 +61,7 @@ class HomePageControllerTest extends TestCase
             'date_start' => now()->addDay(),
         ]);
 
-        $response = $this->get(route('homepage') . '?textFilter=Green');
+        $response = $this->get(route('homepage').'?textFilter=Green');
 
         $response->assertOk();
 
@@ -87,9 +87,9 @@ class HomePageControllerTest extends TestCase
             'date_start' => now()->addDays(3),
         ]);
 
-        $response = $this->get(route('homepage') . '?' . http_build_query([
+        $response = $this->get(route('homepage').'?'.http_build_query([
             'dateSearchStartFilter' => now()->addDay()->toDateString(),
-            'dateSearchEndFilter'   => now()->addDays(5)->toDateString(),
+            'dateSearchEndFilter' => now()->addDays(5)->toDateString(),
         ]));
 
         $tasks = $response->inertiaProps()['paginatedTasks']['data'];

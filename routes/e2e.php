@@ -16,21 +16,25 @@ Route::get('/test', function () {
 
 Route::post('/seed', function () {
     Artisan::call('db:seed', ['--class' => 'E2eDatabaseSeeder']);
+
     return response()->json(['status' => 'seeded']);
 })->name('seed');
 
 Route::post('/reset', function () {
     Artisan::call('migrate:fresh');
+
     return response()->json(['status' => 'reseted']);
 })->name('reset');
 
 Route::post('/reset-seed', function () {
     Artisan::call('migrate:fresh', ['--seed' => true]);
+
     return response()->json(['status' => 'reset-seeded']);
 })->name('reset-seed');
 
 Route::post('/prune-db', function () {
     Artisan::call('app:testing:prune-db');
+
     return response()->json(['status' => 'db pruned']);
 })->name('dbprune');
 
@@ -50,7 +54,7 @@ Route::prefix('/factory')->name('factory.')->group(function () {
 
         return response()->json($model);
     })->name('task');
-    
+
     Route::post('/volunteer-answer', function () {
         $data = request()->all();
         $model = VolunteerAnswer::factory()->create($data);
