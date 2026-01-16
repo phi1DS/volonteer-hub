@@ -1,10 +1,10 @@
 import TaskForm from '@/components/tasks/taskForm';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { useTranslate } from '@/hooks/use-translate';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { task_store } from '@/routes/tasks';
 import { type BreadcrumbItem } from '@/types';
-import { useTranslate } from '@/hooks/use-translate';
 import { Head } from '@inertiajs/react';
 
 export default function CreateTask() {

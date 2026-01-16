@@ -5,11 +5,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useTranslate } from '@/hooks/use-translate';
 import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { useTranslate } from '@/hooks/use-translate';
 import { Form, Head } from '@inertiajs/react';
 
 interface LoginProps {
@@ -36,7 +36,9 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">{__('Email address')}</Label>
+                                <Label htmlFor="email">
+                                    {__('Email address')}
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -52,7 +54,9 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">{__('Password')}</Label>
+                                    <Label htmlFor="password">
+                                        {__('Password')}
+                                    </Label>
                                     {canResetPassword && (
                                         <TextLink
                                             href={request()}
@@ -81,7 +85,9 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     name="remember"
                                     tabIndex={3}
                                 />
-                                <Label htmlFor="remember">{__('Remember me')}</Label>
+                                <Label htmlFor="remember">
+                                    {__('Remember me')}
+                                </Label>
                             </div>
 
                             <Button

@@ -1,9 +1,9 @@
 import PasswordController from '@/actions/App/Http/Controllers/Settings/PasswordController';
 import InputError from '@/components/input-error';
+import { useTranslate } from '@/hooks/use-translate';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { type BreadcrumbItem } from '@/types';
-import { useTranslate } from '@/hooks/use-translate';
 import { Transition } from '@headlessui/react';
 import { Form, Head } from '@inertiajs/react';
 import { useRef } from 'react';
@@ -34,7 +34,9 @@ export default function Password() {
                 <div className="space-y-6">
                     <HeadingSmall
                         title={__('Update password')}
-                        description={__('Ensure your account is using a long, random password to stay secure')}
+                        description={__(
+                            'Ensure your account is using a long, random password to stay secure',
+                        )}
                     />
 
                     <Form

@@ -1,19 +1,19 @@
 import TaskCard from '@/components/tasks/taskCard';
 import { Button } from '@/components/ui/button';
 import { CardFooter } from '@/components/ui/card';
+import ConfirmDialog from '@/components/ui/confirmDialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import Pagination from '@/components/ui/pagination';
+import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
+import { useTranslate } from '@/hooks/use-translate';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { task_inactive, task_reopen } from '@/routes/tasks';
 import { BreadcrumbItem } from '@/types';
 import { PaginatedModel, Task } from '@/types/models';
-import { useTranslate } from '@/hooks/use-translate';
 import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
-import Pagination from '@/components/ui/pagination';
-import ConfirmDialog from '@/components/ui/confirmDialog';
-import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
 
 interface Props {
     paginatedInactiveTasks: PaginatedModel<Task>;
@@ -81,22 +81,30 @@ export default function InactiveTasks({
 
                 <div className="flex flex-col gap-4 p-4">
                     <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-semibold">{__('My closed tasks')}</h1>
+                        <h1 className="text-2xl font-semibold">
+                            {__('My closed tasks')}
+                        </h1>
                     </div>
 
-                    <div className="mx-auto flex items-end gap-2 mb-5">
+                    <div className="mx-auto mb-5 flex items-end gap-2">
                         <div>
-                            <Label htmlFor="taskNameFilter">{__('Task name')}</Label>
+                            <Label htmlFor="taskNameFilter">
+                                {__('Task name')}
+                            </Label>
                             <Input
                                 id="taskNameFilter"
                                 value={taskNameFilter}
-                                onChange={(e) => setTaskNameFilter(e.target.value)}
+                                onChange={(e) =>
+                                    setTaskNameFilter(e.target.value)
+                                }
                                 placeholder={__('e.g. Grass cutting')}
                                 className="w-48"
                             />
                         </div>
                         <div className="flex gap-2">
-                            <Button onClick={handleFilter}>{__('Filter')}</Button>
+                            <Button onClick={handleFilter}>
+                                {__('Filter')}
+                            </Button>
                             <Button variant="secondary" onClick={resetFilter}>
                                 {__('Reset')}
                             </Button>
@@ -110,7 +118,9 @@ export default function InactiveTasks({
                                     <>
                                         <CardFooter className="flex justify-end">
                                             <UnderlinedClickable
-                                                onClick={() => openConfirmDialog(task.id)}
+                                                onClick={() =>
+                                                    openConfirmDialog(task.id)
+                                                }
                                                 buttonText={__('Reopen Task')}
                                             />
                                         </CardFooter>
@@ -128,7 +138,9 @@ export default function InactiveTasks({
                                 );
                             })
                         ) : (
-                            <p className="text-gray-500">{__('No tasks available yet.')}</p>
+                            <p className="text-gray-500">
+                                {__('No tasks available yet.')}
+                            </p>
                         )}
                     </div>
                 </div>
@@ -138,13 +150,14 @@ export default function InactiveTasks({
                     redirectUrl={task_inactive().url}
                     filters={{}}
                 />
-
             </AppLayout>
 
             <ConfirmDialog
                 open={confirmOpen}
                 title={__('Reopen this task?')}
-                message={__('Are you sure you want to reopen this task? It will move back to your active tasks list.')}
+                message={__(
+                    'Are you sure you want to reopen this task? It will move back to your active tasks list.',
+                )}
                 confirmLabel={__('Reopen')}
                 cancelLabel={__('Cancel')}
                 onConfirm={onConfirmModal}

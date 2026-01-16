@@ -1,7 +1,7 @@
+import { useTranslate } from '@/hooks/use-translate';
 import Header from '@/layouts/app-public/header';
 import PublicLayout from '@/layouts/public-layout';
 import { homepage, register } from '@/routes';
-import { useTranslate } from '@/hooks/use-translate';
 import { Link } from '@inertiajs/react';
 
 export default function AboutPage() {
@@ -18,20 +18,25 @@ export default function AboutPage() {
                         </h1>
 
                         <p className="text-gray-600 dark:text-gray-400">
-                            {__('Volunteer Hub is a community platform where anyone can discover and share volunteering opportunities. Whether you want to help a local organisation or start your own project, this is the place to connect with people who care.')}
+                            {__(
+                                'Volunteer Hub is a community platform where anyone can discover and share volunteering opportunities. Whether you want to help a local organisation or start your own project, this is the place to connect with people who care.',
+                            )}
                         </p>
 
                         <p className="text-gray-600 dark:text-gray-400">
-                            {__('You can browse all current volunteering offers on the')}
-                            {' '}
+                            {__(
+                                'You can browse all current volunteering offers on the',
+                            )}{' '}
                             <Link
                                 href={homepage()}
                                 className="text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"
                             >
                                 {__('homepage')}
                             </Link>
-                            . {__('To create your own volunteering offers, simply')}
-                            {' '}
+                            .{' '}
+                            {__(
+                                'To create your own volunteering offers, simply',
+                            )}{' '}
                             <Link
                                 href={register()}
                                 className="text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200"

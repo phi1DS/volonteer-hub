@@ -36,7 +36,8 @@ export default function AuthSimpleLayout({
                             </p>
                             {import.meta.env.VITE_IS_SHOWCASE === 'true' && (
                                 <p className="text-sm text-muted-foreground text-orange-400">
-                                    Demo version : no confirmation email will be sent.
+                                    Demo version : no confirmation email will be
+                                    sent.
                                 </p>
                             )}
                         </div>

@@ -1,8 +1,8 @@
 import { Toaster } from '@/components/ui/sonner';
 import { usePage } from '@inertiajs/react';
 import { useEffect, type ReactNode } from 'react';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { toast } from 'sonner';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
 
 interface AppLayoutProps {
     children: ReactNode;

@@ -1,5 +1,5 @@
-import { Head } from '@inertiajs/react';
 import { useTranslate } from '@/hooks/use-translate';
+import { Head } from '@inertiajs/react';
 
 export default function About() {
     const { __ } = useTranslate();

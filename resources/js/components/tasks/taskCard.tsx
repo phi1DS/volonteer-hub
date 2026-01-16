@@ -1,4 +1,4 @@
-import { getStorageAssetsPath, getDefaultProfilePicturePath } from '@/helpers';
+import { getDefaultProfilePicturePath, getStorageAssetsPath } from '@/helpers';
 import { cn } from '@/lib/utils';
 import { Task } from '@/types/models';
 import { ReactNode } from 'react';
@@ -22,14 +22,16 @@ export default function TaskCard({
 
     let profilePictureUrl = getDefaultProfilePicturePath();
     if (task.user.profile_picture_path !== null) {
-        profilePictureUrl = getStorageAssetsPath(task.user.profile_picture_path);
+        profilePictureUrl = getStorageAssetsPath(
+            task.user.profile_picture_path,
+        );
     }
 
     const now = new Date();
     const dateStart = new Date(task.date_start);
 
     return (
-        <div className='w-[320px]'>
+        <div className="w-[320px]">
             <Card
                 className={cn(
                     'flex justify-between rounded-xl shadow-sm',

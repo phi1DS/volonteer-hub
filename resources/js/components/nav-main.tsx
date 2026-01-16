@@ -5,8 +5,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
 import { useTranslate } from '@/hooks/use-translate';
+import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
@@ -32,7 +32,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                 {item.icon && <item.icon />}
                                 <span>{item.title}</span>
                                 {item.count !== undefined && (
-                                    <span className="ml-auto text-xs font-medium text-muted-foreground pr-1">
+                                    <span className="ml-auto pr-1 text-xs font-medium text-muted-foreground">
                                         {item.count}
                                     </span>
                                 )}

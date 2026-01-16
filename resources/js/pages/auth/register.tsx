@@ -1,6 +1,6 @@
 import RegisteredUserController from '@/actions/App/Http/Controllers/Auth/RegisteredUserController';
-import { login } from '@/routes';
 import { useTranslate } from '@/hooks/use-translate';
+import { login } from '@/routes';
 import { Form, Head } from '@inertiajs/react';
 
 import InputError from '@/components/input-error';
@@ -48,7 +48,9 @@ export default function Register() {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">{__('Email address')}</Label>
+                                <Label htmlFor="email">
+                                    {__('Email address')}
+                                </Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -62,7 +64,9 @@ export default function Register() {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">{__('Password')}</Label>
+                                <Label htmlFor="password">
+                                    {__('Password')}
+                                </Label>
                                 <Input
                                     id="password"
                                     type="password"

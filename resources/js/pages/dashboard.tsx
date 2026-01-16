@@ -4,12 +4,12 @@ import { CardFooter } from '@/components/ui/card';
 import ConfirmDialog from '@/components/ui/confirmDialog';
 import Pagination from '@/components/ui/pagination';
 import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
+import { useTranslate } from '@/hooks/use-translate';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { task_close, task_create, task_edit } from '@/routes/tasks';
 import { type BreadcrumbItem } from '@/types';
 import { PaginatedModel, Task } from '@/types/models';
-import { useTranslate } from '@/hooks/use-translate';
 import { Head, Link, router } from '@inertiajs/react';
 import { Smile } from 'lucide-react';
 import { useState } from 'react';
@@ -59,15 +59,19 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
 
                 <div className="flex flex-col gap-4 p-4">
                     <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-semibold">{__('My created tasks')}</h1>
+                        <h1 className="text-2xl font-semibold">
+                            {__('My created tasks')}
+                        </h1>
                         <Link href={task_create()}>
-                            <Button variant="secondary">{__('Create New Task')}</Button>
+                            <Button variant="secondary">
+                                {__('Create New Task')}
+                            </Button>
                         </Link>
                     </div>
 
-                    <div className="mx-auto text-gray-700 text-sm flex justify-center items-center gap-1">
+                    <div className="mx-auto flex items-center justify-center gap-1 text-sm text-gray-700">
                         <p>{__('The best filter is beeing organized')}</p>
-                        <Smile size={14}/>
+                        <Smile size={14} />
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-4">
@@ -101,7 +105,9 @@ export default function Dashboard({ paginatedTasks }: DashboardProps) {
                                 );
                             })
                         ) : (
-                            <p className="text-gray-500">{__('No tasks available yet.')}</p>
+                            <p className="text-gray-500">
+                                {__('No tasks available yet.')}
+                            </p>
                         )}
                     </div>
 

@@ -10,19 +10,21 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { useTranslate } from '@/hooks/use-translate';
 import { dashboard, homepage } from '@/routes';
 import { task_inactive } from '@/routes/tasks';
 import { volunteer_answer_list } from '@/routes/volunteer_answer_backend';
 import { type NavItem, SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { useTranslate } from '@/hooks/use-translate';
 import { Archive, Book, MessageCircle } from 'lucide-react';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
     const { __ } = useTranslate();
     const { sidebarCounts } = usePage<SharedData>().props;
-    if (!sidebarCounts) { return null; }
+    if (!sidebarCounts) {
+        return null;
+    }
 
     const mainNavItems: NavItem[] = [
         {

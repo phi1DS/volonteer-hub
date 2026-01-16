@@ -1,6 +1,6 @@
+import { useTranslate } from '@/hooks/use-translate';
 import { dashboard, login, register } from '@/routes';
 import { type SharedData } from '@/types';
-import { useTranslate } from '@/hooks/use-translate';
 import { Head, Link, usePage } from '@inertiajs/react';
 
 export default function Welcome() {
@@ -51,7 +51,9 @@ export default function Welcome() {
                                 {__("Let's get started")}
                             </h1>
                             <p className="mb-2 text-[#706f6c] dark:text-[#A1A09A]">
-                                {__('Laravel has an incredibly rich ecosystem.')}
+                                {__(
+                                    'Laravel has an incredibly rich ecosystem.',
+                                )}
                                 <br />
                                 {__('We suggest starting with the following.')}
                             </p>

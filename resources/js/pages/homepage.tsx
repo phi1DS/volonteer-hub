@@ -6,11 +6,11 @@ import { Label } from '@/components/ui/label';
 import Pagination from '@/components/ui/pagination';
 import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
 import VolunteerAnswerModal from '@/components/volunteerAnswer/volunteerAnswerModal';
+import { useTranslate } from '@/hooks/use-translate';
 import Header from '@/layouts/app-public/header';
 import PublicLayout from '@/layouts/public-layout';
 import { homepage } from '@/routes';
 import { PaginatedModel, Task } from '@/types/models';
-import { useTranslate } from '@/hooks/use-translate';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -81,7 +81,9 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                         {__('Opened Volunteering Tasks')}
                     </h1>
                     <div>
-                        <p className="text-gray-500">{__('Feel free to pick one !')}</p>
+                        <p className="text-gray-500">
+                            {__('Feel free to pick one !')}
+                        </p>
                     </div>
                 </div>
 
@@ -99,7 +101,9 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                             />
                         </div>
                         <div>
-                            <Label htmlFor="dateSearchStartFilter">{__('From')}</Label>
+                            <Label htmlFor="dateSearchStartFilter">
+                                {__('From')}
+                            </Label>
                             <Input
                                 id="dateSearchStartFilter"
                                 type="date"
@@ -128,7 +132,9 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                         </div>
 
                         <div className="flex gap-2">
-                            <Button onClick={handleFilter}>{__('Filter')}</Button>
+                            <Button onClick={handleFilter}>
+                                {__('Filter')}
+                            </Button>
                             <Button variant="secondary" onClick={resetFilter}>
                                 {__('Reset')}
                             </Button>
@@ -142,7 +148,9 @@ export default function Homepage({ paginatedTasks, filters }: PageProps) {
                                 const footer = (
                                     <CardFooter className="mt-auto w-full justify-center">
                                         <UnderlinedClickable
-                                            onClick={() => handleOpenModal(task)}
+                                            onClick={() =>
+                                                handleOpenModal(task)
+                                            }
                                             buttonText={__('I want to help')}
                                         />
                                     </CardFooter>

@@ -1,11 +1,11 @@
 import TaskForm from '@/components/tasks/taskForm';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { useTranslate } from '@/hooks/use-translate';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import { task_update } from '@/routes/tasks';
 import { type BreadcrumbItem } from '@/types';
 import { Task } from '@/types/models';
-import { useTranslate } from '@/hooks/use-translate';
 import { Head } from '@inertiajs/react';
 
 interface EditTaskProps {
@@ -27,7 +27,9 @@ export default function EditTask({ task }: EditTaskProps) {
             <div className="flex justify-center p-6">
                 <Card className="w-full max-w-md rounded-2xl shadow-md">
                     <CardHeader>
-                        <h1 className="text-2xl font-semibold">{__('Edit Task')}</h1>
+                        <h1 className="text-2xl font-semibold">
+                            {__('Edit Task')}
+                        </h1>
                     </CardHeader>
 
                     <CardContent>

@@ -6,7 +6,7 @@ export default function AppLogo() {
             <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
                 <AppLogoIcon />
             </div>
-            <div className="ml-1 mt-1 grid flex-1 text-left text-sm">
+            <div className="mt-1 ml-1 grid flex-1 text-left text-sm">
                 <span className="mb-0.5 truncate leading-tight font-semibold">
                     Volunteer Hub
                 </span>

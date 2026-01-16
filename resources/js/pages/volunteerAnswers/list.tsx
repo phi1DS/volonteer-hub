@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import ConfirmDialog from '@/components/ui/confirmDialog';
 import { Input } from '@/components/ui/input';
 import Pagination from '@/components/ui/pagination';
+import { useTranslate } from '@/hooks/use-translate';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
 import {
@@ -11,7 +12,6 @@ import {
 } from '@/routes/volunteer_answer_backend';
 import { type BreadcrumbItem } from '@/types';
 import { PaginatedModel, VolunteerAnswer } from '@/types/models';
-import { useTranslate } from '@/hooks/use-translate';
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -80,7 +80,9 @@ export default function VolunteerAnswerList({
     // -- Confirm Modal
 
     const [confirmOpen, setConfirmOpen] = useState(false);
-    const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(null);
+    const [selectedAnswerId, setSelectedAnswerId] = useState<number | null>(
+        null,
+    );
 
     const openConfirmDialog = (answerId: number) => {
         setSelectedAnswerId(answerId);
@@ -124,10 +126,16 @@ export default function VolunteerAnswerList({
                                 />
                             </div>
                             <div className="flex gap-2">
-                                <Button variant="secondary" onClick={handleFilter}>
+                                <Button
+                                    variant="secondary"
+                                    onClick={handleFilter}
+                                >
                                     {__('Filter')}
                                 </Button>
-                                <Button variant="secondary" onClick={handleReset}>
+                                <Button
+                                    variant="secondary"
+                                    onClick={handleReset}
+                                >
                                     {__('Reset')}
                                 </Button>
                             </div>
@@ -138,7 +146,9 @@ export default function VolunteerAnswerList({
                         <table className="w-full min-w-[650px] border-collapse rounded-lg border text-left text-sm shadow-sm">
                             <thead className="bg-muted/60 text-xs text-muted-foreground">
                                 <tr>
-                                    <th className="px-4 py-3 font-medium">{__('Task')}</th>
+                                    <th className="px-4 py-3 font-medium">
+                                        {__('Task')}
+                                    </th>
                                     <th className="px-4 py-3 font-medium">
                                         {__('Volunteer')}
                                     </th>
@@ -180,13 +190,15 @@ export default function VolunteerAnswerList({
                                                 </td>
                                                 <td className="px-4 py-3 align-top">
                                                     <p>
-                                                        {truncate(answer.message)}
+                                                        {truncate(
+                                                            answer.message,
+                                                        )}
                                                     </p>
                                                 </td>
                                                 <td className="px-4 py-3 align-top text-muted-foreground">
                                                     {submittedAt}
                                                 </td>
-                                                <td className="px-4 py-3 text-right flex gap-2">
+                                                <td className="flex gap-2 px-4 py-3 text-right">
                                                     <Link
                                                         href={
                                                             volunteer_answer_show(
@@ -203,7 +215,9 @@ export default function VolunteerAnswerList({
                                                     <Button
                                                         variant="secondary"
                                                         onClick={() =>
-                                                            openConfirmDialog(answer.id)
+                                                            openConfirmDialog(
+                                                                answer.id,
+                                                            )
                                                         }
                                                     >
                                                         {__('Delete')}

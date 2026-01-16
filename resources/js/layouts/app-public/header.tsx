@@ -1,7 +1,7 @@
 import { UnderlinedClickable } from '@/components/ui/unerlinedClickable';
+import { useTranslate } from '@/hooks/use-translate';
 import { about, dashboard, homepage, login, register } from '@/routes';
 import { type SharedData } from '@/types';
-import { useTranslate } from '@/hooks/use-translate';
 import { Link, router, usePage } from '@inertiajs/react';
 
 export default function Header() {
@@ -13,7 +13,6 @@ export default function Header() {
     return (
         <header className="mb-6 w-full text-sm not-has-[nav]:hidden">
             <nav className="flex items-center justify-between gap-4">
-
                 <div>
                     <Link href={homepage()}>
                         <p className="font-bold text-gray-500">Volunteer Hub</p>
@@ -23,7 +22,7 @@ export default function Header() {
                         <a
                             className="text-center text-xs text-muted-foreground text-orange-400"
                             href="https://github.com/phi1DS/volonteer-hub"
-                            target='_blank'
+                            target="_blank"
                         >
                             {__('Demo Mode')} | {__('Github repository')}
                         </a>

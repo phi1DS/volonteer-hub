@@ -7,7 +7,7 @@ export function useTranslate() {
 
     const __ = useCallback(
         (key: string) => translations[key] ?? key,
-        [translations]
+        [translations],
     );
 
     return { __ };

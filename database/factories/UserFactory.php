@@ -28,10 +28,6 @@ class UserFactory extends Factory
             'email_verified_at' => null,
             'password' => static::$password ??= 'password',
             'remember_token' => null,
-
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null,
-            'two_factor_confirmed_at' => null,
         ];
     }
 
