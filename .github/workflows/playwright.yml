@@ -43,7 +43,6 @@ jobs:
         run: |
           php artisan key:generate
           php artisan config:clear
-          php artisan migrate
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
@@ -52,7 +51,7 @@ jobs:
         run: php artisan serve --port=8000
 
       - name: Runs Playwright tests
-        run: php artisan app:testing:refresh-and-seed && npx playwright test
+        run: php artisan migrate:fresh --seeder=E2eDatabaseSeeder && npx playwright test
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}

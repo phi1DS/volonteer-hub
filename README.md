@@ -93,5 +93,5 @@ Currently supported DB: sqlite
 
 To execute e2e tests, run:
 ```bash
-php artisan app:testing:refresh-and-seed && npx playwright test
+php artisan migrate:fresh --seeder=E2eDatabaseSeeder && npx playwright test
 ```
