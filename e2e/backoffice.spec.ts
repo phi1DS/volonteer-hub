@@ -25,7 +25,7 @@ test.describe('Backoffice page tests', () => {
     const taskSubject = `Help with oranges ${testInfo.project.name}`;
 
     await page.getByRole('button', { name: 'Create New Task' }).click();
-    await page.getByRole('textbox', { name: 'Sujet *' }).fill(taskSubject);
+    await page.getByRole('textbox', { name: 'Subject *' }).fill(taskSubject);
     await page.getByRole('textbox', { name: 'Message *' }).fill('My Message');
     await page.getByRole('textbox', { name: 'Organisation' }).fill('My Organisation');
     await page.getByRole('textbox', { name: 'Contact information *' }).fill('06 06 76 87 98');
@@ -58,7 +58,7 @@ test.describe('Backoffice page tests', () => {
   test('User update Task AC1: Successfully update task', async ({ page, request: apiRequest }, testInfo) => {
     const taskSubject = `Help with groceries ${testInfo.project.name}`;
     await dbHelperCreateTask(apiRequest, { subject: taskSubject, user_id: 1 });
-    
+
     await page.goto('/dashboard');
 
     const taskCard = page.locator('[data-slot="card"]', {
@@ -67,7 +67,7 @@ test.describe('Backoffice page tests', () => {
 
     const newTaskSubject = `Help with fruits ${testInfo.project.name}`;
     await taskCard.getByRole('button', { name: 'Update' }).click();
-    await page.getByRole('textbox', { name: 'Sujet *' }).fill(newTaskSubject);
+    await page.getByRole('textbox', { name: 'Subject *' }).fill(newTaskSubject);
     await page.getByRole('button', { name: 'Update Task' }).click();
 
     await expect(page.getByText(newTaskSubject)).toBeVisible();

@@ -11,6 +11,7 @@ dotenv.config();
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  timeout: 5000,
   testDir: './e2e',
   /* Run tests in files in parallel */
   fullyParallel: false, // ! if true, breaks toaster checks
