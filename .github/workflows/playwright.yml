@@ -57,8 +57,20 @@ jobs:
       - name: Start Laravel Server
         run: php artisan serve --host=0.0.0.0 --port=8000 > storage/logs/server.log 2>&1 &
 
+      - name: Dump last Laravel server logs
+        if: failure()
+        run: tail -n 200 storage/logs/server.log
+
+      - name: Upload Laravel server logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: laravel-server-logs
+          path: storage/logs/server.log
+          retention-days: 3
+
       - name: Wait for Laravel
-        run: npx wait-on http://127.0.0.1:8000 --timeout 30000
+        run: npx wait-on http://127.0.0.1:8000 --timeout 10000
 
       - name: Prepare Playwright auth directory
         run: mkdir -p playwright/.auth
