@@ -54,11 +54,11 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Start Laravel Server (foreground debug)
-        run: php artisan serve --host=0.0.0.0 --port=8000
+      - name: Start Laravel Server
+        run: php artisan serve --host=0.0.0.0 --port=8000 > storage/logs/server.log 2>&1 &
 
-      - name: Wait for Laravel
-        run: npx wait-on http://127.0.0.1:8000 --timeout 10000
+      - name: Dump last Laravel server logs
+        run: tail -n 300 storage/logs/server.log
 
       - name: Prepare Playwright auth directory
         run: mkdir -p playwright/.auth
