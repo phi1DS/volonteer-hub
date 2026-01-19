@@ -28,7 +28,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.5
-          extensions: sqlite3
+          extensions: sqlite3, pdo_sqlite, mbstring, fileinfo
           coverage: none
 
       - name: Install PHP Dependencies
@@ -55,7 +55,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Start Laravel Server
-        run: php artisan serve --host=0.0.0.0 --port=8000 > /dev/null 2>&1 &
+        run: php artisan serve --host=0.0.0.0 --port=8000 > storage/logs/server.log 2>&1 &
 
       - name: Wait for Laravel
         run: npx wait-on http://127.0.0.1:8000 --timeout 30000

@@ -54,7 +54,7 @@ class HomePageControllerTest extends TestCase
         $user2 = User::factory()->create([
             'name' => 'user2',
         ]);
-        
+
         Task::factory()->for($user1)->create([
             'subject' => 'RedCross',
             'organisation' => 'RedCross',
