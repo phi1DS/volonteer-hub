@@ -61,9 +61,12 @@ require __DIR__.'/auth.php';
 if (config('app.env') === 'e2e') { // e2e quick login
     Route::get('/testing/login', function () {
         $user = User::query()->where('name', 'e2eUser')->first();
+        if (!$user) {
+            Log::error('E2e user not found!');
+            return response('user not found', 500);
+        }
 
         Auth::login($user);
-
         return response()->noContent();
     });
 }
