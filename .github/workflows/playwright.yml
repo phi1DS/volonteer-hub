@@ -44,7 +44,11 @@ jobs:
           touch database/database.sqlite
           chmod 777 database/database.sqlite
           php artisan key:generate
+          php artisan key:generate --show
           php artisan migrate:fresh --seeder=E2eDatabaseSeeder
+
+      - name: show env
+        run: cat .env
 
       - name: Build frontend
         run: npm run build
