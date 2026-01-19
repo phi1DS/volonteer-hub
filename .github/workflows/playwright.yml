@@ -10,66 +10,69 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Install Node Dependencies
-        run: |
-          npm ci
-          npm install --save-dev wait-on
-
+      # --------------------
+      # PHP / Laravel setup
+      # --------------------
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.5
-          extensions: sqlite3, pdo_sqlite, mbstring, fileinfo
+          extensions: mbstring, pdo, pdo_mysql
           coverage: none
 
-      - name: Install PHP Dependencies
+      - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Copy Environment File
-        run: cp .env.e2e.example .env
-
-      - name: Generate App Key
-        run: php artisan key:generate
-
-      - name: Setup SQLite
+      - name: Prepare Laravel environment
         run: |
+          cp .env.e2e.example .env
           touch database/database.sqlite
           chmod 777 database/database.sqlite
+          php artisan key:generate
+          php artisan migrate:fresh --seeder=E2eDatabaseSeeder
 
-      - name: Run Migrations
-        run: php artisan migrate:fresh --seeder=E2eDatabaseSeeder
+      # --------------------
+      # Node / Frontend setup
+      # --------------------
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-      - name: Build Assets
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Build frontend
         run: npm run build
 
-      - name: Install Playwright Browsers
+      # --------------------
+      # Start Laravel server
+      # --------------------
+      - name: Start Laravel server
+        run: php artisan serve --host=127.0.0.1 --port=8000 &
+
+      - name: Wait for application
+        run: npx wait-on http://127.0.0.1:8000
+
+      # --------------------
+      # Playwright
+      # --------------------
+      - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Start Laravel Server
-        run: php artisan serve --host=0.0.0.0 --port=8000 > storage/logs/server.log 2>&1 &
-
-      - name: Dump last Laravel server logs
-        run: tail -n 300 storage/logs/server.log
-
-      - name: Prepare Playwright auth directory
-        run: mkdir -p playwright/.auth
-
       - name: Run Playwright tests
-        run: npx playwright test --trace retain-on-failure
+        run: npx playwright test
 
+      # --------------------
+      # Artifacts (optional)
+      # --------------------
       - name: Upload Playwright report
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+          path: playwright-report
