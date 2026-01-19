@@ -33,22 +33,17 @@ jobs:
       - name: Install PHP Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Copy Environment File
-        run: cp .env.action .env
-
-      - name: Show Env
-        run: cat .env
+      - name: Prepare Laravel environment
+        run: |
+          cp .env.action .env
+          touch database/database.sqlite
+          chmod 777 database/database.sqlite
+          php artisan key:generate
+          php artisan migrate
+          php artisan config:clear
 
       - name: Build Assets
         run: npm run build
-
-      - name: Setup SQLite
-        run: touch database/database.sqlite
-
-      - name: Run Migrations
-        run: |
-          php artisan migrate
-          php artisan config:clear
 
       - name: Tests
         run: ./vendor/bin/phpunit

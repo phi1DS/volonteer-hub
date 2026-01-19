@@ -8,7 +8,6 @@ const authFile = path.resolve(
 
 setup('authenticate', async ({ request }) => {
   const response = await request.get('/testing/login');
-  console.log('Login response status:', response.status());
   expect(response.ok()).toBeTruthy();
 
   await request.storageState({ path: authFile });
