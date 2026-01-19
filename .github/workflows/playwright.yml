@@ -14,6 +14,21 @@ jobs:
         uses: actions/checkout@v4
 
       # --------------------
+      # Node / Frontend setup
+      # --------------------
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      # --------------------
       # PHP / Laravel setup
       # --------------------
       - name: Setup PHP
@@ -33,21 +48,6 @@ jobs:
           chmod 777 database/database.sqlite
           php artisan key:generate
           php artisan migrate:fresh --seeder=E2eDatabaseSeeder
-
-      # --------------------
-      # Node / Frontend setup
-      # --------------------
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install NPM dependencies
-        run: npm ci
-
-      - name: Build frontend
-        run: npm run build
 
       # --------------------
       # Start Laravel server
