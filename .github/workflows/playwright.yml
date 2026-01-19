@@ -58,6 +58,9 @@ jobs:
       - name: Wait for Laravel TCP port
         run: npx wait-on tcp:127.0.0.1:8000 --timeout 10000
 
+      - name: Test Laravel endpoint
+        run: curl -i http://127.0.0.1:8000/testing/login
+
       # --------------------
       # Playwright
       # --------------------
