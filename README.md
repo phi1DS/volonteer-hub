@@ -2,6 +2,8 @@ App demo link : https://volunteerhub.osc-fr1.scalingo.io/
 
 A mini-platform where associations and non-profit organisations can publish local volunteering missions, and volunteers can easily find opportunities to help.
 
+Enjoy!
+
 ---
 
 ## Overview
